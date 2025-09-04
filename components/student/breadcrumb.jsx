@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   Breadcrumb as ShadcnBreadcrumb,
@@ -58,8 +58,25 @@ const DynamicBreadcrumb = () => {
 
   const breadcrumbs = generateBreadcrumbs();
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const baseHeaderClass = "flex h-15 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 transition-colors transition-shadow ease-out duration-200";
+  const scrollClasses = scrolled
+    ? "backdrop-blur-sm bg-white/60 dark:bg-slate-900/60 border-b-2 border-border shadow-sm"
+    : "bg-transparent border-b-2 border-transparent";
+
   return (
-    <header className="flex h-15 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 border-b-2 dark:border-border mb-2">
+    <header className={`sticky top-0 z-40 ${baseHeaderClass} ${scrollClasses}`}>
       <div className="flex items-center gap-2 px-4 w-full">
         <SidebarTrigger className="-ml-1" />
 
