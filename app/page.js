@@ -1,21 +1,15 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import Hero from "@/components/home/Hero";
+import Features from "@/components/home/Features";
+import Testimonials from "@/components/home/Testimonials";
+import CTA from "@/components/home/CTA";
 
 export default function Home() {
   return (
     <div>
-      This is the homepage or landing page
-      <div className="flex gap-4 py-4">
-        <Link href={"/student/dashboard"} className="block">
-          <Button>Student Page</Button>
-        </Link>
-        <Link href={"/teacher/dashboard"} className="block">
-          <Button>Teacher Page</Button>
-        </Link>
-        <Link href={"/login"} className="block">
-          <Button>Login Page</Button>
-        </Link>
-      </div>
+      <Hero />
+      <Features />
+      <Testimonials />
+      <CTA />
     </div>
   );
 }
