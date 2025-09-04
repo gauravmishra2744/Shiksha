@@ -18,6 +18,7 @@ import {
   GalleryVerticalEnd,
   Gamepad,
   Home,
+  HomeIcon,
   LogOut,
   Map,
   MoreHorizontal,
@@ -30,6 +31,7 @@ import {
   Target,
   Trash2,
   User2,
+  UserRoundPenIcon,
 } from "lucide-react";
 
 import * as React from "react";
@@ -430,24 +432,18 @@ export function AppSidebar({ ...props }) {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
-                    <Sparkles />
-                    Upgrade to Pro
+                    <UserRoundPenIcon />
+                    Manage Profile
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
+              
                   <DropdownMenuItem>
-                    <BadgeCheck />
-                    Account
+                    <HomeIcon />
+                    Homepage
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <CreditCard />
-                    Billing
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Bell />
-                    Notifications
-                  </DropdownMenuItem>
+                 
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>

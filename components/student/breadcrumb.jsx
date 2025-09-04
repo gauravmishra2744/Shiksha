@@ -59,7 +59,7 @@ const DynamicBreadcrumb = () => {
   const breadcrumbs = generateBreadcrumbs();
 
   return (
-    <header className="flex h-15 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 border-b-2 dark:border-border mb-2">
+    <header className="flex h-15 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 border-b-2 dark:border-border mb-2 sticky top-0 backdrop-blur-sm z-50 bg-main/15">
       <div className="flex items-center gap-2 px-4 w-full">
         <SidebarTrigger className="-ml-1" />
 
