@@ -1,0 +1,9 @@
+{
+  "/(protected)/teacher/dashboard/page": "app/(protected)/teacher/dashboard/page.js",
+  "/(protected)/teacher/classes/page": "app/(protected)/teacher/classes/page.js",
+  "/(protected)/teacher/assignments/page": "app/(protected)/teacher/assignments/page.js",
+  "/(protected)/teacher/attendance/page": "app/(protected)/teacher/attendance/page.js",
+  "/(protected)/teacher/students/page": "app/(protected)/teacher/students/page.js",
+  "/(protected)/teacher/grades/page": "app/(protected)/teacher/grades/page.js",
+  "/(protected)/teacher/resources/page": "app/(protected)/teacher/resources/page.js"
+}

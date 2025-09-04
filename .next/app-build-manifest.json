@@ -1,0 +1,90 @@
+{
+  "pages": {
+    "/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
+    ],
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+    ],
+    "/(public)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/layout.js"
+    ],
+    "/(public)/teacher/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/teacher/login/page.js"
+    ],
+    "/(public)/teacher/register/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/teacher/register/page.js"
+    ],
+    "/(protected)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/layout.js"
+    ],
+    "/(protected)/teacher/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/dashboard/page.js"
+    ],
+    "/(protected)/teacher/classes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/classes/page.js"
+    ],
+    "/(protected)/teacher/students/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/students/page.js"
+    ],
+    "/(protected)/teacher/assignments/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/assignments/page.js"
+    ],
+    "/(protected)/teacher/grades/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/grades/page.js"
+    ],
+    "/(protected)/teacher/attendance/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/attendance/page.js"
+    ],
+    "/(protected)/teacher/resources/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/resources/page.js"
+    ],
+    "/(protected)/teacher/messages/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/messages/page.js"
+    ],
+    "/(protected)/teacher/reports/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/reports/page.js"
+    ],
+    "/(protected)/teacher/announcements/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/announcements/page.js"
+    ],
+    "/(protected)/teacher/profile/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(protected)/teacher/profile/page.js"
+    ]
+  }
+}
