@@ -29,9 +29,12 @@ import {
   SquareTerminal,
   Target,
   Trash2,
+  User2,
 } from "lucide-react";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -79,7 +82,7 @@ const data = {
   teams: [
     {
       name: "Janyterz",
-      logo: GalleryVerticalEnd,
+      logo: User2,
       plan: "Student Portal",
     },
   ],
@@ -176,12 +179,12 @@ const data = {
         },
         {
           title: "Compete",
-          url: "/sudent/game/compete",
+          url: "/student/game/compete",
         },
       ],
     },
   ],
-  projects: [
+  games: [
     {
       name: "Design Engineering",
       url: "#",
@@ -203,10 +206,15 @@ const data = {
 export function AppSidebar({ ...props }) {
   const { isMobile } = useSidebar();
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const pathname = usePathname();
 
   if (!activeTeam) {
     return null;
   }
+
+  const isActiveLink = (url) => {
+    return pathname === url;
+  };
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -217,13 +225,13 @@ export function AppSidebar({ ...props }) {
               <DropdownMenuTrigger className="focus-visible:ring-0" asChild>
                 <SidebarMenuButton
                   size=""
-                  className="data-[state=open]:bg-main data-[state=open]:text-main-foreground data-[state=open]:outline-border data-[state=open]:outline-2 py-5 pb-[1.4rem] bg-main outline-border/80"
+                  className="data-[state=open]:bg-main data-[state=open]:text-main-foreground data-[state=open]:outline-border data-[state=open]:outline-2 py-5 pb-[1.4rem] bg-main outline-border/80 dark:text-background "
                 >
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-base">
+                  <div className="flex aspect-square  items-center justify-center rounded-base">
                     <activeTeam.logo className="size-4 " />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-heading">
+                    <span className="truncate font-heading ">
                       {activeTeam.name}
                     </span>
                     <span className="truncate text-xs">{activeTeam.plan}</span>
@@ -234,10 +242,9 @@ export function AppSidebar({ ...props }) {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarGroup>
-          {/* <SidebarGroupLabel>Platform</SidebarGroupLabel> */}
-          <SidebarMenu>
+      <SidebarContent className={""}>
+        <SidebarGroup className={"border-b-0"}>
+          <SidebarMenu >
             {data.navMain.map((item) => (
               <Collapsible
                 key={item.title}
@@ -248,7 +255,7 @@ export function AppSidebar({ ...props }) {
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton
-                      className="data-[state=open]:bg-main data-[state=open]:outline-border data-[state=open]:text-main-foreground mb-2"
+                      className="data-[state=open]:bg-main data-[state=open]: data-[state=open]:text-main-foreground mb-2"
                       tooltip={item.title}
                     >
                       {item.icon && <item.icon />}
@@ -263,7 +270,13 @@ export function AppSidebar({ ...props }) {
                           {subItem.hasDropdown ? (
                             <DropdownMenu>
                               <DropdownMenuTrigger asChild>
-                                <SidebarMenuSubButton className="w-full justify-between">
+                                <SidebarMenuSubButton
+                                  className={`w-full justify-between ${
+                                    isActiveLink(subItem.url)
+                                      ? "bg-main text-main-foreground"
+                                      : ""
+                                  }`}
+                                >
                                   <span>{subItem.title}</span>
                                   <ChevronRight className="h-4 w-4" />
                                 </SidebarMenuSubButton>
@@ -275,19 +288,33 @@ export function AppSidebar({ ...props }) {
                               >
                                 {subItem.subjects?.map((subject) => (
                                   <DropdownMenuItem key={subject.name} asChild>
-                                    <a href={subject.url}>
+                                    <Link
+                                      href={subject.url}
+                                      className={`${
+                                        isActiveLink(subject.url)
+                                          ? "bg-main text-main-foreground"
+                                          : ""
+                                      }`}
+                                    >
                                       <Book className="h-4 w-4 mr-2" />
                                       {subject.name}
-                                    </a>
+                                    </Link>
                                   </DropdownMenuItem>
                                 ))}
                               </DropdownMenuContent>
                             </DropdownMenu>
                           ) : (
                             <SidebarMenuSubButton asChild>
-                              <a href={subItem.url}>
+                              <Link
+                                href={subItem.url}
+                                className={`${
+                                  isActiveLink(subItem.url)
+                                    ? "bg-main text-main-foreground"
+                                    : ""
+                                }`}
+                              >
                                 <span>{subItem.title}</span>
-                              </a>
+                              </Link>
                             </SidebarMenuSubButton>
                           )}
                         </SidebarMenuSubItem>
@@ -299,16 +326,19 @@ export function AppSidebar({ ...props }) {
             ))}
           </SidebarMenu>
         </SidebarGroup>
+
+
+
         <SidebarGroup className="group-data-[collapsible=icon]:hidden hidden">
-          <SidebarGroupLabel>Projects</SidebarGroupLabel>
+          <SidebarGroupLabel>games</SidebarGroupLabel>
           <SidebarMenu>
-            {data.projects.map((item) => (
+            {data.games.map((item) => (
               <SidebarMenuItem key={item.name}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     <item.icon />
                     <span>{item.name}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -354,7 +384,7 @@ export function AppSidebar({ ...props }) {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton
-                  className="group-data-[state=collapsed]:hover:outline-0 group-data-[state=collapsed]:hover:bg-transparent overflow-visible"
+                  className="group-data-[state=collapsed]:hover:outline-0 group-data-[state=collapsed]:hover:bg-transparent overflow-visible group-data-[collapsible=icon]:hover:bg-transparent"
                   size="lg"
                 >
                   <Avatar className="h-8 w-8">
@@ -370,7 +400,6 @@ export function AppSidebar({ ...props }) {
                     </span>
                     <span className="truncate text-xs">{data.user.email}</span>
                   </div>
-                  <ChevronsUpDown className="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent

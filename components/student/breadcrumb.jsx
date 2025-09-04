@@ -10,7 +10,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Home } from "lucide-react";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { ModeToggle } from "@/components/mode-toggle";
 
 const DynamicBreadcrumb = () => {
   const pathname = usePathname();
@@ -22,48 +23,28 @@ const DynamicBreadcrumb = () => {
       .filter((segment) => segment !== "");
 
     const breadcrumbs = [];
-
     let currentPath = "";
 
     pathSegments.forEach((segment, index) => {
       currentPath += `/${segment}`;
 
-      // Format segment for display
+      // Format segment for display - automatic conversion
       const formatSegment = (seg) => {
-        return seg
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        // Handle URL encoded segments
+        const decoded = decodeURIComponent(seg);
+
+        // Convert kebab-case, snake_case, and camelCase to Title Case
+        return decoded
+          .replace(/[-_]/g, " ") // Replace hyphens and underscores with spaces
+          .replace(/([a-z])([A-Z])/g, "$1 $2") // Add space before capital letters in camelCase
+          .split(" ")
+          .map(
+            (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+          )
           .join(" ");
       };
 
-      // Custom labels for specific routes
-      const customLabels = {
-        student: "Student Portal",
-        dashboard: "Dashboard",
-        subjects: "Subjects",
-        notebook: "Notebook",
-        "make-notes": "Make Notes",
-        "view-notes": "View Notes",
-        flashcard: "Flashcards",
-        productivity: "Productivity",
-        "to-do": "To-Do List",
-        pomodoro: "Pomodoro Timer",
-        game: "Games",
-        quiz: "Quiz",
-        flashcards: "Flashcards",
-        compete: "Compete",
-        doubts: "Ask Doubts",
-        classrooms: "Classrooms",
-        badges: "Badges",
-        mathematics: "Mathematics",
-        physics: "Physics",
-        chemistry: "Chemistry",
-        biology: "Biology",
-        "computer-science": "Computer Science",
-        english: "English",
-      };
-
-      const label = customLabels[segment] || formatSegment(segment);
+      const label = formatSegment(segment);
 
       breadcrumbs.push({
         label,
@@ -77,41 +58,52 @@ const DynamicBreadcrumb = () => {
 
   const breadcrumbs = generateBreadcrumbs();
 
-  // Don't show breadcrumb on home page
-  if (pathname === "/") {
-    return null;
-  }
-
   return (
-    <ShadcnBreadcrumb>
-      <BreadcrumbList>
-        {breadcrumbs.map((crumb, index) => (
-          <React.Fragment key={crumb.href}>
-            <BreadcrumbItem className={index === 0 ? "hidden md:block" : ""}>
-              {crumb.isLast ? (
-                <BreadcrumbPage className="flex items-center gap-2">
-                  {crumb.icon}
-                  {crumb.label}
-                </BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink
-                  href={crumb.href}
-                  className="flex items-center gap-2 hover:text-main transition-colors"
-                >
-                  {crumb.icon}
-                  {crumb.label}
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
-            {!crumb.isLast && (
-              <BreadcrumbSeparator
-                className={index === 0 ? "hidden md:block" : ""}
-              />
-            )}
-          </React.Fragment>
-        ))}
-      </BreadcrumbList>
-    </ShadcnBreadcrumb>
+    <header className="flex h-15 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 border-b-2 dark:border-border mb-2">
+      <div className="flex items-center gap-2 px-4 w-full">
+        <SidebarTrigger className="-ml-1" />
+
+        {pathname === "/" ? (
+          <div className="flex items-center justify-end w-full">
+            <ModeToggle />
+          </div>
+        ) : (
+          <div className="flex items-center justify-between w-full">
+            <ShadcnBreadcrumb>
+              <BreadcrumbList>
+                {breadcrumbs.map((crumb, index) => (
+                  <React.Fragment key={crumb.href}>
+                    <BreadcrumbItem
+                      className={index === 0 ? "hidden md:block" : ""}
+                    >
+                      {crumb.isLast ? (
+                        <BreadcrumbPage className="flex items-center gap-2 text-foreground dark:text-foreground">
+                          {crumb.label}
+                        </BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink
+                          href={crumb.href}
+                          className="flex items-center gap-2 hover:text-main dark:hover:text-main transition-colors"
+                        >
+                          {crumb.label}
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                    {!crumb.isLast && (
+                      <BreadcrumbSeparator
+                        className={index === 0 ? "hidden md:block" : ""}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </BreadcrumbList>
+            </ShadcnBreadcrumb>
+
+            <ModeToggle />
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 
