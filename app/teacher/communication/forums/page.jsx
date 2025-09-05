@@ -48,6 +48,7 @@ import {
   Send,
   Edit,
   Trash2,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function DiscussionForums() {
@@ -59,6 +60,7 @@ export default function DiscussionForums() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("recent");
+  const [showForumsList, setShowForumsList] = useState(true);
 
   useEffect(() => {
     fetchForums();
@@ -245,6 +247,11 @@ export default function DiscussionForums() {
     }
   };
 
+  const handleForumSelect = (forum) => {
+    setSelectedForum(forum);
+    setShowForumsList(false); // Hide forums list on mobile when forum is selected
+  };
+
   const filteredForums = forums.filter((forum) => {
     const matchesSearch =
       forum.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -260,12 +267,12 @@ export default function DiscussionForums() {
         <AppSidebar />
         <SidebarInset>
           <DynamicBreadcrumb />
-          <div className="flex flex-1 flex-col gap-6 p-6 pt-0">
-            <div className="animate-pulse space-y-6">
-              <div className="h-32 bg-gray-200 rounded-lg"></div>
-              <div className="grid grid-cols-3 gap-6">
-                <div className="h-96 bg-gray-200 rounded-lg"></div>
-                <div className="col-span-2 h-96 bg-gray-200 rounded-lg"></div>
+          <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
+            <div className="animate-pulse space-y-4 sm:space-y-6">
+              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+                <div className="lg:col-span-2 h-96 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
               </div>
             </div>
           </div>
@@ -280,67 +287,81 @@ export default function DiscussionForums() {
       <SidebarInset>
         <DynamicBreadcrumb />
 
-        <div className="flex flex-1 flex-col gap-6 p-6 pt-0">
+        <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
           {/* Header Section */}
-          <Card className="border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-200 dark:border-blue-800">
-                    <MessageSquare className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-6 mb-4 sm:mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div className="p-3 sm:p-4 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/50 flex-shrink-0">
+                    <MessageSquare className="w-6 w-6 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <div>
-                    <h1 className="text-3xl font-bold tracking-tight">
+                  <div className="flex-1">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                       Discussion Forums
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mt-1">
                       Engage with students in meaningful discussions and
                       collaborative learning
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Button variant="outline" size="sm">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Manage
-                  </Button>
-                  <Button size="sm">
-                    <Plus className="w-4 h-4 mr-2" />
-                    New Forum
-                  </Button>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 sm:flex-none"
+                    >
+                      <Settings className="w-4 h-4 mr-2" />
+                      <span className="hidden sm:inline">Manage</span>
+                      <span className="sm:hidden">Manage</span>
+                    </Button>
+                    <Button size="sm" className="flex-1 sm:flex-none">
+                      <Plus className="w-4 h-4 mr-2" />
+                      <span className="hidden sm:inline">New Forum</span>
+                      <span className="sm:hidden">New</span>
+                    </Button>
+                  </div>
                 </div>
               </div>
 
               {/* Forum Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-blue-600">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {forums.length}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Active Forums
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Active Forums</span>
+                    <span className="sm:hidden">Forums</span>
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-green-600">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50">
+                  <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                     {forums.reduce((sum, forum) => sum + forum.postCount, 0)}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Total Posts
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Total Posts</span>
+                    <span className="sm:hidden">Posts</span>
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-orange-600">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50">
+                  <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                     {forums.reduce((sum, forum) => sum + forum.memberCount, 0)}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Total Members
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Total Members</span>
+                    <span className="sm:hidden">Members</span>
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-purple-600">92%</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Engagement Rate
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50 col-span-2 lg:col-span-1">
+                  <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    92%
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Engagement Rate</span>
+                    <span className="sm:hidden">Engagement</span>
                   </div>
                 </div>
               </div>
@@ -348,20 +369,32 @@ export default function DiscussionForums() {
           </Card>
 
           <Tabs defaultValue="forums" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="forums">Forums</TabsTrigger>
-              <TabsTrigger value="recent">Recent Activity</TabsTrigger>
-              <TabsTrigger value="trending">Trending</TabsTrigger>
-              <TabsTrigger value="moderation">Moderation</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
+              <TabsTrigger value="forums" className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">Forums</span>
+                <span className="sm:hidden">Forums</span>
+              </TabsTrigger>
+              <TabsTrigger value="recent" className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">Recent Activity</span>
+                <span className="sm:hidden">Recent</span>
+              </TabsTrigger>
+              <TabsTrigger value="trending" className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">Trending</span>
+                <span className="sm:hidden">Trending</span>
+              </TabsTrigger>
+              <TabsTrigger value="moderation" className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">Moderation</span>
+                <span className="sm:hidden">Moderate</span>
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="forums" className="space-y-6">
+            <TabsContent value="forums" className="space-y-4 sm:space-y-6">
               {/* Search and Filters */}
-              <Card>
+              <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                 <CardContent className="p-4">
-                  <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex flex-col gap-4">
                     <div className="flex-1 relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                       <Input
                         placeholder="Search forums..."
                         value={searchTerm}
@@ -369,39 +402,45 @@ export default function DiscussionForums() {
                         className="pl-10"
                       />
                     </div>
-                    <Select
-                      value={selectedCategory}
-                      onValueChange={setSelectedCategory}
-                    >
-                      <SelectTrigger className="w-40">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All Categories</SelectItem>
-                        <SelectItem value="general">General</SelectItem>
-                        <SelectItem value="academic">Academic</SelectItem>
-                        <SelectItem value="help">Help & Support</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <Select value={sortBy} onValueChange={setSortBy}>
-                      <SelectTrigger className="w-40">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="recent">Most Recent</SelectItem>
-                        <SelectItem value="popular">Most Popular</SelectItem>
-                        <SelectItem value="active">Most Active</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Select
+                        value={selectedCategory}
+                        onValueChange={setSelectedCategory}
+                      >
+                        <SelectTrigger className="w-full sm:w-40">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Categories</SelectItem>
+                          <SelectItem value="general">General</SelectItem>
+                          <SelectItem value="academic">Academic</SelectItem>
+                          <SelectItem value="help">Help & Support</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <Select value={sortBy} onValueChange={setSortBy}>
+                        <SelectTrigger className="w-full sm:w-40">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="recent">Most Recent</SelectItem>
+                          <SelectItem value="popular">Most Popular</SelectItem>
+                          <SelectItem value="active">Most Active</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Forums List */}
-                <Card>
+                <Card
+                  className={`bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 ${
+                    !showForumsList && selectedForum ? "hidden lg:block" : ""
+                  }`}
+                >
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                       <Hash className="w-5 h-5 text-blue-500" />
                       Forums
                     </CardTitle>
@@ -411,27 +450,29 @@ export default function DiscussionForums() {
                       {filteredForums.map((forum) => (
                         <div
                           key={forum.id}
-                          className={`p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors ${
+                          className={`p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors ${
                             selectedForum?.id === forum.id
-                              ? "border-blue-500 bg-blue-50"
+                              ? "border-blue-500 dark:border-blue-400 bg-blue-50 dark:bg-blue-950/20"
                               : ""
                           }`}
-                          onClick={() => setSelectedForum(forum)}
+                          onClick={() => handleForumSelect(forum)}
                         >
                           <div className="flex items-start justify-between">
-                            <div className="flex-1">
+                            <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-1">
-                                <h3 className="font-medium">{forum.name}</h3>
+                                <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                                  {forum.name}
+                                </h3>
                                 {forum.isPrivate ? (
-                                  <Lock className="w-4 h-4 text-gray-400" />
+                                  <Lock className="w-4 h-4 text-gray-400 dark:text-gray-500 flex-shrink-0" />
                                 ) : (
-                                  <Globe className="w-4 h-4 text-green-500" />
+                                  <Globe className="w-4 h-4 text-green-500 flex-shrink-0" />
                                 )}
                               </div>
-                              <p className="text-sm text-gray-600 mb-2">
+                              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
                                 {forum.description}
                               </p>
-                              <div className="flex items-center gap-2 mb-2">
+                              <div className="flex flex-wrap items-center gap-2 mb-2">
                                 <Badge variant="outline" className="text-xs">
                                   {forum.postCount} posts
                                 </Badge>
@@ -439,7 +480,7 @@ export default function DiscussionForums() {
                                   {forum.memberCount} members
                                 </Badge>
                               </div>
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs text-gray-500 dark:text-gray-400">
                                 Last activity: {forum.lastActivity}
                               </div>
                             </div>
@@ -451,35 +492,55 @@ export default function DiscussionForums() {
                 </Card>
 
                 {/* Forum Content */}
-                <div className="lg:col-span-2">
+                <div
+                  className={`lg:col-span-2 ${
+                    showForumsList && !selectedForum ? "hidden lg:block" : ""
+                  }`}
+                >
                   {selectedForum ? (
-                    <Card>
+                    <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                       <CardHeader>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <CardTitle className="flex items-center gap-2">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2 lg:hidden">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setShowForumsList(true)}
+                                className="p-1"
+                              >
+                                <ArrowLeft className="w-4 h-4" />
+                              </Button>
+                            </div>
+                            <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                               {selectedForum.isPrivate ? (
-                                <Lock className="w-5 h-5 text-gray-500" />
+                                <Lock className="w-5 h-5 text-gray-500 dark:text-gray-400" />
                               ) : (
                                 <Globe className="w-5 h-5 text-green-500" />
                               )}
-                              {selectedForum.name}
+                              <span className="truncate">
+                                {selectedForum.name}
+                              </span>
                             </CardTitle>
-                            <CardDescription>
+                            <CardDescription className="text-gray-600 dark:text-gray-400">
                               {selectedForum.description} • Moderated by{" "}
                               {selectedForum.moderators.join(", ")}
                             </CardDescription>
                           </div>
-                          <Button onClick={() => setShowNewPost(true)}>
+                          <Button
+                            onClick={() => setShowNewPost(true)}
+                            className="w-full sm:w-auto"
+                          >
                             <Plus className="w-4 h-4 mr-2" />
-                            New Post
+                            <span className="hidden sm:inline">New Post</span>
+                            <span className="sm:hidden">New Post</span>
                           </Button>
                         </div>
                       </CardHeader>
                       <CardContent>
                         {showNewPost && (
-                          <div className="mb-6 p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
-                            <h3 className="font-medium mb-3">
+                          <div className="mb-6 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                            <h3 className="font-medium mb-3 text-gray-900 dark:text-gray-100">
                               Create New Post
                             </h3>
                             <div className="space-y-3">
@@ -504,10 +565,11 @@ export default function DiscussionForums() {
                                   })
                                 }
                               />
-                              <div className="flex gap-2">
+                              <div className="flex flex-col sm:flex-row gap-2">
                                 <Button
                                   onClick={createPost}
                                   disabled={!newPost.title || !newPost.content}
+                                  className="flex-1 sm:flex-none"
                                 >
                                   <Send className="w-4 h-4 mr-2" />
                                   Post
@@ -515,6 +577,7 @@ export default function DiscussionForums() {
                                 <Button
                                   variant="outline"
                                   onClick={() => setShowNewPost(false)}
+                                  className="flex-1 sm:flex-none"
                                 >
                                   Cancel
                                 </Button>
@@ -527,35 +590,35 @@ export default function DiscussionForums() {
                           {selectedForum.posts?.map((post) => (
                             <div
                               key={post.id}
-                              className="border rounded-lg p-4 hover:bg-gray-50/50 transition-colors"
+                              className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:bg-gray-50/50 dark:hover:bg-gray-800/30 transition-colors"
                             >
                               <div className="flex items-start gap-3">
-                                <Avatar>
+                                <Avatar className="flex-shrink-0">
                                   <AvatarImage src={post.author.avatar} />
-                                  <AvatarFallback>
+                                  <AvatarFallback className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                                     {post.author.name.charAt(0)}
                                   </AvatarFallback>
                                 </Avatar>
-                                <div className="flex-1">
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="font-medium">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                                    <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">
                                       {post.title}
                                     </h3>
                                     {post.pinned && (
-                                      <Pin className="w-4 h-4 text-orange-500" />
+                                      <Pin className="w-4 h-4 text-orange-500 flex-shrink-0" />
                                     )}
                                     <Badge
                                       variant="secondary"
-                                      className="text-xs"
+                                      className="text-xs flex-shrink-0"
                                     >
                                       {post.author.role}
                                     </Badge>
                                   </div>
-                                  <p className="text-sm text-gray-600 mb-3">
+                                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                                     {post.content}
                                   </p>
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-gray-500 dark:text-gray-400">
                                       <span className="flex items-center gap-1">
                                         <Calendar className="w-3 h-3" />
                                         {post.createdAt}
@@ -564,13 +627,15 @@ export default function DiscussionForums() {
                                         <Eye className="w-3 h-3" />
                                         {post.views} views
                                       </span>
-                                      <span>by {post.author.name}</span>
+                                      <span className="truncate">
+                                        by {post.author.name}
+                                      </span>
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    <div className="flex items-center gap-1 sm:gap-2">
                                       <Button
                                         size="sm"
                                         variant="ghost"
-                                        className="h-8 px-2"
+                                        className="h-8 px-2 text-xs"
                                       >
                                         <ThumbsUp className="w-3 h-3 mr-1" />
                                         {post.likes}
@@ -578,7 +643,7 @@ export default function DiscussionForums() {
                                       <Button
                                         size="sm"
                                         variant="ghost"
-                                        className="h-8 px-2"
+                                        className="h-8 px-2 text-xs"
                                       >
                                         <Reply className="w-3 h-3 mr-1" />
                                         {post.replies}
@@ -600,13 +665,13 @@ export default function DiscussionForums() {
                       </CardContent>
                     </Card>
                   ) : (
-                    <Card>
-                      <CardContent className="p-12 text-center">
-                        <MessageSquare className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">
+                    <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+                      <CardContent className="p-8 sm:p-12 text-center">
+                        <MessageSquare className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-gray-100">
                           Select a Forum
                         </h3>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                           Choose a forum from the left to view discussions and
                           participate
                         </p>
@@ -618,10 +683,12 @@ export default function DiscussionForums() {
             </TabsContent>
 
             <TabsContent value="recent" className="space-y-4">
-              <Card>
+              <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                 <CardHeader>
-                  <CardTitle>Recent Activity</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-gray-900 dark:text-gray-100">
+                    Recent Activity
+                  </CardTitle>
+                  <CardDescription className="text-gray-600 dark:text-gray-400">
                     Latest posts and discussions across all forums
                   </CardDescription>
                 </CardHeader>
@@ -636,28 +703,33 @@ export default function DiscussionForums() {
                       .map((post) => (
                         <div
                           key={post.id}
-                          className="flex items-start gap-3 p-3 border rounded-lg"
+                          className="flex items-start gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50"
                         >
-                          <Avatar className="w-8 h-8">
+                          <Avatar className="w-8 h-8 flex-shrink-0">
                             <AvatarImage src={post.author.avatar} />
-                            <AvatarFallback>
+                            <AvatarFallback className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
                               {post.author.name.charAt(0)}
                             </AvatarFallback>
                           </Avatar>
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
-                              <h4 className="font-medium text-sm">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2 mb-1">
+                              <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100 truncate">
                                 {post.title}
                               </h4>
-                              <Badge variant="outline" className="text-xs">
+                              <Badge
+                                variant="outline"
+                                className="text-xs flex-shrink-0"
+                              >
                                 {post.author.role}
                               </Badge>
                             </div>
-                            <p className="text-xs text-gray-600 mb-2">
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
                               {post.content.slice(0, 100)}...
                             </p>
-                            <div className="flex items-center gap-2 text-xs text-gray-500">
-                              <span>{post.author.name}</span>
+                            <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs text-gray-500 dark:text-gray-400">
+                              <span className="truncate">
+                                {post.author.name}
+                              </span>
                               <span>•</span>
                               <span>{post.createdAt}</span>
                               <span>•</span>
@@ -674,13 +746,13 @@ export default function DiscussionForums() {
             </TabsContent>
 
             <TabsContent value="trending" className="space-y-4">
-              <Card>
+              <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                     <TrendingUp className="w-5 h-5 text-green-500" />
                     Trending Discussions
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-gray-600 dark:text-gray-400">
                     Most popular posts this week
                   </CardDescription>
                 </CardHeader>
@@ -695,26 +767,26 @@ export default function DiscussionForums() {
                       .map((post, index) => (
                         <div
                           key={post.id}
-                          className="flex items-start gap-3 p-3 border rounded-lg"
+                          className="flex items-start gap-3 p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50"
                         >
                           <div
-                            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
+                            className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
                               index === 0
-                                ? "bg-yellow-100 text-yellow-700"
+                                ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
                                 : index === 1
-                                ? "bg-gray-100 text-gray-700"
+                                ? "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                                 : index === 2
-                                ? "bg-orange-100 text-orange-700"
-                                : "bg-blue-100 text-blue-700"
+                                ? "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300"
+                                : "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300"
                             }`}
                           >
                             {index + 1}
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-medium text-sm mb-1">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-sm mb-1 text-gray-900 dark:text-gray-100 truncate">
                               {post.title}
                             </h4>
-                            <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-gray-500 dark:text-gray-400">
                               <span className="flex items-center gap-1">
                                 <ThumbsUp className="w-3 h-3" />
                                 {post.likes}
@@ -737,29 +809,34 @@ export default function DiscussionForums() {
             </TabsContent>
 
             <TabsContent value="moderation" className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                       <AlertCircle className="w-5 h-5 text-red-500" />
-                      Pending Moderation
+                      <span className="hidden sm:inline">
+                        Pending Moderation
+                      </span>
+                      <span className="sm:hidden">Pending</span>
                     </CardTitle>
-                    <CardDescription>Posts requiring review</CardDescription>
+                    <CardDescription className="text-gray-600 dark:text-gray-400">
+                      Posts requiring review
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      <div className="p-3 border border-red-200 bg-red-50 rounded-lg">
-                        <h4 className="font-medium text-sm">
+                      <div className="p-3 border border-red-200 dark:border-red-800/50 bg-red-50 dark:bg-red-950/20 rounded-lg">
+                        <h4 className="font-medium text-sm text-gray-900 dark:text-gray-100">
                           Reported post: "Inappropriate content"
                         </h4>
-                        <p className="text-xs text-gray-600 mb-2">
+                        <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
                           Reported by 2 users for inappropriate language
                         </p>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                           <Button
                             size="sm"
                             variant="outline"
-                            className="text-xs"
+                            className="text-xs flex-1 sm:flex-none"
                           >
                             <CheckCircle className="w-3 h-3 mr-1" />
                             Approve
@@ -767,7 +844,7 @@ export default function DiscussionForums() {
                           <Button
                             size="sm"
                             variant="destructive"
-                            className="text-xs"
+                            className="text-xs flex-1 sm:flex-none"
                           >
                             <Trash2 className="w-3 h-3 mr-1" />
                             Remove
@@ -778,31 +855,50 @@ export default function DiscussionForums() {
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                       <Star className="w-5 h-5 text-yellow-500" />
-                      Moderation Stats
+                      <span className="hidden sm:inline">Moderation Stats</span>
+                      <span className="sm:hidden">Stats</span>
                     </CardTitle>
-                    <CardDescription>This week's activity</CardDescription>
+                    <CardDescription className="text-gray-600 dark:text-gray-400">
+                      This week's activity
+                    </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex justify-between">
-                        <span className="text-sm">Posts reviewed</span>
-                        <span className="font-medium">23</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Posts reviewed
+                        </span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                          23
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Posts approved</span>
-                        <span className="font-medium text-green-600">21</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Posts approved
+                        </span>
+                        <span className="font-medium text-green-600 dark:text-green-400">
+                          21
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Posts removed</span>
-                        <span className="font-medium text-red-600">2</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Posts removed
+                        </span>
+                        <span className="font-medium text-red-600 dark:text-red-400">
+                          2
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Active moderators</span>
-                        <span className="font-medium">3</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Active moderators
+                        </span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                          3
+                        </span>
                       </div>
                     </div>
                   </CardContent>

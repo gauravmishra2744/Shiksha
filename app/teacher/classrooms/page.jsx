@@ -534,7 +534,7 @@ export default function AllClassrooms() {
                           </Button>
                           <Dialog>
                             <DialogTrigger asChild>
-                              <Button size="sm" variant="outline">
+                              <Button size="sm" variant="neutral">
                                 <Eye className="h-3 w-3" />
                               </Button>
                             </DialogTrigger>

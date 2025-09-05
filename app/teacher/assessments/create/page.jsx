@@ -1441,7 +1441,7 @@ export default function CreateAssessmentPage() {
 
             <div className="flex items-center space-x-2">
               <Button
-                variant="outline"
+                variant="neutral"
                 onClick={() => handleSubmit(true)}
                 disabled={isSubmitting}
               >

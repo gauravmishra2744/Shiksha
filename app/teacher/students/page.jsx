@@ -276,34 +276,36 @@ export default function StudentsPage() {
   };
 
   const getPerformanceColor = (performance) => {
-    if (performance >= 90) return "bg-green-50 text-green-700 border-green-200";
-    if (performance >= 75) return "bg-blue-50 text-blue-700 border-blue-200";
+    if (performance >= 90)
+      return "bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50";
+    if (performance >= 75)
+      return "bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50";
     if (performance >= 60)
-      return "bg-yellow-50 text-yellow-700 border-yellow-200";
-    return "bg-red-50 text-red-700 border-red-200";
+      return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50";
+    return "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800/50";
   };
 
   const getAttendanceColor = (attendance) => {
-    if (attendance >= 95) return "text-green-600";
-    if (attendance >= 85) return "text-blue-600";
-    if (attendance >= 75) return "text-yellow-600";
-    return "text-red-600";
+    if (attendance >= 95) return "text-green-600 dark:text-green-400";
+    if (attendance >= 85) return "text-blue-600 dark:text-blue-400";
+    if (attendance >= 75) return "text-yellow-600 dark:text-yellow-400";
+    return "text-red-600 dark:text-red-400";
   };
 
   const getGradeColor = (grade) => {
     switch (grade) {
       case "A+":
-        return "bg-green-50 text-green-700 border-green-200";
+        return "bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50";
       case "A":
-        return "bg-blue-50 text-blue-700 border-blue-200";
+        return "bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50";
       case "A-":
-        return "bg-indigo-50 text-indigo-700 border-indigo-200";
+        return "bg-indigo-50 dark:bg-indigo-950/20 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800/50";
       case "B+":
-        return "bg-yellow-50 text-yellow-700 border-yellow-200";
+        return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50";
       case "B":
-        return "bg-orange-50 text-orange-700 border-orange-200";
+        return "bg-orange-50 dark:bg-orange-950/20 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800/50";
       default:
-        return "bg-gray-50 text-gray-700 border-gray-200";
+        return "bg-gray-50 dark:bg-gray-950/20 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800/50";
     }
   };
 
@@ -327,42 +329,49 @@ export default function StudentsPage() {
 
         <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
           {/* Header Section */}
-          <Card className="border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50">
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
             <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-200 dark:border-blue-800">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+                <div className="p-3 sm:p-4 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/50 flex-shrink-0">
                   <Users className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 dark:text-blue-400" />
                 </div>
-                <div className="flex-1">
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <div className="flex-1 w-full sm:w-auto">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                     Students
                   </h1>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                  <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mt-1">
                     View and manage all students in your classes
                   </p>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <Badge
-                  variant="outline"
-                  className="bg-green-50 text-green-700 border-green-200"
-                >
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                <Badge className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50">
                   <CheckCircle className="w-3 h-3 mr-1" />
-                  {students.filter((s) => s.status === "active").length} Active
+                  <span className="hidden sm:inline">
+                    {students.filter((s) => s.status === "active").length}{" "}
+                    Active
+                  </span>
+                  <span className="sm:hidden">
+                    {students.filter((s) => s.status === "active").length}{" "}
+                    Active
+                  </span>
                 </Badge>
-                <Badge
-                  variant="outline"
-                  className="bg-blue-50 text-blue-700 border-blue-200"
-                >
+                <Badge className="bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50">
                   <Award className="w-3 h-3 mr-1" />
-                  {students.filter((s) => s.performance >= 90).length} Excellent
+                  <span className="hidden sm:inline">
+                    {students.filter((s) => s.performance >= 90).length}{" "}
+                    Excellent
+                  </span>
+                  <span className="sm:hidden">
+                    {students.filter((s) => s.performance >= 90).length} Top
+                  </span>
                 </Badge>
-                <Badge
-                  variant="outline"
-                  className="bg-purple-50 text-purple-700 border-purple-200"
-                >
+                <Badge className="bg-purple-50 dark:bg-purple-950/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/50">
                   <GraduationCap className="w-3 h-3 mr-1" />
-                  {students.length} Total Students
+                  <span className="hidden sm:inline">
+                    {students.length} Total Students
+                  </span>
+                  <span className="sm:hidden">{students.length} Total</span>
                 </Badge>
               </div>
             </CardContent>
@@ -370,29 +379,30 @@ export default function StudentsPage() {
 
           {/* Quick Stats */}
           <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
-            <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-24">
+            <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Users className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
+                  <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Users className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-blue-800 dark:text-blue-200 truncate">
                       {students.length}
                     </p>
                     <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 font-medium">
-                      Total Students
+                      <span className="hidden sm:inline">Total Students</span>
+                      <span className="sm:hidden">Total</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-24">
+            <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
+                  <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-800 dark:text-green-200 truncate">
@@ -403,18 +413,19 @@ export default function StudentsPage() {
                       %
                     </p>
                     <p className="text-xs sm:text-sm text-green-700 dark:text-green-300 font-medium">
-                      Avg Attendance
+                      <span className="hidden sm:inline">Avg Attendance</span>
+                      <span className="sm:hidden">Attendance</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800/50 h-24">
+            <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  <div className="bg-white dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-purple-800 dark:text-purple-200 truncate">
@@ -425,25 +436,27 @@ export default function StudentsPage() {
                       %
                     </p>
                     <p className="text-xs sm:text-sm text-purple-700 dark:text-purple-300 font-medium">
-                      Avg Performance
+                      <span className="hidden sm:inline">Avg Performance</span>
+                      <span className="sm:hidden">Performance</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-orange-50 dark:bg-orange-950/50 border-orange-200 dark:border-orange-800/50 h-24">
+            <Card className="bg-orange-50 dark:bg-orange-950/50 border-orange-200 dark:border-orange-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-orange-900/50 border-2 border-orange-200 dark:border-orange-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Award className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-orange-600 dark:text-orange-400" />
+                  <div className="bg-white dark:bg-orange-900/50 border-2 border-orange-200 dark:border-orange-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Award className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-orange-600 dark:text-orange-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-orange-800 dark:text-orange-200 truncate">
                       {students.filter((s) => s.performance >= 90).length}
                     </p>
                     <p className="text-xs sm:text-sm text-orange-700 dark:text-orange-300 font-medium">
-                      Top Performers
+                      <span className="hidden sm:inline">Top Performers</span>
+                      <span className="sm:hidden">Top Performers</span>
                     </p>
                   </div>
                 </div>
@@ -452,83 +465,105 @@ export default function StudentsPage() {
           </div>
 
           {/* Search and Filters */}
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
             <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex flex-1 items-center space-x-2">
-                  <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <div className="flex flex-col gap-4">
+                {/* Search Bar - Full width on mobile */}
+                <div className="w-full">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
                     <Input
                       placeholder="Search students..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 w-full"
                     />
                   </div>
-
-                  <Select value={classFilter} onValueChange={setClassFilter}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue placeholder="Class" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Classes</SelectItem>
-                      {classes.map((className) => (
-                        <SelectItem key={className} value={className}>
-                          {className}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-32">
-                      <SelectValue placeholder="Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="active">Active</SelectItem>
-                      <SelectItem value="inactive">Inactive</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select
-                    value={performanceFilter}
-                    onValueChange={setPerformanceFilter}
-                  >
-                    <SelectTrigger className="w-36">
-                      <SelectValue placeholder="Performance" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Performance</SelectItem>
-                      <SelectItem value="excellent">
-                        Excellent (90%+)
-                      </SelectItem>
-                      <SelectItem value="good">Good (75-89%)</SelectItem>
-                      <SelectItem value="average">Average (60-74%)</SelectItem>
-                      <SelectItem value="poor">Poor (&lt;60%)</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <Button
-                    variant={viewMode === "grid" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setViewMode("grid")}
-                  >
-                    <Grid className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant={viewMode === "list" ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setViewMode("list")}
-                  >
-                    <List className="h-4 w-4" />
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    Export
-                  </Button>
+                {/* Filters and View Controls */}
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                  <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 flex-1">
+                    <Select value={classFilter} onValueChange={setClassFilter}>
+                      <SelectTrigger className="w-full sm:w-32">
+                        <SelectValue placeholder="Class" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Classes</SelectItem>
+                        {classes.map((className) => (
+                          <SelectItem key={className} value={className}>
+                            {className}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <Select
+                      value={statusFilter}
+                      onValueChange={setStatusFilter}
+                    >
+                      <SelectTrigger className="w-full sm:w-32">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="active">Active</SelectItem>
+                        <SelectItem value="inactive">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select
+                      value={performanceFilter}
+                      onValueChange={setPerformanceFilter}
+                    >
+                      <SelectTrigger className="w-full sm:w-36 col-span-2 sm:col-span-1">
+                        <SelectValue placeholder="Performance" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Performance</SelectItem>
+                        <SelectItem value="excellent">
+                          Excellent (90%+)
+                        </SelectItem>
+                        <SelectItem value="good">Good (75-89%)</SelectItem>
+                        <SelectItem value="average">
+                          Average (60-74%)
+                        </SelectItem>
+                        <SelectItem value="poor">Poor (&lt;60%)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center space-x-1">
+                      <Button
+                        variant={viewMode === "grid" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setViewMode("grid")}
+                        className="px-3"
+                      >
+                        <Grid className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant={viewMode === "list" ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setViewMode("list")}
+                        className="px-3"
+                      >
+                        <List className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="hidden sm:flex"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Export
+                    </Button>
+                    <Button variant="outline" size="sm" className="sm:hidden">
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -536,10 +571,10 @@ export default function StudentsPage() {
 
           {/* Students List */}
           {filteredStudents.length === 0 ? (
-            <Card>
-              <CardContent className="p-8 text-center">
-                <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium mb-2">
+            <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+              <CardContent className="p-6 sm:p-8 text-center">
+                <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-gray-100">
                   {searchTerm ||
                   classFilter !== "all" ||
                   statusFilter !== "all" ||
@@ -547,7 +582,7 @@ export default function StudentsPage() {
                     ? "No students found"
                     : "No students yet"}
                 </h3>
-                <p className="text-gray-600 mb-4">
+                <p className="text-gray-600 dark:text-gray-400 mb-4">
                   {searchTerm ||
                   classFilter !== "all" ||
                   statusFilter !== "all" ||
@@ -561,24 +596,24 @@ export default function StudentsPage() {
             <div
               className={
                 viewMode === "grid"
-                  ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6"
                   : "space-y-4"
               }
             >
               {filteredStudents.map((student) => (
                 <Card
                   key={student.id}
-                  className="border-0 shadow-sm hover:shadow-md transition-shadow"
+                  className="border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60"
                 >
-                  <CardContent className={viewMode === "grid" ? "p-4" : "p-4"}>
+                  <CardContent className="p-4">
                     {viewMode === "grid" ? (
                       // Grid View
                       <div className="space-y-4">
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-center space-x-3">
-                            <Avatar className="h-12 w-12">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="flex items-center space-x-3 flex-1 min-w-0">
+                            <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                               <AvatarImage src={student.avatar} />
-                              <AvatarFallback className="bg-blue-100 text-blue-600">
+                              <AvatarFallback className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
                                 {student.name
                                   .split(" ")
                                   .map((n) => n[0])
@@ -586,10 +621,10 @@ export default function StudentsPage() {
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex-1 min-w-0">
-                              <h3 className="font-semibold text-sm truncate">
+                              <h3 className="font-semibold text-sm truncate text-gray-900 dark:text-gray-100">
                                 {student.name}
                               </h3>
-                              <p className="text-xs text-gray-600">
+                              <p className="text-xs text-gray-600 dark:text-gray-400">
                                 Roll: {student.rollNumber}
                               </p>
                               <Badge
@@ -607,7 +642,9 @@ export default function StudentsPage() {
                             size="sm"
                             onClick={() => toggleStar(student.id)}
                             className={
-                              student.isStarred ? "text-yellow-500" : ""
+                              student.isStarred
+                                ? "text-yellow-500"
+                                : "text-gray-500 dark:text-gray-400"
                             }
                           >
                             <Star
@@ -620,13 +657,17 @@ export default function StudentsPage() {
 
                         <div className="space-y-2 text-xs">
                           <div className="flex items-center justify-between">
-                            <span className="text-gray-600">Class:</span>
-                            <span className="font-medium">
+                            <span className="text-gray-600 dark:text-gray-400">
+                              Class:
+                            </span>
+                            <span className="font-medium text-gray-900 dark:text-gray-100">
                               {student.class} - {student.section}
                             </span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-gray-600">Attendance:</span>
+                            <span className="text-gray-600 dark:text-gray-400">
+                              Attendance:
+                            </span>
                             <span
                               className={`font-medium ${getAttendanceColor(
                                 student.attendance
@@ -636,7 +677,9 @@ export default function StudentsPage() {
                             </span>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-gray-600">Performance:</span>
+                            <span className="text-gray-600 dark:text-gray-400">
+                              Performance:
+                            </span>
                             <Badge
                               className={`${getPerformanceColor(
                                 student.performance
@@ -647,8 +690,10 @@ export default function StudentsPage() {
                             </Badge>
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-gray-600">Assignments:</span>
-                            <span className="font-medium">
+                            <span className="text-gray-600 dark:text-gray-400">
+                              Assignments:
+                            </span>
+                            <span className="font-medium text-gray-900 dark:text-gray-100">
                               {student.completedAssignments}/
                               {student.totalAssignments}
                             </span>
@@ -656,51 +701,53 @@ export default function StudentsPage() {
                         </div>
 
                         <div className="space-y-2">
-                          <div className="flex items-center space-x-2 text-xs text-gray-600">
-                            <Mail className="h-3 w-3" />
+                          <div className="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-400">
+                            <Mail className="h-3 w-3 flex-shrink-0" />
                             <span className="truncate">{student.email}</span>
                           </div>
-                          <div className="flex items-center space-x-2 text-xs text-gray-600">
-                            <Phone className="h-3 w-3" />
-                            <span>{student.phone}</span>
+                          <div className="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-400">
+                            <Phone className="h-3 w-3 flex-shrink-0" />
+                            <span className="truncate">{student.phone}</span>
                           </div>
                         </div>
 
-                        <div className="flex space-x-2 pt-2">
+                        <div className="flex gap-2 pt-2">
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button
                                 size="sm"
-                                variant="outline"
-                                className="flex-1"
+                                variant=""
+                                className="flex-1 text-xs"
                               >
                                 <Eye className="mr-1 h-3 w-3" />
                                 View
                               </Button>
                             </DialogTrigger>
-                            <DialogContent className="max-w-2xl">
+                            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4 w-[calc(100vw-2rem)] sm:w-full">
                               <DialogHeader>
-                                <DialogTitle>Student Details</DialogTitle>
-                                <DialogDescription>
+                                <DialogTitle className="text-gray-900 dark:text-gray-100">
+                                  Student Details
+                                </DialogTitle>
+                                <DialogDescription className="text-gray-600 dark:text-gray-400">
                                   Complete information about {student.name}
                                 </DialogDescription>
                               </DialogHeader>
                               <div className="grid gap-4">
-                                <div className="flex items-center space-x-4">
-                                  <Avatar className="h-16 w-16">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                  <Avatar className="h-16 w-16 mx-auto sm:mx-0">
                                     <AvatarImage src={student.avatar} />
-                                    <AvatarFallback className="bg-blue-100 text-blue-600 text-lg">
+                                    <AvatarFallback className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 text-lg">
                                       {student.name
                                         .split(" ")
                                         .map((n) => n[0])
                                         .join("")}
                                     </AvatarFallback>
                                   </Avatar>
-                                  <div>
-                                    <h3 className="text-lg font-semibold">
+                                  <div className="text-center sm:text-left">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                                       {student.name}
                                     </h3>
-                                    <p className="text-gray-600">
+                                    <p className="text-gray-600 dark:text-gray-400">
                                       Roll Number: {student.rollNumber}
                                     </p>
                                     <Badge
@@ -713,15 +760,15 @@ export default function StudentsPage() {
                                     </Badge>
                                   </div>
                                 </div>
-                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                                   <div>
-                                    <h4 className="font-medium mb-2">
+                                    <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">
                                       Personal Information
                                     </h4>
                                     <div className="space-y-2">
                                       <div className="flex items-center space-x-2">
-                                        <Calendar className="h-4 w-4 text-gray-400" />
-                                        <span>
+                                        <Calendar className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                                        <span className="text-gray-700 dark:text-gray-300">
                                           DOB:{" "}
                                           {new Date(
                                             student.dateOfBirth
@@ -729,24 +776,30 @@ export default function StudentsPage() {
                                         </span>
                                       </div>
                                       <div className="flex items-center space-x-2">
-                                        <Mail className="h-4 w-4 text-gray-400" />
-                                        <span>{student.email}</span>
+                                        <Mail className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                                        <span className="text-gray-700 dark:text-gray-300 break-all">
+                                          {student.email}
+                                        </span>
                                       </div>
                                       <div className="flex items-center space-x-2">
-                                        <Phone className="h-4 w-4 text-gray-400" />
-                                        <span>{student.phone}</span>
+                                        <Phone className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                                        <span className="text-gray-700 dark:text-gray-300">
+                                          {student.phone}
+                                        </span>
                                       </div>
-                                      <div className="flex items-center space-x-2">
-                                        <MapPin className="h-4 w-4 text-gray-400" />
-                                        <span>{student.address}</span>
+                                      <div className="flex items-start space-x-2">
+                                        <MapPin className="h-4 w-4 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
+                                        <span className="text-gray-700 dark:text-gray-300">
+                                          {student.address}
+                                        </span>
                                       </div>
                                     </div>
                                   </div>
                                   <div>
-                                    <h4 className="font-medium mb-2">
+                                    <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">
                                       Academic Information
                                     </h4>
-                                    <div className="space-y-2">
+                                    <div className="space-y-2 text-gray-700 dark:text-gray-300">
                                       <div>
                                         Class: {student.class} -{" "}
                                         {student.section}
@@ -773,22 +826,24 @@ export default function StudentsPage() {
                                   </div>
                                 </div>
                                 <div>
-                                  <h4 className="font-medium mb-2">
+                                  <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">
                                     Parent Information
                                   </h4>
-                                  <div className="grid grid-cols-2 gap-4 text-sm">
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-300">
                                     <div>Name: {student.parentName}</div>
-                                    <div>Email: {student.parentEmail}</div>
+                                    <div className="break-all">
+                                      Email: {student.parentEmail}
+                                    </div>
                                     <div>Phone: {student.parentPhone}</div>
                                   </div>
                                 </div>
                               </div>
                             </DialogContent>
                           </Dialog>
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="neutral" className="px-2">
                             <MessageSquare className="h-3 w-3" />
                           </Button>
-                          <Button size="sm" variant="outline">
+                          <Button size="sm" variant="outline" className="px-2">
                             <MoreVertical className="h-3 w-3" />
                           </Button>
                         </div>
@@ -796,9 +851,9 @@ export default function StudentsPage() {
                     ) : (
                       // List View
                       <div className="flex items-center space-x-4">
-                        <Avatar className="h-12 w-12">
+                        <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                           <AvatarImage src={student.avatar} />
-                          <AvatarFallback className="bg-blue-100 text-blue-600">
+                          <AvatarFallback className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
                             {student.name
                               .split(" ")
                               .map((n) => n[0])
@@ -806,23 +861,25 @@ export default function StudentsPage() {
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center space-x-3 mb-1">
-                            <h3 className="font-semibold text-sm">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mb-1">
+                            <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate">
                               {student.name}
                             </h3>
-                            <Badge
-                              className={`${getGradeColor(
-                                student.grade
-                              )} border text-xs`}
-                              variant="outline"
-                            >
-                              {student.grade}
-                            </Badge>
-                            {student.isStarred && (
-                              <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                            )}
+                            <div className="flex items-center gap-2">
+                              <Badge
+                                className={`${getGradeColor(
+                                  student.grade
+                                )} border text-xs`}
+                                variant="outline"
+                              >
+                                {student.grade}
+                              </Badge>
+                              {student.isStarred && (
+                                <Star className="h-4 w-4 text-yellow-500 fill-current" />
+                              )}
+                            </div>
                           </div>
-                          <div className="flex items-center space-x-4 text-xs text-gray-600">
+                          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-gray-600 dark:text-gray-400">
                             <span>Roll: {student.rollNumber}</span>
                             <span>
                               {student.class} - {student.section}
@@ -835,18 +892,147 @@ export default function StudentsPage() {
                             <Badge
                               className={`${getPerformanceColor(
                                 student.performance
-                              )} border`}
+                              )} border text-xs`}
                               variant="outline"
                             >
                               {student.performance}%
                             </Badge>
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <Button size="sm" variant="outline">
-                            <Eye className="h-3 w-3" />
-                          </Button>
-                          <Button size="sm" variant="outline">
+                        <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="px-2"
+                              >
+                                <Eye className="h-3 w-3" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto mx-4 w-[calc(100vw-2rem)] sm:w-full">
+                              <DialogHeader>
+                                <DialogTitle className="text-gray-900 dark:text-gray-100">
+                                  Student Details
+                                </DialogTitle>
+                                <DialogDescription className="text-gray-600 dark:text-gray-400">
+                                  Complete information about {student.name}
+                                </DialogDescription>
+                              </DialogHeader>
+                              {/* Same dialog content as grid view */}
+                              <div className="grid gap-4">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                                  <Avatar className="h-16 w-16 mx-auto sm:mx-0">
+                                    <AvatarImage src={student.avatar} />
+                                    <AvatarFallback className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 text-lg">
+                                      {student.name
+                                        .split(" ")
+                                        .map((n) => n[0])
+                                        .join("")}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                  <div className="text-center sm:text-left">
+                                    <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                                      {student.name}
+                                    </h3>
+                                    <p className="text-gray-600 dark:text-gray-400">
+                                      Roll Number: {student.rollNumber}
+                                    </p>
+                                    <Badge
+                                      className={`${getGradeColor(
+                                        student.grade
+                                      )} border mt-1`}
+                                      variant="outline"
+                                    >
+                                      Grade {student.grade}
+                                    </Badge>
+                                  </div>
+                                </div>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                                  <div>
+                                    <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">
+                                      Personal Information
+                                    </h4>
+                                    <div className="space-y-2">
+                                      <div className="flex items-center space-x-2">
+                                        <Calendar className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                                        <span className="text-gray-700 dark:text-gray-300">
+                                          DOB:{" "}
+                                          {new Date(
+                                            student.dateOfBirth
+                                          ).toLocaleDateString()}
+                                        </span>
+                                      </div>
+                                      <div className="flex items-center space-x-2">
+                                        <Mail className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                                        <span className="text-gray-700 dark:text-gray-300 break-all">
+                                          {student.email}
+                                        </span>
+                                      </div>
+                                      <div className="flex items-center space-x-2">
+                                        <Phone className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                                        <span className="text-gray-700 dark:text-gray-300">
+                                          {student.phone}
+                                        </span>
+                                      </div>
+                                      <div className="flex items-start space-x-2">
+                                        <MapPin className="h-4 w-4 text-gray-400 dark:text-gray-500 mt-0.5 flex-shrink-0" />
+                                        <span className="text-gray-700 dark:text-gray-300">
+                                          {student.address}
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">
+                                      Academic Information
+                                    </h4>
+                                    <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                                      <div>
+                                        Class: {student.class} -{" "}
+                                        {student.section}
+                                      </div>
+                                      <div>
+                                        Attendance:{" "}
+                                        <span
+                                          className={getAttendanceColor(
+                                            student.attendance
+                                          )}
+                                        >
+                                          {student.attendance}%
+                                        </span>
+                                      </div>
+                                      <div>
+                                        Performance: {student.performance}%
+                                      </div>
+                                      <div>
+                                        Assignments:{" "}
+                                        {student.completedAssignments}/
+                                        {student.totalAssignments}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div>
+                                  <h4 className="font-medium mb-2 text-gray-900 dark:text-gray-100">
+                                    Parent Information
+                                  </h4>
+                                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700 dark:text-gray-300">
+                                    <div>Name: {student.parentName}</div>
+                                    <div className="break-all">
+                                      Email: {student.parentEmail}
+                                    </div>
+                                    <div>Phone: {student.parentPhone}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="px-2 hidden sm:flex"
+                          >
                             <MessageSquare className="h-3 w-3" />
                           </Button>
                           <Button
@@ -854,7 +1040,9 @@ export default function StudentsPage() {
                             size="sm"
                             onClick={() => toggleStar(student.id)}
                             className={
-                              student.isStarred ? "text-yellow-500" : ""
+                              student.isStarred
+                                ? "text-yellow-500"
+                                : "text-gray-500 dark:text-gray-400"
                             }
                           >
                             <Star
