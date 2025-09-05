@@ -40,7 +40,7 @@ const LoginPage = () => {
           <CardHeader>
             <div className="text-center bg-main/20  w-full  rounded-lg px-4 py-3.5 border border-dashed border-border/50">
               <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">
-                Welcome to Janyterz
+                Welcome to Acedimate
               </h1>
               <p className="text-sm sm:text-base text-muted-foreground">
                 Your gateway to gamified learning

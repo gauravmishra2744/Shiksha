@@ -611,7 +611,7 @@ const CompeteGamePage = () => {
                 </Button>
                 <Button
                   size="lg"
-                  variant="outline"
+                  variant="neutral"
                   onClick={() => setShowJoinDialog(true)}
                   className="flex-1"
                 >
