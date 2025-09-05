@@ -31,7 +31,8 @@ import {
   Target,
   Trash2,
   User2,
-  UserRoundPenIcon,
+  UserPen,
+  
 } from "lucide-react";
 
 import * as React from "react";
@@ -92,7 +93,6 @@ const data = {
     {
       title: "Dashboard",
       icon: Home,
-      isActive: true,
       items: [
         {
           title: "Home",
@@ -152,7 +152,6 @@ const data = {
         },
       ],
     },
-
     {
       title: "Productivity",
       icon: Target,
@@ -210,12 +209,67 @@ export function AppSidebar({ ...props }) {
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
   const pathname = usePathname();
 
+  // State to track which sections are open
+  const [openSections, setOpenSections] = React.useState({});
+
+  // Determine which section should be open based on current pathname
+  const getActiveSectionFromPath = React.useCallback((path) => {
+    for (const item of data.navMain) {
+      if (
+        item.items?.some((subItem) => {
+          if (subItem.hasDropdown && subItem.subjects) {
+            return (
+              subItem.subjects.some((subject) =>
+                path.startsWith(subject.url)
+              ) || path.startsWith(subItem.url)
+            );
+          }
+          return path.startsWith(subItem.url);
+        })
+      ) {
+        return item.title;
+      }
+    }
+    return null;
+  }, []);
+
+  // Initialize open sections based on current path
+  React.useEffect(() => {
+    const activeSection = getActiveSectionFromPath(pathname);
+    if (activeSection) {
+      setOpenSections((prev) => ({
+        ...prev,
+        [activeSection]: true,
+      }));
+    }
+  }, [pathname, getActiveSectionFromPath]);
+
   if (!activeTeam) {
     return null;
   }
 
   const isActiveLink = (url) => {
     return pathname === url;
+  };
+
+  const isSectionActive = (item) => {
+    return item.items?.some((subItem) => {
+      if (subItem.hasDropdown && subItem.subjects) {
+        return (
+          subItem.subjects.some((subject) =>
+            pathname.startsWith(subject.url)
+          ) || pathname.startsWith(subItem.url)
+        );
+      }
+      return pathname.startsWith(subItem.url);
+    });
+  };
+
+  const handleSectionToggle = (sectionTitle, currentState) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [sectionTitle]: !currentState,
+    }));
   };
 
   return (
@@ -247,85 +301,95 @@ export function AppSidebar({ ...props }) {
       <SidebarContent className={""}>
         <SidebarGroup className={"border-b-0"}>
           <SidebarMenu>
-            {data.navMain.map((item) => (
-              <Collapsible
-                key={item.title}
-                asChild
-                defaultOpen={item.isActive}
-                className="group/collapsible"
-              >
-                <SidebarMenuItem>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuButton
-                      className="data-[state=open]:bg-main data-[state=open]: data-[state=open]:text-main-foreground mb-2"
-                      tooltip={item.title}
-                    >
-                      {item.icon && <item.icon />}
-                      <span className="">{item.title}</span>
-                      <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
-                    </SidebarMenuButton>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {item.items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title}>
-                          {subItem.hasDropdown ? (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <SidebarMenuSubButton
-                                  className={`w-full justify-between ${
+            {data.navMain.map((item) => {
+              const isOpen = openSections[item.title] || isSectionActive(item);
+
+              return (
+                <Collapsible
+                  key={item.title}
+                  asChild
+                  open={isOpen}
+                  onOpenChange={(open) =>
+                    handleSectionToggle(item.title, isOpen)
+                  }
+                  className="group/collapsible"
+                >
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton
+                        className="data-[state=open]:bg-main data-[state=open]: data-[state=open]:text-main-foreground mb-2"
+                        tooltip={item.title}
+                      >
+                        {item.icon && <item.icon />}
+                        <span className="">{item.title}</span>
+                        <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {item.items?.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            {subItem.hasDropdown ? (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <SidebarMenuSubButton
+                                    className={`w-full justify-between ${
+                                      isActiveLink(subItem.url)
+                                        ? "bg-main text-main-foreground"
+                                        : ""
+                                    }`}
+                                  >
+                                    <span>{subItem.title}</span>
+                                    <ChevronRight className="h-4 w-4" />
+                                  </SidebarMenuSubButton>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  side="right"
+                                  align="start"
+                                  className="w-48"
+                                >
+                                  {subItem.subjects?.map((subject) => (
+                                    <DropdownMenuItem
+                                      key={subject.name}
+                                      asChild
+                                    >
+                                      <Link
+                                        href={subject.url}
+                                        className={`${
+                                          isActiveLink(subject.url)
+                                            ? "bg-main text-main-foreground"
+                                            : ""
+                                        }`}
+                                      >
+                                        <Book className="h-4 w-4 mr-2" />
+                                        {subject.name}
+                                      </Link>
+                                    </DropdownMenuItem>
+                                  ))}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            ) : (
+                              <SidebarMenuSubButton asChild>
+                                <Link
+                                  href={subItem.url}
+                                  className={`${
                                     isActiveLink(subItem.url)
                                       ? "bg-main text-main-foreground"
                                       : ""
                                   }`}
                                 >
                                   <span>{subItem.title}</span>
-                                  <ChevronRight className="h-4 w-4" />
-                                </SidebarMenuSubButton>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent
-                                side="right"
-                                align="start"
-                                className="w-48"
-                              >
-                                {subItem.subjects?.map((subject) => (
-                                  <DropdownMenuItem key={subject.name} asChild>
-                                    <Link
-                                      href={subject.url}
-                                      className={`${
-                                        isActiveLink(subject.url)
-                                          ? "bg-main text-main-foreground"
-                                          : ""
-                                      }`}
-                                    >
-                                      <Book className="h-4 w-4 mr-2" />
-                                      {subject.name}
-                                    </Link>
-                                  </DropdownMenuItem>
-                                ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          ) : (
-                            <SidebarMenuSubButton asChild>
-                              <Link
-                                href={subItem.url}
-                                className={`${
-                                  isActiveLink(subItem.url)
-                                    ? "bg-main text-main-foreground"
-                                    : ""
-                                }`}
-                              >
-                                <span>{subItem.title}</span>
-                              </Link>
-                            </SidebarMenuSubButton>
-                          )}
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
-            ))}
+                                </Link>
+                              </SidebarMenuSubButton>
+                            )}
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
+                  </SidebarMenuItem>
+                </Collapsible>
+              );
+            })}
           </SidebarMenu>
         </SidebarGroup>
 
@@ -429,15 +493,18 @@ export function AppSidebar({ ...props }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <Link href={"/student/profile"} className="inline-flex gap-2 w-full">
+                  <Link
+                    href={"/student/profile"}
+                    className="inline-flex gap-2 w-full"
+                  >
                     <DropdownMenuItem className={"w-full"}>
-                      <UserRoundPenIcon />
+                      <UserPen />
                       Manage Profile
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                 <DropdownMenuGroup>
+                <DropdownMenuGroup>
                   <Link href={"/"} className="inline-flex gap-2 w-full">
                     <DropdownMenuItem className={"w-full"}>
                       <HomeIcon />
