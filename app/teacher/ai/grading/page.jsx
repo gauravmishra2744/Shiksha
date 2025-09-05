@@ -440,7 +440,7 @@ export default function GradingAssistantPage() {
           </div>
 
           {/* Quick Actions */}
-          <Card className="border shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 h-32 justify-center">
+          <Card className="border shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 md:h-32 justify-center">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-gray-100">
                 <Zap className="h-5 w-5 text-orange-500" />
@@ -494,7 +494,7 @@ export default function GradingAssistantPage() {
 
           {/* Main Tabs */}
           <Tabs defaultValue="recent" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto bg-white dark:bg-gray-800/50 border shadow-sm">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto bg-white dark:bg-gray-800/50 border shadow-sm ">
               <TabsTrigger value="recent" className="text-xs sm:text-sm py-2">
                 <FileText className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden sm:inline">Recent</span>
