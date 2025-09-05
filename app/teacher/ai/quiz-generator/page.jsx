@@ -330,7 +330,7 @@ export default function QuizGeneratorPage() {
           </Card>
 
           {/* Quick Actions */}
-          <Card className="border border-border/50 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 h-32 justify-center">
+          <Card className="border border-border/50 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 md:h-32 justify-center">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-gray-100">
                 <Zap className="h-5 w-5 text-orange-500" />
@@ -381,7 +381,7 @@ export default function QuizGeneratorPage() {
 
           {/* Main Tabs */}
           <Tabs defaultValue="create" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 shadow-sm">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-white dark:bg-gray-900/50 border border-gray-200 dark:border-gray-700 shadow-sm h-20 sm:h-fit">
               <TabsTrigger
                 value="create"
                 className="text-xs sm:text-sm px-2 sm:px-4"
