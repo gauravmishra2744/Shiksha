@@ -50,6 +50,7 @@ import {
   Award,
   Bell,
   Settings,
+  ArrowLeft,
 } from "lucide-react";
 
 export default function ParentPortal() {
@@ -61,6 +62,7 @@ export default function ParentPortal() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [messageType, setMessageType] = useState("general");
+  const [showParentsList, setShowParentsList] = useState(true);
 
   useEffect(() => {
     fetchParents();
@@ -265,6 +267,11 @@ export default function ParentPortal() {
     }
   };
 
+  const handleParentSelect = (parent) => {
+    setSelectedParent(parent);
+    setShowParentsList(false); // Hide parents list on mobile when parent is selected
+  };
+
   const filteredParents = parents.filter((parent) => {
     const matchesSearch =
       parent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -285,12 +292,12 @@ export default function ParentPortal() {
         <AppSidebar />
         <SidebarInset>
           <DynamicBreadcrumb />
-          <div className="flex flex-1 flex-col gap-6 p-6 pt-0">
-            <div className="animate-pulse space-y-6">
-              <div className="h-32 bg-gray-200 rounded-lg"></div>
-              <div className="grid grid-cols-3 gap-6">
-                <div className="h-96 bg-gray-200 rounded-lg"></div>
-                <div className="col-span-2 h-96 bg-gray-200 rounded-lg"></div>
+          <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
+            <div className="animate-pulse space-y-4 sm:space-y-6">
+              <div className="h-32 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+                <div className="h-96 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+                <div className="lg:col-span-2 h-96 bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
               </div>
             </div>
           </div>
@@ -305,77 +312,96 @@ export default function ParentPortal() {
       <SidebarInset>
         <DynamicBreadcrumb />
 
-        <div className="flex flex-1 flex-col gap-6 p-6 pt-0">
+        <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
           {/* Header Section */}
-          <Card className="border-0 shadow-sm bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-200 dark:border-purple-800">
-                    <Users className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+            <CardContent className="p-4 sm:p-6">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 lg:gap-6 mb-4 sm:mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div className="p-3 sm:p-4 rounded-lg bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800/50 flex-shrink-0">
+                    <Users className="w-6 w-6 sm:w-8 sm:h-8 text-purple-600 dark:text-purple-400" />
                   </div>
-                  <div>
-                    <h1 className="text-3xl font-bold tracking-tight">
+                  <div className="flex-1">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                       Parent Portal
                     </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mt-1">
                       Communicate with parents and guardians to support student
                       success
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Button variant="outline" size="sm">
-                    <Bell className="w-4 h-4 mr-2" />
-                    Notifications
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Settings className="w-4 h-4 mr-2" />
-                    Settings
-                  </Button>
-                  <Button size="sm">
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 sm:flex-none"
+                    >
+                      <Bell className="w-4 h-4 mr-2" />
+                      <span className="hidden sm:inline">Notifications</span>
+                      <span className="sm:hidden">Alerts</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 sm:flex-none"
+                    >
+                      <Settings className="w-4 h-4 mr-2" />
+                      <span className="hidden sm:inline">Settings</span>
+                      <span className="sm:hidden">Settings</span>
+                    </Button>
+                  </div>
+                  <Button size="sm" className="w-full sm:w-auto">
                     <Calendar className="w-4 h-4 mr-2" />
-                    Schedule Meeting
+                    <span className="hidden sm:inline">Schedule Meeting</span>
+                    <span className="sm:hidden">Schedule</span>
                   </Button>
                 </div>
               </div>
 
               {/* Communication Stats */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-purple-600">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50">
+                  <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
                     {parents.length}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Total Parents
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Total Parents</span>
+                    <span className="sm:hidden">Parents</span>
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-blue-600">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                     {parents.reduce(
                       (sum, parent) => sum + parent.unreadMessages,
                       0
                     )}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Unread Messages
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Unread Messages</span>
+                    <span className="sm:hidden">Unread</span>
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-green-600">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50">
+                  <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                     {parents.reduce(
                       (sum, parent) => sum + parent.meetingsScheduled,
                       0
                     )}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Meetings Scheduled
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Meetings Scheduled</span>
+                    <span className="sm:hidden">Meetings</span>
                   </div>
                 </div>
-                <div className="text-center p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50">
-                  <div className="text-2xl font-bold text-orange-600">89%</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Response Rate
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-white/70 dark:bg-gray-800/70 border border-white/50 dark:border-gray-700/50 col-span-2 lg:col-span-1">
+                  <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
+                    89%
+                  </div>
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <span className="hidden sm:inline">Response Rate</span>
+                    <span className="sm:hidden">Response</span>
                   </div>
                 </div>
               </div>
@@ -383,20 +409,36 @@ export default function ParentPortal() {
           </Card>
 
           <Tabs defaultValue="communications" className="w-full">
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="communications">Communications</TabsTrigger>
-              <TabsTrigger value="meetings">Meetings</TabsTrigger>
-              <TabsTrigger value="reports">Progress Reports</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
+              <TabsTrigger
+                value="communications"
+                className="text-xs sm:text-sm"
+              >
+                <span className="hidden sm:inline">Communications</span>
+                <span className="sm:hidden">Messages</span>
+              </TabsTrigger>
+              <TabsTrigger value="meetings" className="text-xs sm:text-sm">
+                Meetings
+              </TabsTrigger>
+              <TabsTrigger value="reports" className="text-xs sm:text-sm">
+                <span className="hidden sm:inline">Progress Reports</span>
+                <span className="sm:hidden">Reports</span>
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="text-xs sm:text-sm">
+                Analytics
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="communications" className="space-y-6">
+            <TabsContent
+              value="communications"
+              className="space-y-4 sm:space-y-6"
+            >
               {/* Search and Filters */}
-              <Card>
+              <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                 <CardContent className="p-4">
-                  <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex flex-col gap-4">
                     <div className="flex-1 relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 w-4 h-4" />
                       <Input
                         placeholder="Search parents or students..."
                         value={searchTerm}
@@ -408,7 +450,7 @@ export default function ParentPortal() {
                       value={filterStatus}
                       onValueChange={setFilterStatus}
                     >
-                      <SelectTrigger className="w-40">
+                      <SelectTrigger className="w-full sm:w-40">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -421,15 +463,22 @@ export default function ParentPortal() {
                 </CardContent>
               </Card>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Parents List */}
-                <Card>
+                <Card
+                  className={`bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 ${
+                    !showParentsList && selectedParent ? "hidden lg:block" : ""
+                  }`}
+                >
                   <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                       <Users className="w-5 h-5 text-purple-500" />
-                      Parents & Guardians
+                      <span className="hidden sm:inline">
+                        Parents & Guardians
+                      </span>
+                      <span className="sm:hidden">Parents</span>
                     </CardTitle>
-                    <CardDescription>
+                    <CardDescription className="text-gray-600 dark:text-gray-400">
                       Select a parent to view details and communicate
                     </CardDescription>
                   </CardHeader>
@@ -438,32 +487,34 @@ export default function ParentPortal() {
                       {filteredParents.map((parent) => (
                         <div
                           key={parent.id}
-                          className={`p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors ${
+                          className={`p-3 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors ${
                             selectedParent?.id === parent.id
-                              ? "border-purple-500 bg-purple-50"
+                              ? "border-purple-500 dark:border-purple-400 bg-purple-50 dark:bg-purple-950/20"
                               : ""
                           }`}
-                          onClick={() => setSelectedParent(parent)}
+                          onClick={() => handleParentSelect(parent)}
                         >
                           <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-3">
-                              <Avatar>
+                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                              <Avatar className="flex-shrink-0">
                                 <AvatarImage src={parent.avatar} />
-                                <AvatarFallback>
+                                <AvatarFallback className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
                                   {parent.name.charAt(0)}
                                 </AvatarFallback>
                               </Avatar>
-                              <div>
-                                <h3 className="font-medium">{parent.name}</h3>
-                                <p className="text-sm text-gray-600">
+                              <div className="min-w-0 flex-1">
+                                <h3 className="font-medium text-gray-900 dark:text-gray-100 truncate">
+                                  {parent.name}
+                                </h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
                                   Parent of {parent.student}
                                 </p>
-                                <p className="text-xs text-gray-500">
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
                                   {parent.studentClass}
                                 </p>
                               </div>
                             </div>
-                            <div className="flex flex-col items-end gap-1">
+                            <div className="flex flex-col items-end gap-1 flex-shrink-0">
                               {parent.unreadMessages > 0 && (
                                 <Badge
                                   variant="destructive"
@@ -486,9 +537,11 @@ export default function ParentPortal() {
                               </Badge>
                             </div>
                           </div>
-                          <div className="flex items-center justify-between text-xs text-gray-500">
-                            <span>Last contact: {parent.lastContact}</span>
-                            <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                            <span className="truncate">
+                              Last contact: {parent.lastContact}
+                            </span>
+                            <div className="flex items-center gap-1 flex-shrink-0">
                               {parent.emergencyContact && (
                                 <AlertCircle className="w-3 h-3 text-red-500" />
                               )}
@@ -506,42 +559,73 @@ export default function ParentPortal() {
                 </Card>
 
                 {/* Parent Details and Communication */}
-                <div className="lg:col-span-2">
+                <div
+                  className={`lg:col-span-2 ${
+                    showParentsList && !selectedParent ? "hidden lg:block" : ""
+                  }`}
+                >
                   {selectedParent ? (
                     <div className="space-y-4">
+                      {/* Back button for mobile */}
+                      <div className="lg:hidden">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowParentsList(true)}
+                          className="mb-4"
+                        >
+                          <ArrowLeft className="w-4 h-4 mr-2" />
+                          Back to Parents
+                        </Button>
+                      </div>
+
                       {/* Parent Information */}
-                      <Card>
+                      <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                         <CardHeader>
-                          <div className="flex items-center justify-between">
+                          <div className="flex flex-col gap-4">
                             <div className="flex items-center gap-3">
-                              <Avatar className="w-12 h-12">
+                              <Avatar className="w-12 h-12 flex-shrink-0">
                                 <AvatarImage src={selectedParent.avatar} />
-                                <AvatarFallback>
+                                <AvatarFallback className="bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400">
                                   {selectedParent.name.charAt(0)}
                                 </AvatarFallback>
                               </Avatar>
-                              <div>
-                                <CardTitle>{selectedParent.name}</CardTitle>
-                                <CardDescription>
+                              <div className="min-w-0 flex-1">
+                                <CardTitle className="text-gray-900 dark:text-gray-100 truncate">
+                                  {selectedParent.name}
+                                </CardTitle>
+                                <CardDescription className="text-gray-600 dark:text-gray-400">
                                   Parent of {selectedParent.student} •{" "}
                                   {selectedParent.studentClass}
                                 </CardDescription>
                               </div>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex flex-col sm:flex-row gap-2">
                               <Button
                                 size="sm"
                                 variant="outline"
                                 onClick={() => scheduleCall(selectedParent.id)}
+                                className="flex-1 sm:flex-none"
                               >
                                 <Phone className="w-4 h-4 mr-2" />
                                 Call
                               </Button>
-                              <Button size="sm" variant="outline">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="flex-1 sm:flex-none"
+                              >
                                 <Video className="w-4 h-4 mr-2" />
-                                Video Call
+                                <span className="hidden sm:inline">
+                                  Video Call
+                                </span>
+                                <span className="sm:hidden">Video</span>
                               </Button>
-                              <Button size="sm" variant="outline">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="flex-1 sm:flex-none"
+                              >
                                 <Calendar className="w-4 h-4 mr-2" />
                                 Meeting
                               </Button>
@@ -549,33 +633,41 @@ export default function ParentPortal() {
                           </div>
                         </CardHeader>
                         <CardContent>
-                          <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                             <div>
-                              <p className="text-gray-600">Student ID:</p>
-                              <p className="font-medium">
+                              <p className="text-gray-600 dark:text-gray-400">
+                                Student ID:
+                              </p>
+                              <p className="font-medium text-gray-900 dark:text-gray-100">
                                 {selectedParent.studentId}
                               </p>
                             </div>
                             <div>
-                              <p className="text-gray-600">Grade:</p>
-                              <p className="font-medium">
+                              <p className="text-gray-600 dark:text-gray-400">
+                                Grade:
+                              </p>
+                              <p className="font-medium text-gray-900 dark:text-gray-100">
                                 {selectedParent.studentGrade}
                               </p>
                             </div>
                             <div>
-                              <p className="text-gray-600">Email:</p>
-                              <p className="font-medium">
+                              <p className="text-gray-600 dark:text-gray-400">
+                                Email:
+                              </p>
+                              <p className="font-medium text-gray-900 dark:text-gray-100 truncate">
                                 {selectedParent.email}
                               </p>
                             </div>
                             <div>
-                              <p className="text-gray-600">Phone:</p>
-                              <p className="font-medium">
+                              <p className="text-gray-600 dark:text-gray-400">
+                                Phone:
+                              </p>
+                              <p className="font-medium text-gray-900 dark:text-gray-100">
                                 {selectedParent.phone}
                               </p>
                             </div>
                             <div>
-                              <p className="text-gray-600">
+                              <p className="text-gray-600 dark:text-gray-400">
                                 Preferred Contact:
                               </p>
                               <div className="flex items-center gap-1">
@@ -585,13 +677,13 @@ export default function ParentPortal() {
                                 ) : (
                                   <Phone className="w-3 h-3" />
                                 )}
-                                <span className="font-medium capitalize">
+                                <span className="font-medium text-gray-900 dark:text-gray-100 capitalize">
                                   {selectedParent.preferredContactMethod}
                                 </span>
                               </div>
                             </div>
                             <div>
-                              <p className="text-gray-600">
+                              <p className="text-gray-600 dark:text-gray-400">
                                 Emergency Contact:
                               </p>
                               <div className="flex items-center gap-1">
@@ -600,7 +692,7 @@ export default function ParentPortal() {
                                 ) : (
                                   <AlertCircle className="w-3 h-3 text-red-500" />
                                 )}
-                                <span className="font-medium">
+                                <span className="font-medium text-gray-900 dark:text-gray-100">
                                   {selectedParent.emergencyContact
                                     ? "Yes"
                                     : "No"}
@@ -612,39 +704,43 @@ export default function ParentPortal() {
                       </Card>
 
                       {/* Student Performance Summary */}
-                      <Card>
+                      <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                             <GraduationCap className="w-5 h-5 text-blue-500" />
-                            {selectedParent.student}'s Performance Summary
+                            <span className="truncate">
+                              {selectedParent.student}'s Performance Summary
+                            </span>
                           </CardTitle>
                         </CardHeader>
                         <CardContent>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <div className="text-center p-3 border rounded-lg">
-                              <div className="text-2xl font-bold text-blue-600">
+                          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div className="text-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
+                              <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                                 {selectedParent.studentPerformance.gpa}
                               </div>
-                              <div className="text-sm text-gray-600">GPA</div>
+                              <div className="text-sm text-gray-600 dark:text-gray-400">
+                                GPA
+                              </div>
                             </div>
-                            <div className="text-center p-3 border rounded-lg">
-                              <div className="text-2xl font-bold text-green-600">
+                            <div className="text-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
+                              <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                                 {selectedParent.studentPerformance.attendance}%
                               </div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                 Attendance
                               </div>
                             </div>
-                            <div className="text-center p-3 border rounded-lg">
-                              <div className="text-sm font-bold text-purple-600 capitalize">
+                            <div className="text-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
+                              <div className="text-sm font-bold text-purple-600 dark:text-purple-400 capitalize">
                                 {selectedParent.studentPerformance.behavior}
                               </div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                 Behavior
                               </div>
                             </div>
-                            <div className="text-center p-3 border rounded-lg">
-                              <div className="text-2xl font-bold text-orange-600">
+                            <div className="text-center p-3 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50 col-span-2 lg:col-span-1">
+                              <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                                 {Math.round(
                                   selectedParent.studentPerformance.recentGrades.reduce(
                                     (a, b) => a + b,
@@ -654,7 +750,7 @@ export default function ParentPortal() {
                                       .recentGrades.length
                                 )}
                               </div>
-                              <div className="text-sm text-gray-600">
+                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                 Avg Grade
                               </div>
                             </div>
@@ -663,9 +759,9 @@ export default function ParentPortal() {
                       </Card>
 
                       {/* Send Message */}
-                      <Card>
+                      <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                             <Send className="w-5 h-5 text-green-500" />
                             Send Message
                           </CardTitle>
@@ -716,9 +812,9 @@ export default function ParentPortal() {
                       </Card>
 
                       {/* Recent Conversations */}
-                      <Card>
+                      <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 text-gray-900 dark:text-gray-100">
                             <MessageSquare className="w-5 h-5 text-blue-500" />
                             Recent Conversations
                           </CardTitle>
@@ -729,19 +825,21 @@ export default function ParentPortal() {
                               (msg) => (
                                 <div
                                   key={msg.id}
-                                  className={`p-3 border rounded-lg ${
-                                    msg.sender === "teacher" ? "" : "bg-gray-50"
+                                  className={`p-3 border border-gray-200 dark:border-gray-700 rounded-lg ${
+                                    msg.sender === "teacher"
+                                      ? "bg-white dark:bg-gray-900/50"
+                                      : "bg-gray-50 dark:bg-gray-800/50"
                                   }`}
                                 >
-                                  <div className="flex items-center gap-2 mb-2">
+                                  <div className="flex flex-wrap items-center gap-2 mb-2">
                                     <MessageSquare
                                       className={`w-4 h-4 ${
                                         msg.sender === "teacher"
-                                          ? "text-blue-600"
-                                          : "text-green-600"
+                                          ? "text-blue-600 dark:text-blue-400"
+                                          : "text-green-600 dark:text-green-400"
                                       }`}
                                     />
-                                    <span className="text-sm font-medium">
+                                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
                                       {msg.sender === "teacher"
                                         ? "You"
                                         : selectedParent.name}
@@ -752,15 +850,17 @@ export default function ParentPortal() {
                                     >
                                       {msg.type}
                                     </Badge>
-                                    <span className="text-xs text-gray-500 ml-auto">
+                                    <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">
                                       {msg.timestamp}
                                     </span>
                                   </div>
-                                  <p className="text-sm">{msg.content}</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                                    {msg.content}
+                                  </p>
                                 </div>
                               )
                             ) || (
-                              <div className="text-center text-gray-500 py-4">
+                              <div className="text-center text-gray-500 dark:text-gray-400 py-4">
                                 No conversations yet. Send a message to start!
                               </div>
                             )}
@@ -769,13 +869,13 @@ export default function ParentPortal() {
                       </Card>
                     </div>
                   ) : (
-                    <Card>
-                      <CardContent className="p-12 text-center">
-                        <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium mb-2">
+                    <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+                      <CardContent className="p-8 sm:p-12 text-center">
+                        <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                        <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-gray-100">
                           Select a Parent
                         </h3>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
                           Choose a parent from the left to view details and
                           start communicating
                         </p>
@@ -787,44 +887,54 @@ export default function ParentPortal() {
             </TabsContent>
 
             <TabsContent value="meetings" className="space-y-4">
-              <Card>
+              <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                 <CardHeader>
-                  <CardTitle>Scheduled Meetings</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-gray-900 dark:text-gray-100">
+                    Scheduled Meetings
+                  </CardTitle>
+                  <CardDescription className="text-gray-600 dark:text-gray-400">
                     Upcoming parent-teacher conferences and meetings
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="w-5 h-5 text-blue-500" />
-                        <div>
-                          <h3 className="font-medium">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <Calendar className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-gray-900 dark:text-gray-100">
                             Parent Conference - Alice Smith
                           </h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
                             with John Smith • Tomorrow at 2:00 PM
                           </p>
                         </div>
                       </div>
-                      <Button size="sm" variant="outline">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full sm:w-auto"
+                      >
                         Join Meeting
                       </Button>
                     </div>
-                    <div className="flex items-center justify-between p-4 border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <Calendar className="w-5 h-5 text-green-500" />
-                        <div>
-                          <h3 className="font-medium">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50/50 dark:bg-gray-800/50">
+                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                        <Calendar className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-gray-900 dark:text-gray-100">
                             Academic Review - Emma Davis
                           </h3>
-                          <p className="text-sm text-gray-600">
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
                             with Sarah Davis • Friday at 10:00 AM
                           </p>
                         </div>
                       </div>
-                      <Button size="sm" variant="outline">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="w-full sm:w-auto"
+                      >
                         View Details
                       </Button>
                     </div>
@@ -834,15 +944,17 @@ export default function ParentPortal() {
             </TabsContent>
 
             <TabsContent value="reports" className="space-y-4">
-              <Card>
+              <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                 <CardHeader>
-                  <CardTitle>Progress Reports</CardTitle>
-                  <CardDescription>
+                  <CardTitle className="text-gray-900 dark:text-gray-100">
+                    Progress Reports
+                  </CardTitle>
+                  <CardDescription className="text-gray-600 dark:text-gray-400">
                     Generate and send progress reports to parents
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="space-y-4">
                       <Button className="w-full">
                         <FileText className="w-4 h-4 mr-2" />
@@ -858,19 +970,25 @@ export default function ParentPortal() {
                       </Button>
                     </div>
                     <div className="space-y-3">
-                      <h4 className="font-medium">Recent Reports</h4>
+                      <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                        Recent Reports
+                      </h4>
                       <div className="space-y-2">
-                        <div className="flex items-center justify-between p-2 border rounded">
-                          <span className="text-sm">
+                        <div className="flex items-center justify-between p-2 border border-gray-200 dark:border-gray-700 rounded bg-gray-50/50 dark:bg-gray-800/50">
+                          <span className="text-sm text-gray-900 dark:text-gray-100 truncate">
                             Alice Smith - January Report
                           </span>
-                          <span className="text-xs text-gray-500">Sent</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">
+                            Sent
+                          </span>
                         </div>
-                        <div className="flex items-center justify-between p-2 border rounded">
-                          <span className="text-sm">
+                        <div className="flex items-center justify-between p-2 border border-gray-200 dark:border-gray-700 rounded bg-gray-50/50 dark:bg-gray-800/50">
+                          <span className="text-sm text-gray-900 dark:text-gray-100 truncate">
                             Bob Johnson - January Report
                           </span>
-                          <span className="text-xs text-gray-500">Draft</span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0 ml-2">
+                            Draft
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -880,48 +998,70 @@ export default function ParentPortal() {
             </TabsContent>
 
             <TabsContent value="analytics" className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                   <CardHeader>
-                    <CardTitle>Communication Metrics</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-gray-900 dark:text-gray-100">
+                      Communication Metrics
+                    </CardTitle>
+                    <CardDescription className="text-gray-600 dark:text-gray-400">
                       Track your parent engagement
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       <div className="flex justify-between">
-                        <span className="text-sm">Response Rate</span>
-                        <span className="font-medium">89%</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Response Rate
+                        </span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                          89%
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Avg Response Time</span>
-                        <span className="font-medium">2.3 hours</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Avg Response Time
+                        </span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                          2.3 hours
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Messages This Month</span>
-                        <span className="font-medium">156</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Messages This Month
+                        </span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                          156
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-sm">Meetings Scheduled</span>
-                        <span className="font-medium">23</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Meetings Scheduled
+                        </span>
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
+                          23
+                        </span>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
-                <Card>
+                <Card className="bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
                   <CardHeader>
-                    <CardTitle>Parent Engagement Levels</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="text-gray-900 dark:text-gray-100">
+                      Parent Engagement Levels
+                    </CardTitle>
+                    <CardDescription className="text-gray-600 dark:text-gray-400">
                       Overview of parent participation
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">High Engagement</span>
-                        <Badge className="bg-green-100 text-green-700">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          High Engagement
+                        </span>
+                        <Badge className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50">
                           {
                             parents.filter((p) => p.engagement === "high")
                               .length
@@ -930,8 +1070,10 @@ export default function ParentPortal() {
                         </Badge>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Medium Engagement</span>
-                        <Badge className="bg-yellow-100 text-yellow-700">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Medium Engagement
+                        </span>
+                        <Badge className="bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50">
                           {
                             parents.filter((p) => p.engagement === "medium")
                               .length
@@ -940,8 +1082,10 @@ export default function ParentPortal() {
                         </Badge>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm">Low Engagement</span>
-                        <Badge className="bg-red-100 text-red-700">
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          Low Engagement
+                        </span>
+                        <Badge className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800/50">
                           {parents.filter((p) => p.engagement === "low").length}{" "}
                           parents
                         </Badge>

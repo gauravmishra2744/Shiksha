@@ -84,7 +84,7 @@ const data = {
   },
   teams: [
     {
-      name: "Janyterz",
+      name: "Acedimate",
       logo: User2,
       plan: "Student Portal",
     },

@@ -440,7 +440,7 @@ export default function GradingAssistantPage() {
           </div>
 
           {/* Quick Actions */}
-          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+          <Card className="border shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 h-32 justify-center">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-gray-100">
                 <Zap className="h-5 w-5 text-orange-500" />
@@ -454,7 +454,7 @@ export default function GradingAssistantPage() {
                   onOpenChange={setShowUploadModal}
                 >
                   <DialogTrigger asChild>
-                    <Button className="h-12 text-sm" variant="outline">
+                    <Button className="text-sm" variant="" size={"sm"}>
                       <Upload className="mr-2 h-4 w-4" />
                       <span className="hidden sm:inline">
                         Upload Submissions
@@ -464,13 +464,13 @@ export default function GradingAssistantPage() {
                   </DialogTrigger>
                 </Dialog>
 
-                <Button className="h-12 text-sm" variant="outline">
+                <Button className="text-sm" variant="" size={"sm"}>
                   <Settings className="mr-2 h-4 w-4" />
                   <span className="hidden sm:inline">Grading Rubrics</span>
                   <span className="sm:hidden">Rubrics</span>
                 </Button>
 
-                <Button className="h-12 text-sm" variant="outline">
+                <Button className="text-sm" variant="" size={"sm"}>
                   <BarChart3 className="mr-2 h-4 w-4" />
                   <span className="hidden sm:inline">View Analytics</span>
                   <span className="sm:hidden">Analytics</span>
@@ -481,7 +481,7 @@ export default function GradingAssistantPage() {
                   onOpenChange={setShowHistoryModal}
                 >
                   <DialogTrigger asChild>
-                    <Button className="h-12 text-sm" variant="outline">
+                    <Button className=" text-sm" variant="" size={"sm"}>
                       <FileText className="mr-2 h-4 w-4" />
                       <span className="hidden sm:inline">Grading History</span>
                       <span className="sm:hidden">History</span>

@@ -380,30 +380,30 @@ export default function AutoGradingPage() {
   const getStatusColor = (status) => {
     switch (status) {
       case "completed":
-        return "bg-green-50 text-green-700 border-green-200";
+        return "bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50";
       case "grading":
-        return "bg-blue-50 text-blue-700 border-blue-200";
+        return "bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50";
       case "pending":
-        return "bg-yellow-50 text-yellow-700 border-yellow-200";
+        return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50";
       case "paused":
-        return "bg-orange-50 text-orange-700 border-orange-200";
+        return "bg-orange-50 dark:bg-orange-950/20 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800/50";
       case "failed":
-        return "bg-red-50 text-red-700 border-red-200";
+        return "bg-red-50 dark:bg-red-950/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800/50";
       default:
-        return "bg-gray-50 text-gray-700 border-gray-200";
+        return "bg-gray-50 dark:bg-gray-950/20 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800/50";
     }
   };
 
   const getDifficultyColor = (difficulty) => {
     switch (difficulty) {
       case "easy":
-        return "bg-green-50 text-green-600 border-green-200";
+        return "bg-green-50 dark:bg-green-950/20 text-green-600 dark:text-green-400 border-green-200 dark:border-green-800/50";
       case "medium":
-        return "bg-yellow-50 text-yellow-600 border-yellow-200";
+        return "bg-yellow-50 dark:bg-yellow-950/20 text-yellow-600 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800/50";
       case "hard":
-        return "bg-red-50 text-red-600 border-red-200";
+        return "bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50";
       default:
-        return "bg-gray-50 text-gray-600 border-gray-200";
+        return "bg-gray-50 dark:bg-gray-950/20 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-800/50";
     }
   };
 
@@ -464,43 +464,43 @@ export default function AutoGradingPage() {
 
         <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
           {/* Header Section */}
-          <Card className="border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/50 dark:to-indigo-950/50">
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
             <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-200 dark:border-blue-800">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+                <div className="p-3 sm:p-4 rounded-lg bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/50 flex-shrink-0">
                   <Bot className="h-6 w-6 sm:h-8 sm:w-8 text-blue-600 dark:text-blue-400" />
                 </div>
-                <div className="flex-1">
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <div className="flex-1 w-full sm:w-auto">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                     Auto-Grading System
                   </h1>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                  <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mt-1">
                     AI-powered automated assessment grading with intelligent
                     feedback
                   </p>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <Badge
-                  variant="outline"
-                  className="bg-blue-50 text-blue-700 border-blue-200"
-                >
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                <Badge className="bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50">
                   <Brain className="w-3 h-3 mr-1" />
-                  AI-Powered
+                  <span className="hidden sm:inline">AI-Powered</span>
+                  <span className="sm:hidden">AI</span>
                 </Badge>
-                <Badge
-                  variant="outline"
-                  className="bg-green-50 text-green-700 border-green-200"
-                >
+                <Badge className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50">
                   <Zap className="w-3 h-3 mr-1" />
-                  {stats.avgAccuracy.toFixed(1)}% Accuracy
+                  <span className="hidden sm:inline">
+                    {stats.avgAccuracy.toFixed(1)}% Accuracy
+                  </span>
+                  <span className="sm:hidden">
+                    {stats.avgAccuracy.toFixed(1)}%
+                  </span>
                 </Badge>
-                <Badge
-                  variant="outline"
-                  className="bg-purple-50 text-purple-700 border-purple-200"
-                >
+                <Badge className="bg-purple-50 dark:bg-purple-950/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/50">
                   <Activity className="w-3 h-3 mr-1" />
-                  {stats.totalGraded} Graded
+                  <span className="hidden sm:inline">
+                    {stats.totalGraded} Graded
+                  </span>
+                  <span className="sm:hidden">{stats.totalGraded}</span>
                 </Badge>
               </div>
             </CardContent>
@@ -508,29 +508,32 @@ export default function AutoGradingPage() {
 
           {/* Quick Stats */}
           <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-5">
-            <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-24">
+            <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <FileText className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
+                  <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <FileText className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-blue-800 dark:text-blue-200 truncate">
                       {stats.total}
                     </p>
                     <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 font-medium">
-                      Total Assessments
+                      <span className="hidden sm:inline">
+                        Total Assessments
+                      </span>
+                      <span className="sm:hidden">Total</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-24">
+            <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <CheckCircle className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
+                  <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-800 dark:text-green-200 truncate">
@@ -544,29 +547,30 @@ export default function AutoGradingPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-orange-50 dark:bg-orange-950/50 border-orange-200 dark:border-orange-800/50 h-24">
+            <Card className="bg-orange-50 dark:bg-orange-950/50 border-orange-200 dark:border-orange-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-orange-900/50 border-2 border-orange-200 dark:border-orange-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Clock className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-orange-600 dark:text-orange-400" />
+                  <div className="bg-white dark:bg-orange-900/50 border-2 border-orange-200 dark:border-orange-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Clock className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-orange-600 dark:text-orange-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-orange-800 dark:text-orange-200 truncate">
                       {stats.grading}
                     </p>
                     <p className="text-xs sm:text-sm text-orange-700 dark:text-orange-300 font-medium">
-                      In Progress
+                      <span className="hidden sm:inline">In Progress</span>
+                      <span className="sm:hidden">Progress</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-24">
+            <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-yellow-900/50 border-2 border-yellow-200 dark:border-yellow-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <AlertCircle className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-yellow-600 dark:text-yellow-400" />
+                  <div className="bg-white dark:bg-yellow-900/50 border-2 border-yellow-200 dark:border-yellow-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <AlertCircle className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-yellow-600 dark:text-yellow-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-yellow-800 dark:text-yellow-200 truncate">
@@ -580,18 +584,19 @@ export default function AutoGradingPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800/50 h-24">
+            <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Target className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  <div className="bg-white dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Target className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-purple-800 dark:text-purple-200 truncate">
                       {stats.avgAccuracy.toFixed(0)}%
                     </p>
                     <p className="text-xs sm:text-sm text-purple-700 dark:text-purple-300 font-medium">
-                      Avg Accuracy
+                      <span className="hidden sm:inline">Avg Accuracy</span>
+                      <span className="sm:hidden">Accuracy</span>
                     </p>
                   </div>
                 </div>
@@ -600,74 +605,93 @@ export default function AutoGradingPage() {
           </div>
 
           {/* Filters and Search */}
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
             <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex flex-1 items-center space-x-2">
-                  <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <div className="flex flex-col gap-4">
+                {/* Search Bar - Full width on mobile */}
+                <div className="w-full">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
                     <Input
                       placeholder="Search assessments..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 w-full"
                     />
                   </div>
-
-                  <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="All Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Status</SelectItem>
-                      <SelectItem value="completed">Completed</SelectItem>
-                      <SelectItem value="grading">In Progress</SelectItem>
-                      <SelectItem value="pending">Pending</SelectItem>
-                      <SelectItem value="paused">Paused</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select
-                    value={subjectFilter}
-                    onValueChange={setSubjectFilter}
-                  >
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="All Subjects" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Subjects</SelectItem>
-                      {subjects.map((subject) => (
-                        <SelectItem key={subject} value={subject}>
-                          {subject}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={classFilter} onValueChange={setClassFilter}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="All Classes" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Classes</SelectItem>
-                      {classes.map((className) => (
-                        <SelectItem key={className} value={className}>
-                          {className}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    Export Report
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Settings className="h-4 w-4 mr-2" />
-                    Settings
-                  </Button>
+                {/* Filters and Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                  <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 flex-1">
+                    <Select
+                      value={statusFilter}
+                      onValueChange={setStatusFilter}
+                    >
+                      <SelectTrigger className="w-full sm:w-40">
+                        <SelectValue placeholder="All Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Status</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                        <SelectItem value="grading">In Progress</SelectItem>
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="paused">Paused</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select
+                      value={subjectFilter}
+                      onValueChange={setSubjectFilter}
+                    >
+                      <SelectTrigger className="w-full sm:w-40">
+                        <SelectValue placeholder="All Subjects" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Subjects</SelectItem>
+                        {subjects.map((subject) => (
+                          <SelectItem key={subject} value={subject}>
+                            {subject}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <Select value={classFilter} onValueChange={setClassFilter}>
+                      <SelectTrigger className="w-full sm:w-40 col-span-2 sm:col-span-1">
+                        <SelectValue placeholder="All Classes" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Classes</SelectItem>
+                        {classes.map((className) => (
+                          <SelectItem key={className} value={className}>
+                            {className}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button
+                      variant="neutral"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      <span className="hidden sm:inline">Export Report</span>
+                      <span className="sm:hidden">Export</span>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                    >
+                      <Settings className="h-4 w-4 mr-2" />
+                      <span className="hidden sm:inline">Settings</span>
+                      <span className="sm:hidden">Settings</span>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -677,16 +701,18 @@ export default function AutoGradingPage() {
           <div className="space-y-4">
             {loading ? (
               <div className="text-center py-8">
-                <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400" />
-                <p>Loading assessments...</p>
+                <RefreshCw className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400 dark:text-gray-500" />
+                <p className="text-gray-600 dark:text-gray-400">
+                  Loading assessments...
+                </p>
               </div>
             ) : filteredAssessments.length === 0 ? (
               <div className="text-center py-8">
-                <BarChart3 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium mb-2">
+                <BarChart3 className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-gray-100">
                   No assessments found
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   Try adjusting your search criteria or create new assessments
                 </p>
               </div>
@@ -694,73 +720,86 @@ export default function AutoGradingPage() {
               filteredAssessments.map((assessment) => (
                 <Card
                   key={assessment.id}
-                  className="border-0 shadow-sm hover:shadow-md transition-all duration-200"
+                  className="border-0 shadow-sm hover:shadow-md transition-all duration-200 bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60"
                 >
                   <CardContent className="p-4 sm:p-6">
                     <div className="space-y-4">
                       {/* Assessment Header */}
-                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            <h3 className="text-lg font-semibold">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 truncate">
                               {assessment.title}
                             </h3>
-                            <Badge
-                              className={`${getStatusColor(
-                                assessment.status
-                              )} border`}
-                              variant="outline"
-                            >
-                              {assessment.status === "grading" &&
-                                gradingInProgress.has(assessment.id) && (
-                                  <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
-                                )}
-                              {assessment.status}
-                            </Badge>
-                            <Badge
-                              className={`${getDifficultyColor(
-                                assessment.difficulty
-                              )} border`}
-                              variant="outline"
-                            >
-                              {assessment.difficulty}
-                            </Badge>
+                            <div className="flex flex-wrap gap-2">
+                              <Badge
+                                className={`${getStatusColor(
+                                  assessment.status
+                                )} border text-xs`}
+                                variant="outline"
+                              >
+                                {assessment.status === "grading" &&
+                                  gradingInProgress.has(assessment.id) && (
+                                    <RefreshCw className="w-3 h-3 mr-1 animate-spin" />
+                                  )}
+                                {assessment.status}
+                              </Badge>
+                              <Badge
+                                className={`${getDifficultyColor(
+                                  assessment.difficulty
+                                )} border text-xs`}
+                                variant="outline"
+                              >
+                                {assessment.difficulty}
+                              </Badge>
+                            </div>
                           </div>
-                          <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                          <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                             <span className="flex items-center">
-                              <BookOpen className="w-4 h-4 mr-1" />
-                              {assessment.subject}
+                              <BookOpen className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                              <span className="truncate">
+                                {assessment.subject}
+                              </span>
                             </span>
                             <span className="flex items-center">
-                              <GraduationCap className="w-4 h-4 mr-1" />
-                              {assessment.class}
+                              <GraduationCap className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                              <span className="truncate">
+                                {assessment.class}
+                              </span>
                             </span>
                             <span className="flex items-center">
-                              <Calendar className="w-4 h-4 mr-1" />
-                              {new Date(
-                                assessment.createdAt
-                              ).toLocaleDateString()}
+                              <Calendar className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                              <span className="truncate">
+                                {new Date(
+                                  assessment.createdAt
+                                ).toLocaleDateString()}
+                              </span>
                             </span>
                             <span className="flex items-center">
-                              <Timer className="w-4 h-4 mr-1" />
+                              <Timer className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                               {assessment.timeLimit} min
                             </span>
-                            <span className="flex items-center">
-                              <FileText className="w-4 h-4 mr-1" />
+                            <span className="flex items-center col-span-2 sm:col-span-1">
+                              <FileText className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                               {assessment.totalQuestions} questions
                             </span>
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-2">
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
                           {assessment.status === "pending" && (
                             <Button
                               size="sm"
                               onClick={() => startAutoGrading(assessment.id)}
                               disabled={gradingInProgress.has(assessment.id)}
+                              className="w-full sm:w-auto"
                             >
                               <Play className="w-3 h-3 mr-1" />
-                              Start Grading
+                              <span className="hidden sm:inline">
+                                Start Grading
+                              </span>
+                              <span className="sm:hidden">Start</span>
                             </Button>
                           )}
 
@@ -769,6 +808,7 @@ export default function AutoGradingPage() {
                               size="sm"
                               variant="outline"
                               onClick={() => stopAutoGrading(assessment.id)}
+                              className="w-full sm:w-auto"
                             >
                               <Pause className="w-3 h-3 mr-1" />
                               Pause
@@ -783,20 +823,24 @@ export default function AutoGradingPage() {
                                   onClick={() =>
                                     setSelectedAssessment(assessment)
                                   }
+                                  className="w-full sm:w-auto"
                                 >
                                   <Eye className="w-3 h-3 mr-1" />
-                                  View Results
+                                  <span className="hidden sm:inline">
+                                    View Results
+                                  </span>
+                                  <span className="sm:hidden">Results</span>
                                 </Button>
                               </DialogTrigger>
-                              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto mx-4 w-[calc(100vw-2rem)] sm:w-full">
                                 <DialogHeader>
-                                  <DialogTitle className="flex items-center space-x-2">
+                                  <DialogTitle className="flex items-center space-x-2 text-gray-900 dark:text-gray-100">
                                     <BarChart3 className="h-5 w-5" />
-                                    <span>
+                                    <span className="truncate">
                                       {assessment.title} - Grading Results
                                     </span>
                                   </DialogTitle>
-                                  <DialogDescription>
+                                  <DialogDescription className="text-gray-600 dark:text-gray-400">
                                     Detailed analysis and results from
                                     auto-grading
                                   </DialogDescription>
@@ -806,62 +850,62 @@ export default function AutoGradingPage() {
                                   <div className="space-y-6">
                                     {/* Results Overview */}
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                      <div className="text-center p-4 bg-blue-50 rounded-lg">
-                                        <div className="text-2xl font-bold text-blue-600">
+                                      <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                                        <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                                           {selectedAssessment.results.highest}%
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                           Highest Score
                                         </div>
                                       </div>
-                                      <div className="text-center p-4 bg-green-50 rounded-lg">
-                                        <div className="text-2xl font-bold text-green-600">
+                                      <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
+                                        <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                                           {selectedAssessment.averageScore.toFixed(
                                             1
                                           )}
                                           %
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                           Average Score
                                         </div>
                                       </div>
-                                      <div className="text-center p-4 bg-yellow-50 rounded-lg">
-                                        <div className="text-2xl font-bold text-yellow-600">
+                                      <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                                        <div className="text-xl sm:text-2xl font-bold text-yellow-600 dark:text-yellow-400">
                                           {selectedAssessment.results.median}%
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                           Median Score
                                         </div>
                                       </div>
-                                      <div className="text-center p-4 bg-purple-50 rounded-lg">
-                                        <div className="text-2xl font-bold text-purple-600">
+                                      <div className="text-center p-4 bg-purple-50 dark:bg-purple-950/20 rounded-lg">
+                                        <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">
                                           {selectedAssessment.results.passRate}%
                                         </div>
-                                        <div className="text-sm text-gray-600">
+                                        <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                                           Pass Rate
                                         </div>
                                       </div>
                                     </div>
 
                                     {/* Performance Distribution */}
-                                    <Card>
+                                    <Card className="bg-white dark:bg-gray-800/50">
                                       <CardHeader>
-                                        <CardTitle className="text-lg">
+                                        <CardTitle className="text-lg text-gray-900 dark:text-gray-100">
                                           Performance Distribution
                                         </CardTitle>
                                       </CardHeader>
                                       <CardContent>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                                           <div className="flex items-center space-x-3">
                                             <div className="w-4 h-4 bg-green-500 rounded"></div>
                                             <div>
-                                              <div className="font-medium">
+                                              <div className="font-medium text-gray-900 dark:text-gray-100">
                                                 {
                                                   selectedAssessment
                                                     .distribution.excellent
                                                 }
                                               </div>
-                                              <div className="text-sm text-gray-600">
+                                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                                 Excellent (90%+)
                                               </div>
                                             </div>
@@ -869,13 +913,13 @@ export default function AutoGradingPage() {
                                           <div className="flex items-center space-x-3">
                                             <div className="w-4 h-4 bg-blue-500 rounded"></div>
                                             <div>
-                                              <div className="font-medium">
+                                              <div className="font-medium text-gray-900 dark:text-gray-100">
                                                 {
                                                   selectedAssessment
                                                     .distribution.good
                                                 }
                                               </div>
-                                              <div className="text-sm text-gray-600">
+                                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                                 Good (75-89%)
                                               </div>
                                             </div>
@@ -883,13 +927,13 @@ export default function AutoGradingPage() {
                                           <div className="flex items-center space-x-3">
                                             <div className="w-4 h-4 bg-yellow-500 rounded"></div>
                                             <div>
-                                              <div className="font-medium">
+                                              <div className="font-medium text-gray-900 dark:text-gray-100">
                                                 {
                                                   selectedAssessment
                                                     .distribution.average
                                                 }
                                               </div>
-                                              <div className="text-sm text-gray-600">
+                                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                                 Average (60-74%)
                                               </div>
                                             </div>
@@ -897,13 +941,13 @@ export default function AutoGradingPage() {
                                           <div className="flex items-center space-x-3">
                                             <div className="w-4 h-4 bg-red-500 rounded"></div>
                                             <div>
-                                              <div className="font-medium">
+                                              <div className="font-medium text-gray-900 dark:text-gray-100">
                                                 {
                                                   selectedAssessment
                                                     .distribution.poor
                                                 }
                                               </div>
-                                              <div className="text-sm text-gray-600">
+                                              <div className="text-sm text-gray-600 dark:text-gray-400">
                                                 Poor (&lt;60%)
                                               </div>
                                             </div>
@@ -913,9 +957,9 @@ export default function AutoGradingPage() {
                                     </Card>
 
                                     {/* Question Type Analysis */}
-                                    <Card>
+                                    <Card className="bg-white dark:bg-gray-800/50">
                                       <CardHeader>
-                                        <CardTitle className="text-lg">
+                                        <CardTitle className="text-lg text-gray-900 dark:text-gray-100">
                                           Question Type Breakdown
                                         </CardTitle>
                                       </CardHeader>
@@ -926,12 +970,12 @@ export default function AutoGradingPage() {
                                           ).map(([type, count]) => (
                                             <div
                                               key={type}
-                                              className="text-center p-4 border rounded-lg"
+                                              className="text-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50"
                                             >
-                                              <div className="text-xl font-bold">
+                                              <div className="text-xl font-bold text-gray-900 dark:text-gray-100">
                                                 {count}
                                               </div>
-                                              <div className="text-sm text-gray-600 capitalize">
+                                              <div className="text-sm text-gray-600 dark:text-gray-400 capitalize">
                                                 {type === "mcq"
                                                   ? "Multiple Choice"
                                                   : type === "shortAnswer"
@@ -945,9 +989,9 @@ export default function AutoGradingPage() {
                                     </Card>
 
                                     {/* Topics Covered */}
-                                    <Card>
+                                    <Card className="bg-white dark:bg-gray-800/50">
                                       <CardHeader>
-                                        <CardTitle className="text-lg">
+                                        <CardTitle className="text-lg text-gray-900 dark:text-gray-100">
                                           Topics Covered
                                         </CardTitle>
                                       </CardHeader>
@@ -958,7 +1002,7 @@ export default function AutoGradingPage() {
                                               <Badge
                                                 key={index}
                                                 variant="outline"
-                                                className="bg-blue-50 text-blue-700 border-blue-200"
+                                                className="bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50"
                                               >
                                                 {topic}
                                               </Badge>
@@ -973,45 +1017,61 @@ export default function AutoGradingPage() {
                             </Dialog>
                           )}
 
-                          <Button size="sm" variant="outline">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="w-full sm:w-auto"
+                          >
                             <Download className="w-3 h-3 mr-1" />
-                            Export
+                            <span className="hidden sm:inline">Export</span>
+                            <span className="sm:hidden">Export</span>
                           </Button>
                         </div>
                       </div>
 
                       {/* Stats Grid */}
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="text-center p-3 bg-gray-50 rounded-lg">
-                          <div className="text-lg font-bold">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                        <div className="text-center p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg">
+                          <div className="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">
                             {assessment.totalSubmissions}
                           </div>
-                          <div className="text-sm text-gray-600">
-                            Total Submissions
+                          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <span className="hidden sm:inline">
+                              Total Submissions
+                            </span>
+                            <span className="sm:hidden">Total</span>
                           </div>
                         </div>
-                        <div className="text-center p-3 bg-green-50 rounded-lg">
-                          <div className="text-lg font-bold text-green-600">
+                        <div className="text-center p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
+                          <div className="text-base sm:text-lg font-bold text-green-600 dark:text-green-400">
                             {assessment.gradedSubmissions}
                           </div>
-                          <div className="text-sm text-gray-600">Graded</div>
+                          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            Graded
+                          </div>
                         </div>
-                        <div className="text-center p-3 bg-blue-50 rounded-lg">
-                          <div className="text-lg font-bold text-blue-600">
+                        <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                          <div className="text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
                             {assessment.status === "completed"
                               ? `${assessment.averageScore.toFixed(1)}%`
                               : "-"}
                           </div>
-                          <div className="text-sm text-gray-600">
-                            Average Score
+                          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <span className="hidden sm:inline">
+                              Average Score
+                            </span>
+                            <span className="sm:hidden">Average</span>
                           </div>
                         </div>
-                        <div className="text-center p-3 bg-purple-50 rounded-lg">
-                          <div className="text-lg font-bold text-purple-600">
+                        <div className="text-center p-3 bg-purple-50 dark:bg-purple-950/20 rounded-lg">
+                          <div className="text-base sm:text-lg font-bold text-purple-600 dark:text-purple-400">
                             {assessment.accuracy.toFixed(1)}%
                           </div>
-                          <div className="text-sm text-gray-600">
-                            AI Accuracy
+                          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <span className="hidden sm:inline">
+                              AI Accuracy
+                            </span>
+                            <span className="sm:hidden">Accuracy</span>
                           </div>
                         </div>
                       </div>
@@ -1019,14 +1079,18 @@ export default function AutoGradingPage() {
                       {/* Progress Bar */}
                       <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
-                          <span className="font-medium">Grading Progress</span>
-                          <span>{assessment.gradingProgress}%</span>
+                          <span className="font-medium text-gray-900 dark:text-gray-100">
+                            Grading Progress
+                          </span>
+                          <span className="text-gray-600 dark:text-gray-400">
+                            {assessment.gradingProgress}%
+                          </span>
                         </div>
                         <Progress
                           value={assessment.gradingProgress}
                           className="h-3"
                         />
-                        <div className="flex justify-between text-xs text-gray-600">
+                        <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
                           <span>
                             {assessment.status === "completed"
                               ? "Completed"
@@ -1034,7 +1098,9 @@ export default function AutoGradingPage() {
                               ? "In Progress"
                               : "Not Started"}
                           </span>
-                          <span>{assessment.gradingTime}</span>
+                          <span className="truncate ml-2">
+                            {assessment.gradingTime}
+                          </span>
                         </div>
                       </div>
                     </div>

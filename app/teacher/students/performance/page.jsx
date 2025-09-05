@@ -471,10 +471,13 @@ export default function StudentPerformancePage() {
   const [loading, setLoading] = useState(false);
 
   const getPerformanceColor = (score) => {
-    if (score >= 95) return "text-green-600 bg-green-50 border-green-200";
-    if (score >= 85) return "text-blue-600 bg-blue-50 border-blue-200";
-    if (score >= 75) return "text-yellow-600 bg-yellow-50 border-yellow-200";
-    return "text-red-600 bg-red-50 border-red-200";
+    if (score >= 95)
+      return "text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800/50";
+    if (score >= 85)
+      return "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50";
+    if (score >= 75)
+      return "text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-950/20 border-yellow-200 dark:border-yellow-800/50";
+    return "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800/50";
   };
 
   const getPerformanceLabel = (score) => {
@@ -487,11 +490,13 @@ export default function StudentPerformancePage() {
   const getTrendIcon = (trend) => {
     switch (trend) {
       case "up":
-        return <ArrowUp className="h-4 w-4 text-green-500" />;
+        return (
+          <ArrowUp className="h-4 w-4 text-green-500 dark:text-green-400" />
+        );
       case "down":
-        return <ArrowDown className="h-4 w-4 text-red-500" />;
+        return <ArrowDown className="h-4 w-4 text-red-500 dark:text-red-400" />;
       default:
-        return <Minus className="h-4 w-4 text-gray-500" />;
+        return <Minus className="h-4 w-4 text-gray-500 dark:text-gray-400" />;
     }
   };
 
@@ -561,43 +566,45 @@ export default function StudentPerformancePage() {
 
         <div className="flex flex-1 flex-col gap-4 sm:gap-6 p-4 sm:p-6 pt-0">
           {/* Header Section */}
-          <Card className="border-0 shadow-sm bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950/50 dark:to-pink-950/50">
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
             <CardContent className="p-4 sm:p-6">
-              <div className="flex items-center space-x-4 mb-4">
-                <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-200 dark:border-purple-800">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4">
+                <div className="p-3 sm:p-4 rounded-lg bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800/50 flex-shrink-0">
                   <TrendingUp className="h-6 w-6 sm:h-8 sm:w-8 text-purple-600 dark:text-purple-400" />
                 </div>
-                <div className="flex-1">
-                  <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <div className="flex-1 w-full sm:w-auto">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                     Student Performance
                   </h1>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                  <p className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400 mt-1">
                     Track and analyze individual student academic progress and
                     achievements
                   </p>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <Badge
-                  variant="outline"
-                  className="bg-blue-50 text-blue-700 border-blue-200"
-                >
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                <Badge className="bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50">
                   <Users className="w-3 h-3 mr-1" />
-                  {stats.total} Students
+                  <span className="hidden sm:inline">
+                    {stats.total} Students
+                  </span>
+                  <span className="sm:hidden">{stats.total}</span>
                 </Badge>
-                <Badge
-                  variant="outline"
-                  className="bg-green-50 text-green-700 border-green-200"
-                >
+                <Badge className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50">
                   <BarChart3 className="w-3 h-3 mr-1" />
-                  {stats.avgScore.toFixed(1)}% Avg Score
+                  <span className="hidden sm:inline">
+                    {stats.avgScore.toFixed(1)}% Avg Score
+                  </span>
+                  <span className="sm:hidden">
+                    {stats.avgScore.toFixed(1)}%
+                  </span>
                 </Badge>
-                <Badge
-                  variant="outline"
-                  className="bg-purple-50 text-purple-700 border-purple-200"
-                >
+                <Badge className="bg-purple-50 dark:bg-purple-950/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800/50">
                   <TrendingUp className="w-3 h-3 mr-1" />
-                  {stats.improving} Improving
+                  <span className="hidden sm:inline">
+                    {stats.improving} Improving
+                  </span>
+                  <span className="sm:hidden">{stats.improving}</span>
                 </Badge>
               </div>
             </CardContent>
@@ -605,83 +612,89 @@ export default function StudentPerformancePage() {
 
           {/* Performance Overview Stats */}
           <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-5">
-            <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-24">
+            <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Trophy className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
+                  <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Trophy className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-800 dark:text-green-200 truncate">
                       {stats.excellent}
                     </p>
                     <p className="text-xs sm:text-sm text-green-700 dark:text-green-300 font-medium">
-                      Excellent (95%+)
+                      <span className="hidden sm:inline">Excellent (95%+)</span>
+                      <span className="sm:hidden">Excellent</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-24">
+            <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Star className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
+                  <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Star className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-blue-800 dark:text-blue-200 truncate">
                       {stats.good}
                     </p>
                     <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 font-medium">
-                      Good (85-94%)
+                      <span className="hidden sm:inline">Good (85-94%)</span>
+                      <span className="sm:hidden">Good</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-24">
+            <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-yellow-900/50 border-2 border-yellow-200 dark:border-yellow-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <Target className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-yellow-600 dark:text-yellow-400" />
+                  <div className="bg-white dark:bg-yellow-900/50 border-2 border-yellow-200 dark:border-yellow-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <Target className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-yellow-600 dark:text-yellow-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-yellow-800 dark:text-yellow-200 truncate">
                       {stats.average}
                     </p>
                     <p className="text-xs sm:text-sm text-yellow-700 dark:text-yellow-300 font-medium">
-                      Average (75-84%)
+                      <span className="hidden sm:inline">Average (75-84%)</span>
+                      <span className="sm:hidden">Average</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800/50 h-24">
+            <Card className="bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-red-900/50 border-2 border-red-200 dark:border-red-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <AlertTriangle className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-red-600 dark:text-red-400" />
+                  <div className="bg-white dark:bg-red-900/50 border-2 border-red-200 dark:border-red-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <AlertTriangle className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-red-600 dark:text-red-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-red-800 dark:text-red-200 truncate">
                       {stats.poor}
                     </p>
                     <p className="text-xs sm:text-sm text-red-700 dark:text-red-300 font-medium">
-                      Need Help (&lt;75%)
+                      <span className="hidden sm:inline">
+                        Need Help (&lt;75%)
+                      </span>
+                      <span className="sm:hidden">Need Help</span>
                     </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800/50 h-24">
+            <Card className="bg-purple-50 dark:bg-purple-950/50 border-purple-200 dark:border-purple-800/50 h-20 sm:h-24">
               <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
                 <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-                  <div className="bg-white dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                    <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
+                  <div className="bg-white dark:bg-purple-900/50 border-2 border-purple-200 dark:border-purple-700/50 rounded-lg p-1.5 sm:p-2 lg:p-3 flex-shrink-0">
+                    <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 lg:h-8 lg:w-8 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-purple-800 dark:text-purple-200 truncate">
@@ -697,70 +710,85 @@ export default function StudentPerformancePage() {
           </div>
 
           {/* Filters and Search */}
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
             <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex flex-1 items-center space-x-2">
-                  <div className="relative flex-1 max-w-sm">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <div className="flex flex-col gap-4">
+                {/* Search Bar - Full width on mobile */}
+                <div className="w-full">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 h-4 w-4" />
                     <Input
                       placeholder="Search students..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 w-full"
                     />
                   </div>
-
-                  <Select value={classFilter} onValueChange={setClassFilter}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="All Classes" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Classes</SelectItem>
-                      {classes.map((className) => (
-                        <SelectItem key={className} value={className}>
-                          {className}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-
-                  <Select
-                    value={performanceFilter}
-                    onValueChange={setPerformanceFilter}
-                  >
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="All Performance" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Performance</SelectItem>
-                      <SelectItem value="excellent">
-                        Excellent (95%+)
-                      </SelectItem>
-                      <SelectItem value="good">Good (85-94%)</SelectItem>
-                      <SelectItem value="average">Average (75-84%)</SelectItem>
-                      <SelectItem value="poor">Need Help (&lt;75%)</SelectItem>
-                    </SelectContent>
-                  </Select>
-
-                  <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-40">
-                      <SelectValue placeholder="Sort By" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="rank">Rank</SelectItem>
-                      <SelectItem value="score">Score</SelectItem>
-                      <SelectItem value="name">Name</SelectItem>
-                      <SelectItem value="improvement">Improvement</SelectItem>
-                    </SelectContent>
-                  </Select>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    Export Report
-                  </Button>
+                {/* Filters and Export */}
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+                  <div className="grid grid-cols-2 sm:flex gap-2 sm:gap-3 flex-1">
+                    <Select value={classFilter} onValueChange={setClassFilter}>
+                      <SelectTrigger className="w-full sm:w-40">
+                        <SelectValue placeholder="All Classes" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Classes</SelectItem>
+                        {classes.map((className) => (
+                          <SelectItem key={className} value={className}>
+                            {className}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    <Select
+                      value={performanceFilter}
+                      onValueChange={setPerformanceFilter}
+                    >
+                      <SelectTrigger className="w-full sm:w-40">
+                        <SelectValue placeholder="All Performance" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">All Performance</SelectItem>
+                        <SelectItem value="excellent">
+                          Excellent (95%+)
+                        </SelectItem>
+                        <SelectItem value="good">Good (85-94%)</SelectItem>
+                        <SelectItem value="average">
+                          Average (75-84%)
+                        </SelectItem>
+                        <SelectItem value="poor">
+                          Need Help (&lt;75%)
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="w-full sm:w-40 col-span-2 sm:col-span-1">
+                        <SelectValue placeholder="Sort By" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="rank">Rank</SelectItem>
+                        <SelectItem value="score">Score</SelectItem>
+                        <SelectItem value="name">Name</SelectItem>
+                        <SelectItem value="improvement">Improvement</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex items-center">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full sm:w-auto"
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      <span className="hidden sm:inline">Export Report</span>
+                      <span className="sm:hidden">Export</span>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -770,14 +798,18 @@ export default function StudentPerformancePage() {
           <div className="space-y-4">
             {loading ? (
               <div className="text-center py-8">
-                <Activity className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400" />
-                <p>Loading student performance data...</p>
+                <Activity className="w-8 h-8 animate-spin mx-auto mb-4 text-gray-400 dark:text-gray-500" />
+                <p className="text-gray-600 dark:text-gray-400">
+                  Loading student performance data...
+                </p>
               </div>
             ) : sortedStudents.length === 0 ? (
               <div className="text-center py-8">
-                <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium mb-2">No students found</h3>
-                <p className="text-gray-600">
+                <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                <h3 className="text-lg font-medium mb-2 text-gray-900 dark:text-gray-100">
+                  No students found
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
                   Try adjusting your search criteria or filters
                 </p>
               </div>
@@ -785,16 +817,16 @@ export default function StudentPerformancePage() {
               sortedStudents.map((student) => (
                 <Card
                   key={student.id}
-                  className="border-0 shadow-sm hover:shadow-md transition-all duration-200"
+                  className="border-0 shadow-sm hover:shadow-md transition-all duration-200 bg-white dark:bg-gray-900/50 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60"
                 >
                   <CardContent className="p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                       {/* Student Info */}
-                      <div className="flex items-center space-x-4">
-                        <div className="relative">
-                          <Avatar className="h-14 w-14">
+                      <div className="flex items-center space-x-4 flex-1 min-w-0">
+                        <div className="relative flex-shrink-0">
+                          <Avatar className="h-12 w-12 sm:h-14 sm:w-14">
                             <AvatarImage src={student.avatar} />
-                            <AvatarFallback className="bg-blue-100 text-blue-600 text-lg">
+                            <AvatarFallback className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 text-sm sm:text-lg">
                               {student.name
                                 .split(" ")
                                 .map((n) => n[0])
@@ -804,58 +836,68 @@ export default function StudentPerformancePage() {
                           <div className="absolute -top-1 -right-1">
                             <Badge
                               variant="outline"
-                              className="text-xs px-1 py-0 h-5 bg-white"
+                              className="text-xs px-1 py-0 h-5 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700"
                             >
                               #{student.rank}
                             </Badge>
                           </div>
                         </div>
-                        <div className="flex-1">
+                        <div className="flex-1 min-w-0">
                           <div className="flex items-center space-x-2 mb-1">
-                            <h3 className="font-semibold text-lg">
+                            <h3 className="font-semibold text-sm sm:text-lg text-gray-900 dark:text-gray-100 truncate">
                               {student.name}
                             </h3>
                             {getTrendIcon(student.trend)}
                           </div>
-                          <p className="text-sm text-gray-600 mb-1">
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1 truncate">
                             {student.rollNumber} • {student.class} -{" "}
                             {student.section}
                           </p>
-                          <div className="flex items-center space-x-3 text-sm">
+                          <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm">
                             <Badge
                               className={`${getPerformanceColor(
                                 student.overallScore
-                              )} border`}
+                              )} border text-xs`}
                               variant="outline"
                             >
                               {student.overallScore}% Overall
                             </Badge>
                             <Badge
                               variant="outline"
-                              className="bg-yellow-50 text-yellow-700 border-yellow-200"
+                              className="bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50 text-xs"
                             >
                               <Award className="w-3 h-3 mr-1" />
-                              {student.badges} badges
+                              <span className="hidden sm:inline">
+                                {student.badges} badges
+                              </span>
+                              <span className="sm:hidden">
+                                {student.badges}
+                              </span>
                             </Badge>
                             <Badge
                               variant="outline"
-                              className="bg-green-50 text-green-700 border-green-200"
+                              className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50 text-xs"
                             >
                               <CheckCircle className="w-3 h-3 mr-1" />
-                              {student.attendance}% attendance
+                              <span className="hidden sm:inline">
+                                {student.attendance}% attendance
+                              </span>
+                              <span className="sm:hidden">
+                                {student.attendance}%
+                              </span>
                             </Badge>
                           </div>
                         </div>
                       </div>
 
-                      {/* Performance Indicators */}
-                      <div className="flex-1 max-w-md">
-                        <div className="space-y-2">
+                      {/* Performance Indicators - Hidden on small screens */}
+                      <div className="hidden lg:flex flex-1 max-w-md">
+                        <div className="space-y-2 w-full">
                           <div className="flex justify-between items-center text-sm">
-                            <span className="text-gray-600">
+                            <span className="text-gray-600 dark:text-gray-400">
                               Overall Performance
                             </span>
-                            <span className="font-medium">
+                            <span className="font-medium text-gray-900 dark:text-gray-100">
                               {getPerformanceLabel(student.overallScore)}
                             </span>
                           </div>
@@ -863,15 +905,15 @@ export default function StudentPerformancePage() {
                             value={student.overallScore}
                             className="h-2"
                           />
-                          <div className="flex justify-between text-xs text-gray-500">
+                          <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
                             <span>Previous: {student.previousScore}%</span>
                             <span
                               className={`flex items-center ${
                                 student.overallScore > student.previousScore
-                                  ? "text-green-600"
+                                  ? "text-green-600 dark:text-green-400"
                                   : student.overallScore < student.previousScore
-                                  ? "text-red-600"
-                                  : "text-gray-600"
+                                  ? "text-red-600 dark:text-red-400"
+                                  : "text-gray-600 dark:text-gray-400"
                               }`}
                             >
                               {student.overallScore > student.previousScore
@@ -883,18 +925,18 @@ export default function StudentPerformancePage() {
                         </div>
                       </div>
 
-                      {/* Subject Performance (Top 3) */}
-                      <div className="flex-1 max-w-sm">
-                        <div className="grid grid-cols-3 gap-2">
+                      {/* Subject Performance (Top 3) - Hidden on mobile */}
+                      <div className="hidden md:flex flex-1 max-w-sm">
+                        <div className="grid grid-cols-3 gap-2 w-full">
                           {Object.entries(student.subjects)
                             .slice(0, 3)
                             .map(([subject, data]) => (
                               <div key={subject} className="text-center">
-                                <div className="text-xs text-gray-600 capitalize mb-1">
+                                <div className="text-xs text-gray-600 dark:text-gray-400 capitalize mb-1 truncate">
                                   {subject}
                                 </div>
                                 <div className="flex items-center justify-center space-x-1">
-                                  <span className="text-sm font-medium">
+                                  <span className="text-xs sm:text-sm font-medium text-gray-900 dark:text-gray-100">
                                     {data.score}%
                                   </span>
                                   {getTrendIcon(data.trend)}
@@ -905,27 +947,28 @@ export default function StudentPerformancePage() {
                       </div>
 
                       {/* Action Buttons */}
-                      <div className="flex items-center space-x-2">
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:space-x-2">
                         <Dialog>
                           <DialogTrigger asChild>
                             <Button
                               size="sm"
-                              variant="outline"
+                              variant=""
                               onClick={() => setSelectedStudent(student)}
+                              className="w-full sm:w-auto"
                             >
                               <Eye className="w-3 h-3 mr-1" />
                               Details
                             </Button>
                           </DialogTrigger>
-                          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto mx-4 w-[calc(100vw-2rem)] sm:w-full">
                             <DialogHeader>
-                              <DialogTitle className="flex items-center space-x-2">
+                              <DialogTitle className="flex items-center space-x-2 text-gray-900 dark:text-gray-100">
                                 <GraduationCap className="h-5 w-5" />
-                                <span>
-                                  {student.name} - Detailed Performance Report
+                                <span className="truncate">
+                                  {student.name} - Performance Report
                                 </span>
                               </DialogTitle>
-                              <DialogDescription>
+                              <DialogDescription className="text-gray-600 dark:text-gray-400">
                                 Comprehensive academic performance and progress
                                 analysis
                               </DialogDescription>
@@ -935,52 +978,52 @@ export default function StudentPerformancePage() {
                               <div className="space-y-6">
                                 {/* Student Overview */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                  <Card>
+                                  <Card className="bg-white dark:bg-gray-800/50">
                                     <CardHeader className="pb-2">
-                                      <CardTitle className="text-lg">
+                                      <CardTitle className="text-lg text-gray-900 dark:text-gray-100">
                                         Student Information
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-3">
-                                      <div className="flex items-center space-x-4">
+                                      <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4">
                                         <Avatar className="h-16 w-16">
                                           <AvatarImage
                                             src={selectedStudent.avatar}
                                           />
-                                          <AvatarFallback className="bg-blue-100 text-blue-600 text-xl">
+                                          <AvatarFallback className="bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 text-xl">
                                             {selectedStudent.name
                                               .split(" ")
                                               .map((n) => n[0])
                                               .join("")}
                                           </AvatarFallback>
                                         </Avatar>
-                                        <div>
-                                          <h3 className="text-xl font-semibold">
+                                        <div className="text-center sm:text-left">
+                                          <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
                                             {selectedStudent.name}
                                           </h3>
-                                          <p className="text-gray-600">
+                                          <p className="text-gray-600 dark:text-gray-400">
                                             {selectedStudent.rollNumber}
                                           </p>
-                                          <p className="text-gray-600">
+                                          <p className="text-gray-600 dark:text-gray-400">
                                             {selectedStudent.class} -{" "}
                                             {selectedStudent.section}
                                           </p>
                                         </div>
                                       </div>
                                       <div className="grid grid-cols-2 gap-4 pt-4">
-                                        <div className="text-center p-3 bg-blue-50 rounded-lg">
-                                          <div className="text-lg font-bold text-blue-600">
+                                        <div className="text-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                                          <div className="text-lg font-bold text-blue-600 dark:text-blue-400">
                                             #{selectedStudent.rank}
                                           </div>
-                                          <div className="text-sm text-gray-600">
+                                          <div className="text-sm text-gray-600 dark:text-gray-400">
                                             Current Rank
                                           </div>
                                         </div>
-                                        <div className="text-center p-3 bg-green-50 rounded-lg">
-                                          <div className="text-lg font-bold text-green-600">
+                                        <div className="text-center p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
+                                          <div className="text-lg font-bold text-green-600 dark:text-green-400">
                                             {selectedStudent.overallScore}%
                                           </div>
-                                          <div className="text-sm text-gray-600">
+                                          <div className="text-sm text-gray-600 dark:text-gray-400">
                                             Overall Score
                                           </div>
                                         </div>
@@ -988,51 +1031,51 @@ export default function StudentPerformancePage() {
                                     </CardContent>
                                   </Card>
 
-                                  <Card>
+                                  <Card className="bg-white dark:bg-gray-800/50">
                                     <CardHeader className="pb-2">
-                                      <CardTitle className="text-lg">
+                                      <CardTitle className="text-lg text-gray-900 dark:text-gray-100">
                                         Quick Stats
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-3">
                                       <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">
+                                        <span className="text-gray-600 dark:text-gray-400">
                                           Attendance:
                                         </span>
                                         <Badge
                                           variant="outline"
-                                          className="bg-green-50 text-green-700"
+                                          className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300"
                                         >
                                           {selectedStudent.attendance}%
                                         </Badge>
                                       </div>
                                       <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">
+                                        <span className="text-gray-600 dark:text-gray-400">
                                           Behavior:
                                         </span>
                                         <Badge
                                           variant="outline"
-                                          className="bg-blue-50 text-blue-700"
+                                          className="bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300"
                                         >
                                           {selectedStudent.behavior}
                                         </Badge>
                                       </div>
                                       <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">
+                                        <span className="text-gray-600 dark:text-gray-400">
                                           Badges Earned:
                                         </span>
                                         <Badge
                                           variant="outline"
-                                          className="bg-yellow-50 text-yellow-700"
+                                          className="bg-yellow-50 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-300"
                                         >
                                           {selectedStudent.badges}
                                         </Badge>
                                       </div>
                                       <div className="flex justify-between items-center">
-                                        <span className="text-gray-600">
+                                        <span className="text-gray-600 dark:text-gray-400">
                                           Last Parent Contact:
                                         </span>
-                                        <span className="text-sm">
+                                        <span className="text-sm text-gray-900 dark:text-gray-100">
                                           {new Date(
                                             selectedStudent.parentContact
                                           ).toLocaleDateString()}
@@ -1043,32 +1086,34 @@ export default function StudentPerformancePage() {
                                 </div>
 
                                 {/* Subject Performance */}
-                                <Card>
+                                <Card className="bg-white dark:bg-gray-800/50">
                                   <CardHeader>
-                                    <CardTitle className="flex items-center space-x-2">
+                                    <CardTitle className="flex items-center space-x-2 text-gray-900 dark:text-gray-100">
                                       <BookOpen className="h-5 w-5" />
                                       <span>Subject Performance</span>
                                     </CardTitle>
                                   </CardHeader>
                                   <CardContent>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                       {Object.entries(
                                         selectedStudent.subjects
                                       ).map(([subject, data]) => (
                                         <div
                                           key={subject}
-                                          className="p-4 border rounded-lg"
+                                          className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50"
                                         >
                                           <div className="flex items-center justify-between mb-2">
-                                            <h4 className="font-medium capitalize">
+                                            <h4 className="font-medium capitalize text-gray-900 dark:text-gray-100">
                                               {subject}
                                             </h4>
                                             {getTrendIcon(data.trend)}
                                           </div>
                                           <div className="space-y-2">
                                             <div className="flex justify-between text-sm">
-                                              <span>Current Score:</span>
-                                              <span className="font-medium">
+                                              <span className="text-gray-600 dark:text-gray-400">
+                                                Current Score:
+                                              </span>
+                                              <span className="font-medium text-gray-900 dark:text-gray-100">
                                                 {data.score}%
                                               </span>
                                             </div>
@@ -1076,7 +1121,7 @@ export default function StudentPerformancePage() {
                                               value={data.score}
                                               className="h-2"
                                             />
-                                            <div className="flex justify-between text-xs text-gray-600">
+                                            <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400">
                                               <span>
                                                 Previous: {data.previousScore}%
                                               </span>
@@ -1094,21 +1139,23 @@ export default function StudentPerformancePage() {
 
                                 {/* Strengths and Improvements */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                  <Card>
+                                  <Card className="bg-white dark:bg-gray-800/50">
                                     <CardHeader className="pb-2">
                                       <CardTitle className="text-lg flex items-center space-x-2">
-                                        <Sparkles className="h-5 w-5 text-green-500" />
-                                        <span>Strengths</span>
+                                        <Sparkles className="h-5 w-5 text-green-500 dark:text-green-400" />
+                                        <span className="text-gray-900 dark:text-gray-100">
+                                          Strengths
+                                        </span>
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                      <div className="space-y-2">
+                                      <div className="flex flex-wrap gap-2">
                                         {selectedStudent.strengths.map(
                                           (strength, index) => (
                                             <Badge
                                               key={index}
                                               variant="outline"
-                                              className="bg-green-50 text-green-700 border-green-200 mr-2 mb-2"
+                                              className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50"
                                             >
                                               {strength}
                                             </Badge>
@@ -1118,21 +1165,23 @@ export default function StudentPerformancePage() {
                                     </CardContent>
                                   </Card>
 
-                                  <Card>
+                                  <Card className="bg-white dark:bg-gray-800/50">
                                     <CardHeader className="pb-2">
                                       <CardTitle className="text-lg flex items-center space-x-2">
-                                        <Target className="h-5 w-5 text-blue-500" />
-                                        <span>Areas for Improvement</span>
+                                        <Target className="h-5 w-5 text-blue-500 dark:text-blue-400" />
+                                        <span className="text-gray-900 dark:text-gray-100">
+                                          Areas for Improvement
+                                        </span>
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                      <div className="space-y-2">
+                                      <div className="flex flex-wrap gap-2">
                                         {selectedStudent.improvements.map(
                                           (improvement, index) => (
                                             <Badge
                                               key={index}
                                               variant="outline"
-                                              className="bg-blue-50 text-blue-700 border-blue-200 mr-2 mb-2"
+                                              className="bg-blue-50 dark:bg-blue-950/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800/50"
                                             >
                                               {improvement}
                                             </Badge>
@@ -1145,11 +1194,13 @@ export default function StudentPerformancePage() {
 
                                 {/* Recent Activities and Goals */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                  <Card>
+                                  <Card className="bg-white dark:bg-gray-800/50">
                                     <CardHeader className="pb-2">
                                       <CardTitle className="text-lg flex items-center space-x-2">
-                                        <Activity className="h-5 w-5 text-purple-500" />
-                                        <span>Recent Activities</span>
+                                        <Activity className="h-5 w-5 text-purple-500 dark:text-purple-400" />
+                                        <span className="text-gray-900 dark:text-gray-100">
+                                          Recent Activities
+                                        </span>
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent>
@@ -1160,8 +1211,8 @@ export default function StudentPerformancePage() {
                                               key={index}
                                               className="flex items-start space-x-2"
                                             >
-                                              <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                                              <span className="text-sm">
+                                              <CheckCircle className="h-4 w-4 text-green-500 dark:text-green-400 mt-0.5 flex-shrink-0" />
+                                              <span className="text-sm text-gray-700 dark:text-gray-300">
                                                 {activity}
                                               </span>
                                             </div>
@@ -1171,11 +1222,13 @@ export default function StudentPerformancePage() {
                                     </CardContent>
                                   </Card>
 
-                                  <Card>
+                                  <Card className="bg-white dark:bg-gray-800/50">
                                     <CardHeader className="pb-2">
                                       <CardTitle className="text-lg flex items-center space-x-2">
-                                        <Lightbulb className="h-5 w-5 text-orange-500" />
-                                        <span>Goals</span>
+                                        <Lightbulb className="h-5 w-5 text-orange-500 dark:text-orange-400" />
+                                        <span className="text-gray-900 dark:text-gray-100">
+                                          Goals
+                                        </span>
                                       </CardTitle>
                                     </CardHeader>
                                     <CardContent>
@@ -1186,8 +1239,8 @@ export default function StudentPerformancePage() {
                                               key={index}
                                               className="flex items-start space-x-2"
                                             >
-                                              <Target className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
-                                              <span className="text-sm">
+                                              <Target className="h-4 w-4 text-blue-500 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                                              <span className="text-sm text-gray-700 dark:text-gray-300">
                                                 {goal}
                                               </span>
                                             </div>
@@ -1199,15 +1252,17 @@ export default function StudentPerformancePage() {
                                 </div>
 
                                 {/* Teacher Notes */}
-                                <Card>
+                                <Card className="bg-white dark:bg-gray-800/50">
                                   <CardHeader className="pb-2">
                                     <CardTitle className="text-lg flex items-center space-x-2">
-                                      <FileText className="h-5 w-5 text-gray-500" />
-                                      <span>Teacher Notes</span>
+                                      <FileText className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                                      <span className="text-gray-900 dark:text-gray-100">
+                                        Teacher Notes
+                                      </span>
                                     </CardTitle>
                                   </CardHeader>
                                   <CardContent>
-                                    <p className="text-gray-700 bg-gray-50 p-4 rounded-lg">
+                                    <p className="text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800/50 p-4 rounded-lg">
                                       {selectedStudent.teacherNotes}
                                     </p>
                                   </CardContent>
@@ -1217,15 +1272,62 @@ export default function StudentPerformancePage() {
                           </DialogContent>
                         </Dialog>
 
-                        <Button size="sm" variant="outline">
-                          <MessageSquare className="w-3 h-3 mr-1" />
-                          Message
-                        </Button>
+                        <div className="grid grid-cols-2 sm:flex sm:space-x-2 gap-2 sm:gap-0">
+                          <Button
+                            size="sm"
+                            variant="neutral"
+                            className="text-xs"
+                          >
+                            <MessageSquare className="w-3 h-3 mr-1" />
+                            <span className="hidden sm:inline">Message</span>
+                            <span className="sm:hidden">Msg</span>
+                          </Button>
 
-                        <Button size="sm" variant="outline">
-                          <Mail className="w-3 h-3 mr-1" />
-                          Parent
-                        </Button>
+                          <Button
+                            size="sm"
+                            variant="neutral"
+                            className="text-xs"
+                          >
+                            <Mail className="w-3 h-3 mr-1" />
+                            <span className="hidden sm:inline">Parent</span>
+                            <span className="sm:hidden">Parent</span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Mobile Performance Indicator */}
+                    <div className="mt-4 lg:hidden">
+                      <div className="space-y-2">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-gray-600 dark:text-gray-400">
+                            Overall Performance
+                          </span>
+                          <span className="font-medium text-gray-900 dark:text-gray-100">
+                            {getPerformanceLabel(student.overallScore)}
+                          </span>
+                        </div>
+                        <Progress
+                          value={student.overallScore}
+                          className="h-2"
+                        />
+                        <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                          <span>Previous: {student.previousScore}%</span>
+                          <span
+                            className={`flex items-center ${
+                              student.overallScore > student.previousScore
+                                ? "text-green-600 dark:text-green-400"
+                                : student.overallScore < student.previousScore
+                                ? "text-red-600 dark:text-red-400"
+                                : "text-gray-600 dark:text-gray-400"
+                            }`}
+                          >
+                            {student.overallScore > student.previousScore
+                              ? "+"
+                              : ""}
+                            {student.overallScore - student.previousScore}%
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </CardContent>
