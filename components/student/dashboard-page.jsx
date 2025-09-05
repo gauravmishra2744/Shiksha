@@ -22,6 +22,7 @@ import {
   Crown,
   Medal,
 } from "lucide-react";
+import Link from "next/link";
 
 // Dummy data for student dashboard
 const studentData = {
@@ -209,13 +210,15 @@ const StudentDashboardPage = () => {
                   </div>
                 </div>
               </div>
-              <Button
-                className="w-full text-sm sm:text-base lg:text-lg py-4 sm:py-6"
-                size="lg"
-              >
-                Enter Classroom
-                <ChevronRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
-              </Button>
+              <Link href={"/student/classrooms/class-id"}>
+                <Button
+                  className="w-full text-sm sm:text-base lg:text-lg py-4 sm:py-6 cursor-pointer"
+                  size="lg"
+                >
+                  Enter Classroom
+                  <ChevronRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
+                </Button>
+              </Link>
             </CardContent>
           </Card>
 

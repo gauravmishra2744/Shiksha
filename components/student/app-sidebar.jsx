@@ -173,15 +173,15 @@ const data = {
       items: [
         {
           title: "Play Quizzes",
-          url: "/student/game/quiz",
+          url: "/student/games/quiz",
         },
         {
           title: "Flashcards",
-          url: "/student/game/flashcards",
+          url: "/student/games/flashcards",
         },
         {
           title: "Compete",
-          url: "/student/game/compete",
+          url: "/student/games/compete",
         },
       ],
     },
@@ -246,7 +246,7 @@ export function AppSidebar({ ...props }) {
       </SidebarHeader>
       <SidebarContent className={""}>
         <SidebarGroup className={"border-b-0"}>
-          <SidebarMenu >
+          <SidebarMenu>
             {data.navMain.map((item) => (
               <Collapsible
                 key={item.title}
@@ -328,8 +328,6 @@ export function AppSidebar({ ...props }) {
             ))}
           </SidebarMenu>
         </SidebarGroup>
-
-
 
         <SidebarGroup className="group-data-[collapsible=icon]:hidden hidden">
           <SidebarGroupLabel>games</SidebarGroupLabel>
@@ -431,19 +429,21 @@ export function AppSidebar({ ...props }) {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
-                  <DropdownMenuItem>
-                    <UserRoundPenIcon />
-                    Manage Profile
-                  </DropdownMenuItem>
+                  <Link href={"/student/profile"} className="inline-flex gap-2 w-full">
+                    <DropdownMenuItem className={"w-full"}>
+                      <UserRoundPenIcon />
+                      Manage Profile
+                    </DropdownMenuItem>
+                  </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuGroup>
-              
-                  <DropdownMenuItem>
-                    <HomeIcon />
-                    Homepage
-                  </DropdownMenuItem>
-                 
+                 <DropdownMenuGroup>
+                  <Link href={"/"} className="inline-flex gap-2 w-full">
+                    <DropdownMenuItem className={"w-full"}>
+                      <HomeIcon />
+                      Homepage
+                    </DropdownMenuItem>
+                  </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
