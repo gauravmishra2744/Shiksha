@@ -26,7 +26,7 @@ import Link from "next/link";
 
 // Dummy data for student dashboard
 const studentData = {
-  name: "Alex Johnson",
+  name: "Gaurav",
   grade: "10th Grade",
   avatar: "https://github.com/shadcn.png",
   streak: 15,
@@ -36,7 +36,7 @@ const studentData = {
   nextLevelXP: 2800,
   classroom: {
     name: "Science Champions",
-    teacher: "Mrs. Smith",
+    teacher: "Mrs. Pooja Kumari",
     students: 28,
     nextClass: "Tomorrow, 9:00 AM",
     subject: "Biology",
@@ -50,11 +50,18 @@ const studentData = {
     { name: "Quick Learner", icon: "⚡", earned: false, date: null },
   ],
   leaderboard: [
-    { name: "Emma Wilson", xp: 2680, position: 1, avatar: "EW" },
-    { name: "You", xp: 2450, position: 2, avatar: "AJ", isCurrentUser: true },
-    { name: "Mike Chen", xp: 2340, position: 3, avatar: "MC" },
-    { name: "Sarah Davis", xp: 2210, position: 4, avatar: "SD" },
-    { name: "Tom Brown", xp: 2180, position: 5, avatar: "TB" },
+    { name: "Anshika", xp: 2680, position: 1, avatar: "AC" },
+    {
+      name: "Shruti",
+      xp: 2450,
+      position: 2,
+      avatar: "Sk",
+      isCurrentUser: true,
+    },
+    { name: "You", xp: 2340, position: 3, avatar: "GC" },
+    { name: "Akanksha", xp: 2210, position: 4, avatar: "SD" },
+    { name: "Anmol", xp: 2180, position: 5, avatar: "AB" },
+    { name: "Prakash", xp: 2000, position: 6, avatar: "PK" },
   ],
   weeklyProgress: [
     { day: "Mon", completed: true },
@@ -334,15 +341,7 @@ const StudentDashboardPage = () => {
                   >
                     <div className="flex items-center space-x-3 sm:space-x-4 w-full">
                       <div className="flex items-center space-x-2 flex-shrink-0">
-                        {student.position === 1 && (
-                          <Crown className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-yellow-500" />
-                        )}
-                        {student.position === 2 && (
-                          <Medal className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-gray-400" />
-                        )}
-                        {student.position === 3 && (
-                          <Medal className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500" />
-                        )}
+                        
                         <span className="font-bold text-sm sm:text-base lg:text-lg">
                           #{student.position}
                         </span>
