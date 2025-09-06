@@ -898,19 +898,19 @@ const SingleSubjectDataPage = ({ subjectParam }) => {
 
                 {/* Quick Actions */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <Button variant="outline" size="sm">
+                  <Button variant="" size="sm">
                     <Bookmark className="mr-2 h-4 w-4" />
                     Bookmark
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button variant="neutral" size="sm">
                     <Download className="mr-2 h-4 w-4" />
                     Download
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button variant="" size="sm">
                     <HelpCircle className="mr-2 h-4 w-4" />
                     Get Help
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button variant="neutral" size="sm">
                     <CheckCircle className="mr-2 h-4 w-4" />
                     Complete
                   </Button>
@@ -1032,7 +1032,7 @@ const SingleSubjectDataPage = ({ subjectParam }) => {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button
-                    variant="outline"
+                    variant=""
                     className="w-full justify-start"
                     onClick={() => setShowChatbot(true)}
                   >
@@ -1043,17 +1043,17 @@ const SingleSubjectDataPage = ({ subjectParam }) => {
                 <ChatbotModal />
               </Dialog>
 
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="neutral" className="w-full justify-start">
                 <PlayCircle className="mr-2 h-4 w-4" />
                 Practice Quiz
               </Button>
 
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="" className="w-full justify-start">
                 <Star className="mr-2 h-4 w-4" />
                 Earn Badges
               </Button>
 
-              <Button variant="outline" className="w-full justify-start">
+              <Button variant="neutral" className="w-full justify-start">
                 <FileText className="mr-2 h-4 w-4" />
                 Study Notes
               </Button>

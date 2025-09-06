@@ -784,7 +784,7 @@ const CompeteGamePage = () => {
                                 </Button>
                               )}
                               {competition.status === "in-progress" && (
-                                <Button size="sm" variant="outline">
+                                <Button size="sm" variant="neutral">
                                   <Eye className="mr-2 h-4 w-4" />
                                   Spectate
                                 </Button>
