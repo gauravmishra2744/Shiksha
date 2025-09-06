@@ -399,7 +399,7 @@ const QuizGamePageContent = () => {
                   </Button>
                   <Button
                     size="lg"
-                    variant="outline"
+                    variant="neutral"
                     onClick={() => setShowTeamDialog(true)}
                     className="w-full"
                   >
@@ -414,7 +414,7 @@ const QuizGamePageContent = () => {
                 <div className="flex items-center justify-between">
                   <h3 className="font-semibold">Recent Games</h3>
                   <Button
-                    variant="ghost"
+                    variant=""
                     size="sm"
                     onClick={() => setShowHistoryDialog(true)}
                   >
@@ -523,7 +523,7 @@ const QuizGamePageContent = () => {
               ))}
 
               <Button
-                variant="outline"
+                variant="neutral"
                 size="sm"
                 className="w-full"
                 onClick={() => setShowTeamDialog(true)}

@@ -175,6 +175,26 @@ const data = {
           url: "/student/games/quiz",
         },
         {
+          title: "Lab Simulator",
+          url: "/student/games/lab-simulator",
+        },
+        {
+          title: "Logic Puzzle",
+          url: "/student/games/logic-puzzle",
+        },
+        {
+          title: "Math Puzzle",
+          url: "/student/games/math-puzzle",
+        },
+        {
+          title: "Memory Match",
+          url: "/student/games/memory-match",
+        },
+        {
+          title: "Word Building",
+          url: "/student/games/word-building",
+        },
+                {
           title: "Flashcards",
           url: "/student/games/flashcards",
         },
