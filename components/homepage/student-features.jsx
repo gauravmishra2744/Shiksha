@@ -91,7 +91,7 @@ const StudentFeaturesComponents = () => {
           transition={{ duration: 0.8 }}
         >
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
-            Elevating {" "}
+            Elevating{" "}
             <span className="bg-main/80 rounded-md px-3 py-0 leading-snug">
               Learners
             </span>
@@ -120,14 +120,15 @@ const StudentFeaturesComponents = () => {
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.1),transparent)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent)]" />
                   </div>
                   {/* You can uncomment this when you have actual images */}
-                  
+
                   <Image
                     src={feature.image}
                     alt={feature.title}
                     fill
                     className="object-fill"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority
                   />
-                 
                 </div>
 
                 {/* Feature Content */}
