@@ -317,10 +317,12 @@ export function AppSidebar(props) {
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <HomeIcon />
-                  Homepage
-                </DropdownMenuItem>
+                <Link href={"/"} className="inline-flex gap-2 w-full">
+                  <DropdownMenuItem className={"w-full"}>
+                    <HomeIcon />
+                    Homepage
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LogOut />
