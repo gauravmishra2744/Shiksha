@@ -13,6 +13,7 @@ import {
   CheckSquare,
   HomeIcon,
   UserPen,
+  School,
 } from "lucide-react";
 
 import * as React from "react";
@@ -323,6 +324,12 @@ export function AppSidebar(props) {
                     Homepage
                   </DropdownMenuItem>
                 </Link>
+                 <Link href={"/student/dashboard"} className="inline-flex gap-2 w-full">
+                    <DropdownMenuItem className={"w-full"}>
+                      <School />
+                      Student
+                    </DropdownMenuItem>
+                  </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LogOut />
