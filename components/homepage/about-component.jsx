@@ -30,7 +30,7 @@ const AboutComponent = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold mb-3">
             Why Choose{" "}
             <span className="bg-main/80 rounded-md px-3 py-0 leading-snug">
-              Adecimate
+              Acedimate
             </span>
           </h1>
           <p className="text-muted-foreground tracking-wide text-sm sm:text-base max-w-lg sm:max-w-xl leading-snug">

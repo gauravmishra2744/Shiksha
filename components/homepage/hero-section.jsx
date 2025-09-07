@@ -111,7 +111,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 1.4 }}
           >
             <Button asChild size="lg" className="text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 w-full sm:w-auto">
-              <Link href="/student/dashboard">Get Started Free</Link>
+              <Link href="/student/dashboard" target="_blank">Get Started Free</Link>
             </Button>
             <Button
               asChild
@@ -119,7 +119,8 @@ const HeroSection = () => {
               size="lg"
               className="text-sm sm:text-base lg:text-lg px-6 sm:px-8 py-4 sm:py-6 bg-white text-black w-full sm:w-auto"
             >
-              <Link href="/">Watch Demo</Link>
+              {/* <Link href="/">Watch Demo</Link> */}
+              <Link href="/teacher/dashboard" target="_blank">Teacher Dashboard</Link>
             </Button>
           </motion.div>
         </div>

@@ -17,6 +17,7 @@ import {
   Frame,
   GalleryVerticalEnd,
   Gamepad,
+  GpuIcon,
   Home,
   HomeIcon,
   LogOut,
@@ -529,6 +530,12 @@ export function AppSidebar({ ...props }) {
                     <DropdownMenuItem className={"w-full"}>
                       <HomeIcon />
                       Homepage
+                    </DropdownMenuItem>
+                  </Link>
+                   <Link href={"/teacher/dashboard"} className="inline-flex gap-2 w-full">
+                    <DropdownMenuItem className={"w-full"}>
+                      <GpuIcon />
+                      Teacher
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
