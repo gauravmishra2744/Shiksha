@@ -1,0 +1,123 @@
+{
+  "common": {
+    "dashboard": "Tablero",
+    "courses": "Cursos",
+    "study": "Estudiar",
+    "notebook": "Cuaderno",
+    "productivity": "Productividad",
+    "games": "Juegos",
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión",
+    "home": "Inicio",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches"
+    },
+    "ready": "¿Listo para continuar tu viaje de aprendizaje hoy?",
+    "dayStreak": "Racha de días",
+    "coins": "Monedas",
+    "totalXP": "XP Total",
+    "level": "Nivel",
+    "yourClassroom": "Tu aula",
+    "enterClassroom": "Entrar al aula",
+    "thisWeekProgress": "Progreso de esta semana",
+    "achievementBadges": "Insignias de logros",
+    "classLeaderboard": "Tabla de clasificación",
+    "nextClass": "Próxima clase",
+    "teacher": "Profesor",
+    "students": "estudiantes",
+    "earned": "Ganado",
+    "notEarnedYet": "Aún no ganado",
+    "daysCompleted": "días completados esta semana"
+  },
+  "courses": {
+    "myCourses": "Mis cursos",
+    "enrolledCourses": "Cursos inscritos",
+    "completed": "Completado",
+    "avgProgress": "Progreso promedio",
+    "searchCourses": "Buscar cursos...",
+    "continueLearning": "Continuar aprendiendo",
+    "viewCourse": "Ver curso",
+    "enrolled": "Inscrito",
+    "duration": "Duración",
+    "lessons": "lecciones",
+    "totalContent": "Contenido total",
+    "reviews": "Reseñas",
+    "students": "Estudiantes",
+    "progress": "Progreso",
+    "noCoursesFound": "No se encontraron cursos",
+    "adjustSearch": "Intenta ajustar tus criterios de búsqueda o navega por todos los cursos disponibles.",
+    "aboutThisCourse": "Acerca de este curso",
+    "whatYouLearn": "Lo que aprenderás",
+    "curriculum": "Plan de estudios",
+    "instructor": "Instructor",
+    "overview": "Resumen",
+    "yourProgress": "Tu progreso",
+    "complete": "Completo",
+    "downloadMaterials": "Descargar materiales",
+    "enrollNow": "Inscribirse ahora",
+    "yearsExperience": "Años de experiencia",
+    "backToCourse": "Volver al curso",
+    "lessonsCompleted": "lecciones completadas",
+    "markAsComplete": "Marcar como completo",
+    "completed": "Completado",
+    "nextLesson": "Siguiente lección",
+    "courseContent": "Contenido del curso",
+    "start": "Comenzar"
+  },
+  "subjects": {
+    "mathematics": "Matemáticas",
+    "physics": "Física",
+    "chemistry": "Química",
+    "biology": "Biología",
+    "computerScience": "Ciencias de la computación",
+    "english": "Inglés",
+    "subjects": "Materias",
+    "askYourDoubts": "Pregunta tus dudas"
+  },
+  "notebook": {
+    "makeNotes": "Hacer notas",
+    "flashcards": "Tarjetas de memoria",
+    "viewNotes": "Ver notas"
+  },
+  "productivity": {
+    "todoList": "Lista de tareas",
+    "pomodoro": "Pomodoro"
+  },
+  "games": {
+    "playQuizzes": "Jugar cuestionarios",
+    "labSimulator": "Simulador de laboratorio",
+    "logicPuzzle": "Rompecabezas lógico",
+    "mathPuzzle": "Rompecabezas matemático",
+    "memoryMatch": "Juego de memoria",
+    "wordBuilding": "Construcción de palabras",
+    "compete": "Competir"
+  },
+  "classrooms": {
+    "classrooms": "Aulas",
+    "badges": "Insignias"
+  },
+  "user": {
+    "manageProfile": "Gestionar perfil",
+    "homepage": "Página de inicio",
+    "teacher": "Profesor",
+    "student": "Estudiante"
+  }
+}

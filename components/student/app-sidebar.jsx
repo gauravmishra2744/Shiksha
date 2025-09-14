@@ -39,6 +39,8 @@ import {
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useTranslation } from "@/lib/i18n";
+import { LanguageSwitcher } from "@/components/language-switcher";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -76,159 +78,155 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "Student",
-    email: "student@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acedimate",
-      logo: User2,
-      plan: "Student Portal",
-    },
-  ],
-  navMain: [
-    {
-      title: "Dashboard",
-      icon: Home,
-      items: [
-        {
-          title: "Home",
-          url: "/student/dashboard",
-        },
-        {
-          title: "Classrooms",
-          url: "/student/classrooms",
-        },
-        {
-          title: "Badges",
-          url: "/student/badges",
-        },
-      ],
-    },
-    {
-      title: "Study",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Subjects",
-          url: "/student/subjects",
-          hasDropdown: true,
-          subjects: [
-            { name: "Mathematics", url: "/student/subjects/mathematics" },
-            { name: "Physics", url: "/student/subjects/physics" },
-            { name: "Chemistry", url: "/student/subjects/chemistry" },
-            { name: "Biology", url: "/student/subjects/biology" },
-            {
-              name: "Computer Science",
-              url: "/student/subjects/computer-science",
-            },
-            { name: "English", url: "/student/subjects/english" },
-          ],
-        },
-        {
-          title: "Ask your doubts",
-          url: "/student/doubts",
-        },
-      ],
-    },
-    {
-      title: "Notebook",
-      icon: Notebook,
-      items: [
-        {
-          title: "Make Notes",
-          url: "/student/notebook/make-notes",
-        },
-        {
-          title: "Flashcards",
-          url: "/student/notebook/flashcard",
-        },
-        {
-          title: "View Notes",
-          url: "/student/notebook/view-notes",
-        },
-      ],
-    },
-    {
-      title: "Productivity",
-      icon: Target,
-      items: [
-        {
-          title: "To-Do List",
-          url: "/student/productivity/to-do",
-        },
-        {
-          title: "Pomodoro",
-          url: "/student/productivity/pomodoro",
-        },
-      ],
-    },
-    {
-      title: "Games",
-      icon: Gamepad,
-      items: [
-        {
-          title: "Play Quizzes",
-          url: "/student/games/quiz",
-        },
-        {
-          title: "Lab Simulator",
-          url: "/student/games/lab-simulator",
-        },
-        {
-          title: "Logic Puzzle",
-          url: "/student/games/logic-puzzle",
-        },
-        {
-          title: "Math Puzzle",
-          url: "/student/games/math-puzzle",
-        },
-        {
-          title: "Memory Match",
-          url: "/student/games/memory-match",
-        },
-        {
-          title: "Word Building",
-          url: "/student/games/word-building",
-        },
-                {
-          title: "Flashcards",
-          url: "/student/games/flashcards",
-        },
-        {
-          title: "Compete",
-          url: "/student/games/compete",
-        },
-      ],
-    },
-  ],
-  games: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
-
 export function AppSidebar({ ...props }) {
   const { isMobile } = useSidebar();
-  const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
+  const { t } = useTranslation();
   const pathname = usePathname();
+
+  // Dynamic data with translations
+  const data = {
+    user: {
+      name: t('user.student'),
+      email: "student@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    teams: [
+      {
+        name: "Acedimate",
+        logo: User2,
+        plan: t('user.student') + " Portal",
+      },
+    ],
+    navMain: [
+      {
+        title: t('common.dashboard'),
+        icon: Home,
+        items: [
+          {
+            title: t('common.home'),
+            url: "/student/dashboard",
+          },
+          {
+            title: t('classrooms.classrooms'),
+            url: "/student/classrooms",
+          },
+          {
+            title: t('classrooms.badges'),
+            url: "/student/badges",
+          },
+        ],
+      },
+      {
+        title: t('common.courses'),
+        icon: BookOpen,
+        items: [
+          {
+            title: t('courses.myCourses'),
+            url: "/student/courses",
+          },
+        ],
+      },
+      {
+        title: t('common.study'),
+        icon: Book,
+        items: [
+          {
+            title: t('subjects.subjects'),
+            url: "/student/subjects",
+            hasDropdown: true,
+            subjects: [
+              { name: t('subjects.mathematics'), url: "/student/subjects/mathematics" },
+              { name: t('subjects.physics'), url: "/student/subjects/physics" },
+              { name: t('subjects.chemistry'), url: "/student/subjects/chemistry" },
+              { name: t('subjects.biology'), url: "/student/subjects/biology" },
+              {
+                name: t('subjects.computerScience'),
+                url: "/student/subjects/computer-science",
+              },
+              { name: t('subjects.english'), url: "/student/subjects/english" },
+            ],
+          },
+          {
+            title: t('subjects.askYourDoubts'),
+            url: "/student/doubts",
+          },
+        ],
+      },
+      {
+        title: t('common.notebook'),
+        icon: Notebook,
+        items: [
+          {
+            title: t('notebook.makeNotes'),
+            url: "/student/notebook/make-notes",
+          },
+          {
+            title: t('notebook.flashcards'),
+            url: "/student/notebook/flashcard",
+          },
+          {
+            title: t('notebook.viewNotes'),
+            url: "/student/notebook/view-notes",
+          },
+        ],
+      },
+      {
+        title: t('common.productivity'),
+        icon: Target,
+        items: [
+          {
+            title: t('productivity.todoList'),
+            url: "/student/productivity/to-do",
+          },
+          {
+            title: t('productivity.pomodoro'),
+            url: "/student/productivity/pomodoro",
+          },
+        ],
+      },
+      {
+        title: t('common.games'),
+        icon: Gamepad,
+        items: [
+          {
+            title: t('games.playQuizzes'),
+            url: "/student/games/quiz",
+          },
+          {
+            title: t('games.labSimulator'),
+            url: "/student/games/lab-simulator",
+          },
+          {
+            title: t('games.logicPuzzle'),
+            url: "/student/games/logic-puzzle",
+          },
+          {
+            title: t('games.mathPuzzle'),
+            url: "/student/games/math-puzzle",
+          },
+          {
+            title: t('games.memoryMatch'),
+            url: "/student/games/memory-match",
+          },
+          {
+            title: t('games.wordBuilding'),
+            url: "/student/games/word-building",
+          },
+          {
+            title: t('notebook.flashcards'),
+            url: "/student/games/flashcards",
+          },
+          {
+            title: t('games.compete'),
+            url: "/student/games/compete",
+          },
+         
+        ],
+      },
+    ],
+  };
+
+  const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
 
   // State to track which sections are open
   const [openSections, setOpenSections] = React.useState({});
@@ -414,56 +412,12 @@ export function AppSidebar({ ...props }) {
           </SidebarMenu>
         </SidebarGroup>
 
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden hidden">
-          <SidebarGroupLabel>games</SidebarGroupLabel>
-          <SidebarMenu>
-            {data.games.map((item) => (
-              <SidebarMenuItem key={item.name}>
-                <SidebarMenuButton asChild>
-                  <Link href={item.url}>
-                    <item.icon />
-                    <span>{item.name}</span>
-                  </Link>
-                </SidebarMenuButton>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <SidebarMenuAction>
-                      <MoreHorizontal className="group-hover/menu-item:text-main-foreground" />
-                      <span className="sr-only">More</span>
-                    </SidebarMenuAction>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    className="w-48"
-                    side={isMobile ? "bottom" : "right"}
-                    align={isMobile ? "end" : "start"}
-                  >
-                    <DropdownMenuItem>
-                      <Folder />
-                      <span>View Project</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Forward />
-                      <span>Share Project</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <Trash2 />
-                      <span>Delete Project</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </SidebarMenuItem>
-            ))}
-            <SidebarMenuItem>
-              <SidebarMenuButton>
-                <MoreHorizontal />
-                <span>More</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
+
       </SidebarContent>
       <SidebarFooter>
+        <div className="p-2">
+          <LanguageSwitcher />
+        </div>
         <SidebarMenu>
           <SidebarMenuItem>
             <DropdownMenu>
@@ -520,7 +474,7 @@ export function AppSidebar({ ...props }) {
                   >
                     <DropdownMenuItem className={"w-full"}>
                       <UserPen />
-                      Manage Profile
+                      {t('user.manageProfile')}
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
@@ -529,20 +483,20 @@ export function AppSidebar({ ...props }) {
                   <Link href={"/"} className="inline-flex gap-2 w-full">
                     <DropdownMenuItem className={"w-full"}>
                       <HomeIcon />
-                      Homepage
+                      {t('user.homepage')}
                     </DropdownMenuItem>
                   </Link>
                    <Link href={"/teacher/dashboard"} className="inline-flex gap-2 w-full">
                     <DropdownMenuItem className={"w-full"}>
                       <GpuIcon />
-                      Teacher
+                      {t('user.teacher')}
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LogOut />
-                  Log out
+                  {t('common.logout')}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import ClassroomActivation from "@/components/teacher/classroom-activation";
 import {
   Table,
   TableBody,
@@ -376,21 +377,21 @@ const TeacherDashboardPage = () => {
               </Button>
             </Link>
             <Link href="/teacher/content/add" className="w-full">
-              <Button className="w-full text-sm" variant=""  size={"sm"}>
+              <Button className="w-full text-sm" variant="" size={"sm"}>
                 <BookOpen className="h-4 w-4" />
                 <span className="hidden sm:inline">Add Content</span>
                 <span className="sm:hidden">Content</span>
               </Button>
             </Link>
             <Link href="/teacher/students/attendance" className="w-full">
-              <Button className="w-full  text-sm" variant=""  size={"sm"}>
+              <Button className="w-full  text-sm" variant="" size={"sm"}>
                 <CheckSquare className="h-4 w-4" />
                 <span className="hidden sm:inline">Take Attendance</span>
                 <span className="sm:hidden">Attendance</span>
               </Button>
             </Link>
             <Link href="/teacher/content/notice" className="w-full">
-              <Button className="w-full  text-sm" variant=""  size={"sm"}>
+              <Button className="w-full  text-sm" variant="" size={"sm"}>
                 <Megaphone className=" h-4 w-4" />
                 <span className="hidden sm:inline">Add Notice</span>
                 <span className="sm:hidden">Notice</span>
@@ -484,9 +485,19 @@ const TeacherDashboardPage = () => {
                                 {classroom.nextClass}
                               </TableCell>
                               <TableCell>
-                                <Badge className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50">
-                                  {classroom.status}
-                                </Badge>
+                                <ClassroomActivation
+                                  classroom={{
+                                    ...classroom,
+                                    isActive: classroom.status === "Active",
+                                  }}
+                                  onUpdate={(updatedClassroom) => {
+                                    // Update classroom in state
+                                    console.log(
+                                      "Classroom updated:",
+                                      updatedClassroom
+                                    );
+                                  }}
+                                />
                               </TableCell>
                               <TableCell>
                                 <div className="flex space-x-1">
@@ -573,11 +584,7 @@ const TeacherDashboardPage = () => {
                   onOpenChange={setShowActivityModal}
                 >
                   <DialogTrigger asChild>
-                    <Button
-                      size="sm"
-                      variant=""
-                      className="w-full sm:w-auto"
-                    >
+                    <Button size="sm" variant="" className="w-full sm:w-auto">
                       <Eye className="mr-2 h-4 w-4" />
                       View All
                     </Button>
@@ -665,11 +672,7 @@ const TeacherDashboardPage = () => {
                   onOpenChange={setShowDoubtsModal}
                 >
                   <DialogTrigger asChild>
-                    <Button
-                      size="sm"
-                      variant=""
-                      className="w-full sm:w-auto"
-                    >
+                    <Button size="sm" variant="" className="w-full sm:w-auto">
                       <Eye className="mr-2 h-4 w-4" />
                       View All
                     </Button>
