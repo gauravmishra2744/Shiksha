@@ -56,7 +56,7 @@ import Link from "next/link";
 
 // Dummy data for teacher dashboard
 const teacherData = {
-  name: "Ms. Priya Sharma",
+  name: "Ms. Shruti Kumari",
   subject: "Mathematics",
   avatar: "/avatars/teacher.jpg",
   totalClasses: 5,
