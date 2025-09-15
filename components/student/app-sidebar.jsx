@@ -18,6 +18,8 @@ import {
   GalleryVerticalEnd,
   Gamepad,
   GpuIcon,
+  HandHelping,
+  HelpCircle,
   Home,
   HomeIcon,
   LogOut,
@@ -29,6 +31,7 @@ import {
   Settings2,
   Sparkles,
   SquareTerminal,
+  SwatchBook,
   Target,
   Trash2,
   User2,
@@ -181,6 +184,30 @@ export function AppSidebar({ ...props }) {
           {
             title: t('productivity.pomodoro'),
             url: "/student/productivity/pomodoro",
+          },
+        ],
+      },
+      {
+        title: t('Counselling'),
+        icon: HandHelping,
+        items: [
+          {
+            title: t('Stream selection'),
+            url: "/student/counselling/stream-selection",
+          },
+          {
+            title: t('Subjects Guide'),
+            url: "/student/counselling/subjects-guide",
+          },
+        ],
+      },
+      {
+        title: t('Schemes'),
+        icon: SwatchBook,
+        items: [
+          {
+            title: t('Scheme Finder'),
+            url: "/student/schemes/scheme-finder",
           },
         ],
       },
