@@ -1,7 +1,7 @@
 
 import { AppSidebar } from "@/components/student/app-sidebar";
 import DynamicBreadcrumb from "@/components/student/breadcrumb";
-import CoursesPage from "@/components/student/courses-page-i18n";
+import CoursesPage from "@/components/student/i18n/courses-page-i18n";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Page() {
