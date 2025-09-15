@@ -206,29 +206,29 @@ export function AppSidebar({ ...props }) {
         ],
       },
       {
-        title: t("counselling.counselling"),
+        title: t("Counselling"),
         icon: HandHelping,
         requiresOnline: true,
         items: [
           {
-            title: t("counselling.streamSelection"),
+            title: t("Stream Selection"),
             url: "/student/counselling/stream-selection",
             requiresOnline: true,
           },
           {
-            title: t("counselling.subjectsGuide"),
+            title: t("Subjects Guide"),
             url: "/student/counselling/subjects-guide",
             requiresOnline: true,
           },
         ],
       },
       {
-        title: t("schemes.schemes"),
+        title: t("Schemes"),
         icon: SwatchBook,
         requiresOnline: true,
         items: [
           {
-            title: t("schemes.schemeFinder"),
+            title: t("Scheme Finder"),
             url: "/student/schemes/scheme-finder",
             requiresOnline: true,
           },
