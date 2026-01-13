@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/student/app-sidebar";
 import DynamicBreadcrumb from "@/components/student/breadcrumb";
-import QuizGamePageContent from "@/components/student/quiz-game-page";
+import QuizGamePageContentI18n from "@/components/student/quiz-game-page-i18n";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
       <SidebarInset>
         <DynamicBreadcrumb />
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <QuizGamePageContent />
+          <QuizGamePageContentI18n />
         </div>
       </SidebarInset>
     </SidebarProvider>

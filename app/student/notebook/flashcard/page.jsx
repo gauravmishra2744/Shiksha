@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/student/app-sidebar";
 import DynamicBreadcrumb from "@/components/student/breadcrumb";
-import FlashcardsPageContent from "@/components/student/flashcards-page";
+import FlashcardsPageContentI18n from "@/components/student/flashcards-page-i18n";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
       <SidebarInset>
         <DynamicBreadcrumb />
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <FlashcardsPageContent />
+          <FlashcardsPageContentI18n />
         </div>
       </SidebarInset>
     </SidebarProvider>

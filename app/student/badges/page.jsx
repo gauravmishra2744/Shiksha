@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/student/app-sidebar";
 import DynamicBreadcrumb from "@/components/student/breadcrumb";
-import StudentBadgesPage from "@/components/student/badges-page";
+import StudentBadgesPage from "@/components/student/badges-page-i18n";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Page() {

@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import ClassroomActivation from "@/components/teacher/classroom-activation";
 import {
   Table,
   TableBody,
@@ -484,9 +485,13 @@ const TeacherDashboardPage = () => {
                                 {classroom.nextClass}
                               </TableCell>
                               <TableCell>
-                                <Badge className="bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50">
-                                  {classroom.status}
-                                </Badge>
+                                <ClassroomActivation 
+                                  classroom={{...classroom, isActive: classroom.status === 'Active'}}
+                                  onUpdate={(updatedClassroom) => {
+                                    // Update classroom in state
+                                    console.log('Classroom updated:', updatedClassroom);
+                                  }}
+                                />
                               </TableCell>
                               <TableCell>
                                 <div className="flex space-x-1">
