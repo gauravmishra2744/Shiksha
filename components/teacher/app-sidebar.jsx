@@ -108,6 +108,7 @@ const data = {
         { title: "Performance", url: "/teacher/students/performance" },
         { title: "Attendance", url: "/teacher/students/attendance" },
         { title: "Give Badges", url: "/teacher/students/badges" },
+        { title: "Manage Games", url: "/teacher/students/manage-games" },
       ],
     },
     {

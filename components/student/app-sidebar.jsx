@@ -18,6 +18,8 @@ import {
   GalleryVerticalEnd,
   Gamepad,
   GpuIcon,
+  HandHelping,
+  HelpCircle,
   Home,
   HomeIcon,
   LogOut,
@@ -29,11 +31,13 @@ import {
   Settings2,
   Sparkles,
   SquareTerminal,
+  SwatchBook,
   Target,
   Trash2,
   User2,
   UserPen,
-  
+  Wifi,
+  WifiOff,
 } from "lucide-react";
 
 import * as React from "react";
@@ -77,12 +81,17 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
+<<<<<<< HEAD
+=======
+import { Button } from "@/components/ui/button";
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
 
 export function AppSidebar({ ...props }) {
   const { isMobile } = useSidebar();
   const { t } = useTranslation();
   const pathname = usePathname();
 
+<<<<<<< HEAD
   // Dynamic data with translations
   const data = {
     user: {
@@ -231,29 +240,239 @@ export function AppSidebar({ ...props }) {
 
   const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
 
+=======
+  // Online/Offline state
+  const [isOnline, setIsOnline] = React.useState(true);
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
   // State to track which sections are open
   const [openSections, setOpenSections] = React.useState({});
 
+  // Memoize the navigation data to prevent infinite re-renders
+  const data = React.useMemo(() => ({
+    user: {
+      name: t("user.student"),
+      email: "student@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    teams: [
+      {
+        name: "Acedimate",
+        logo: User2,
+        plan: t("user.student") + " Portal",
+      },
+    ],
+    navMain: [
+      {
+        title: t("common.dashboard"),
+        icon: Home,
+        items: [
+          {
+            title: t("common.home"),
+            url: "/student/dashboard",
+          },
+          {
+            title: t("classrooms.classrooms"),
+            url: "/student/classrooms",
+            requiresOnline: true,
+          },
+          {
+            title: t("classrooms.badges"),
+            url: "/student/badges",
+            requiresOnline: true,
+          },
+        ],
+      },
+      {
+        title: t("common.courses"),
+        icon: BookOpen,
+        requiresOnline: true,
+        items: [
+          {
+            title: t("courses.myCourses"),
+            url: "/student/courses",
+            requiresOnline: true,
+          },
+        ],
+      },
+      {
+        title: t("common.study"),
+        icon: Book,
+        items: [
+          {
+            title: t("subjects.subjects"),
+            url: "/student/subjects",
+            hasDropdown: true,
+            subjects: [
+              {
+                name: t("subjects.mathematics"),
+                url: "/student/subjects/mathematics",
+              },
+              { name: t("subjects.physics"), url: "/student/subjects/physics" },
+              {
+                name: t("subjects.chemistry"),
+                url: "/student/subjects/chemistry",
+              },
+              { name: t("subjects.biology"), url: "/student/subjects/biology" },
+              {
+                name: t("subjects.computerScience"),
+                url: "/student/subjects/computer-science",
+              },
+              { name: t("subjects.english"), url: "/student/subjects/english" },
+            ],
+          },
+          {
+            title: t("subjects.askYourDoubts"),
+            url: "/student/doubts",
+            requiresOnline: true,
+          },
+        ],
+      },
+      {
+        title: t("common.notebook"),
+        icon: Notebook,
+        items: [
+          {
+            title: t("notebook.makeNotes"),
+            url: "/student/notebook/make-notes",
+          },
+          {
+            title: t("notebook.flashcards"),
+            url: "/student/notebook/flashcard",
+          },
+          {
+            title: t("notebook.viewNotes"),
+            url: "/student/notebook/view-notes",
+          },
+        ],
+      },
+      {
+        title: t("common.productivity"),
+        icon: Target,
+        items: [
+          {
+            title: t("productivity.todoList"),
+            url: "/student/productivity/to-do",
+          },
+          {
+            title: t("productivity.pomodoro"),
+            url: "/student/productivity/pomodoro",
+          },
+        ],
+      },
+      {
+        title: t("Counselling"),
+        icon: HandHelping,
+        requiresOnline: true,
+        items: [
+          {
+            title: t("Stream Selection"),
+            url: "/student/counselling/stream-selection",
+            requiresOnline: true,
+          },
+          {
+            title: t("Subjects Guide"),
+            url: "/student/counselling/subjects-guide",
+            requiresOnline: true,
+          },
+        ],
+      },
+      {
+        title: t("Schemes"),
+        icon: SwatchBook,
+        requiresOnline: true,
+        items: [
+          {
+            title: t("Scheme Finder"),
+            url: "/student/schemes/scheme-finder",
+            requiresOnline: true,
+          },
+        ],
+      },
+      {
+        title: t("common.games"),
+        icon: Gamepad,
+        items: [
+          {
+            title: t("games.playQuizzes"),
+            url: "/student/games/quiz",
+            requiresOnline: true,
+          },
+          {
+            title: t("games.labSimulator"),
+            url: "/student/games/lab-simulator",
+          },
+          {
+            title: t("games.logicPuzzle"),
+            url: "/student/games/logic-puzzle",
+          },
+          {
+            title: t("games.mathPuzzle"),
+            url: "/student/games/math-puzzle",
+          },
+          {
+            title: t("games.memoryMatch"),
+            url: "/student/games/memory-match",
+          },
+          {
+            title: t("games.wordBuilding"),
+            url: "/student/games/word-building",
+          },
+          {
+            title: t("notebook.flashcards"),
+            url: "/student/games/flashcards",
+          },
+          {
+            title: t("games.compete"),
+            url: "/student/games/compete",
+            requiresOnline: true,
+          },
+        ],
+      },
+    ],
+  }), [t]);
+
+  // Memoize activeTeam
+  const activeTeam = React.useMemo(() => data.teams[0], [data.teams]);
+
+  // Filter navigation based on online/offline mode
+  const filteredNavMain = React.useMemo(() => {
+    return data.navMain
+      .map((item) => ({
+        ...item,
+        items: item.items?.filter(
+          (subItem) => isOnline || !subItem.requiresOnline
+        ),
+      }))
+      .filter(
+        (item) =>
+          isOnline ||
+          (!item.requiresOnline && item.items && item.items.length > 0)
+      );
+  }, [data.navMain, isOnline]);
+
   // Determine which section should be open based on current pathname
-  const getActiveSectionFromPath = React.useCallback((path) => {
-    for (const item of data.navMain) {
-      if (
-        item.items?.some((subItem) => {
-          if (subItem.hasDropdown && subItem.subjects) {
-            return (
-              subItem.subjects.some((subject) =>
-                path.startsWith(subject.url)
-              ) || path.startsWith(subItem.url)
-            );
-          }
-          return path.startsWith(subItem.url);
-        })
-      ) {
-        return item.title;
+  const getActiveSectionFromPath = React.useCallback(
+    (path) => {
+      for (const item of filteredNavMain) {
+        if (
+          item.items?.some((subItem) => {
+            if (subItem.hasDropdown && subItem.subjects) {
+              return (
+                subItem.subjects.some((subject) =>
+                  path.startsWith(subject.url)
+                ) || path.startsWith(subItem.url)
+              );
+            }
+            return path.startsWith(subItem.url);
+          })
+        ) {
+          return item.title;
+        }
       }
-    }
-    return null;
-  }, []);
+      return null;
+    },
+    [filteredNavMain]
+  );
 
   // Initialize open sections based on current path
   React.useEffect(() => {
@@ -266,15 +485,12 @@ export function AppSidebar({ ...props }) {
     }
   }, [pathname, getActiveSectionFromPath]);
 
-  if (!activeTeam) {
-    return null;
-  }
-
-  const isActiveLink = (url) => {
+  // Memoize callbacks
+  const isActiveLink = React.useCallback((url) => {
     return pathname === url;
-  };
+  }, [pathname]);
 
-  const isSectionActive = (item) => {
+  const isSectionActive = React.useCallback((item) => {
     return item.items?.some((subItem) => {
       if (subItem.hasDropdown && subItem.subjects) {
         return (
@@ -285,14 +501,22 @@ export function AppSidebar({ ...props }) {
       }
       return pathname.startsWith(subItem.url);
     });
-  };
+  }, [pathname]);
 
-  const handleSectionToggle = (sectionTitle, currentState) => {
+  const handleSectionToggle = React.useCallback((sectionTitle, currentState) => {
     setOpenSections((prev) => ({
       ...prev,
       [sectionTitle]: !currentState,
     }));
-  };
+  }, []);
+
+  const toggleOnlineMode = React.useCallback(() => {
+    setIsOnline(prev => !prev);
+  }, []);
+
+  if (!activeTeam) {
+    return null;
+  }
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -323,7 +547,7 @@ export function AppSidebar({ ...props }) {
       <SidebarContent className={""}>
         <SidebarGroup className={"border-b-0"}>
           <SidebarMenu>
-            {data.navMain.map((item) => {
+            {filteredNavMain.map((item) => {
               const isOpen = openSections[item.title] || isSectionActive(item);
 
               return (
@@ -414,12 +638,33 @@ export function AppSidebar({ ...props }) {
             })}
           </SidebarMenu>
         </SidebarGroup>
+<<<<<<< HEAD
 
 
       </SidebarContent>
       <SidebarFooter>
         <div className="p-2">
           <LanguageSwitcher />
+=======
+      </SidebarContent>
+      <SidebarFooter>
+        <div className="p-2 flex items-center gap-2">
+          <div className="flex-1">
+            <LanguageSwitcher />
+          </div>
+          <Button
+            onClick={toggleOnlineMode}
+            variant={isOnline ? "default" : "secondary"}
+            size="sm"
+            className="px-2"
+          >
+            {isOnline ? (
+              <Wifi className="h-4 w-4" />
+            ) : (
+              <WifiOff className="h-4 w-4" />
+            )}
+          </Button>
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
         </div>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -477,7 +722,11 @@ export function AppSidebar({ ...props }) {
                   >
                     <DropdownMenuItem className={"w-full"}>
                       <UserPen />
+<<<<<<< HEAD
                       {t('user.manageProfile')}
+=======
+                      {t("user.manageProfile")}
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
@@ -486,20 +735,35 @@ export function AppSidebar({ ...props }) {
                   <Link href={"/"} className="inline-flex gap-2 w-full">
                     <DropdownMenuItem className={"w-full"}>
                       <HomeIcon />
+<<<<<<< HEAD
                       {t('user.homepage')}
+=======
+                      {t("user.homepage")}
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                     </DropdownMenuItem>
                   </Link>
-                   <Link href={"/teacher/dashboard"} className="inline-flex gap-2 w-full">
+                  <Link
+                    href={"/teacher/dashboard"}
+                    className="inline-flex gap-2 w-full"
+                  >
                     <DropdownMenuItem className={"w-full"}>
                       <GpuIcon />
+<<<<<<< HEAD
                       {t('user.teacher')}
+=======
+                      {t("user.teacher")}
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <LogOut />
+<<<<<<< HEAD
                   {t('common.logout')}
+=======
+                  {t("common.logout")}
+>>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

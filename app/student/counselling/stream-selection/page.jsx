@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 import { AppSidebar } from "@/components/student/app-sidebar";
 import DynamicBreadcrumb from "@/components/student/breadcrumb";
-import CoursesPage from "@/components/student/courses-page-i18n";
-=======
-
-import { AppSidebar } from "@/components/student/app-sidebar";
-import DynamicBreadcrumb from "@/components/student/breadcrumb";
-import CoursesPage from "@/components/student/i18n/courses-page-i18n";
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
+import StreamSelectionPage from "@/components/student/stream-selection-page";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Page() {
@@ -17,7 +10,7 @@ export default function Page() {
       <SidebarInset>
         <DynamicBreadcrumb />
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <CoursesPage />
+          <StreamSelectionPage/>
         </div>
       </SidebarInset>
     </SidebarProvider>
