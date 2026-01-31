@@ -2,6 +2,7 @@
 
 import { AppSidebar } from "@/components/teacher/app-sidebar";
 import DynamicBreadcrumb from "@/components/student/breadcrumb";
+import { useRouter } from "next/navigation";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import {
   Card,
@@ -50,58 +51,13 @@ import {
   Download,
   UserPlus,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { authenticatedFetch } from "@/lib/auth-client";
 
-// Dummy data for existing classrooms
-const existingClassrooms = [
-  {
-    id: 1,
-    name: "Grade 10 - Mathematics A",
-    subject: "Mathematics",
-    grade: "Grade 10",
-    section: "A",
-    studentCount: 28,
-    description: "Advanced mathematics for Grade 10 students",
-    schedule: "Mon, Wed, Fri - 9:00 AM",
-    room: "Room 205",
-    status: "Active",
-    createdAt: "2024-01-15",
-    code: "MATH10A",
-    teacher: "Mr. Sharma",
-  },
-  {
-    id: 2,
-    name: "Grade 9 - Physics B",
-    subject: "Physics",
-    grade: "Grade 9",
-    section: "B",
-    studentCount: 25,
-    description: "Introduction to physics concepts",
-    schedule: "Tue, Thu - 10:30 AM",
-    room: "Room 301",
-    status: "Active",
-    createdAt: "2024-01-12",
-    code: "PHY9B",
-    teacher: "Dr. Patel",
-  },
-  {
-    id: 3,
-    name: "Grade 8 - English C",
-    subject: "English",
-    grade: "Grade 8",
-    section: "C",
-    studentCount: 30,
-    description: "English literature and language",
-    schedule: "Daily - 11:00 AM",
-    room: "Room 102",
-    status: "Active",
-    createdAt: "2024-01-10",
-    code: "ENG8C",
-    teacher: "Ms. Kumar",
-  },
-];
+// Existing classrooms will load from API
 
 export default function CreateClassroomPage() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
   const [grade, setGrade] = useState("");
@@ -110,46 +66,55 @@ export default function CreateClassroomPage() {
   const [schedule, setSchedule] = useState("");
   const [room, setRoom] = useState("");
   const [created, setCreated] = useState(null);
-  const [classrooms, setClassrooms] = useState(existingClassrooms);
+  const [classrooms, setClassrooms] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [creating, setCreating] = useState(false);
 
-  const handleCreate = (e) => {
+  useEffect(() => {
+    const loadClassrooms = async () => {
+      try {
+        const response = await authenticatedFetch('/api/classrooms');
+        const list = response.classrooms || response || [];
+        setClassrooms(list);
+      } catch (error) {
+        console.error('Failed to load classrooms:', error);
+      }
+    };
+
+    loadClassrooms();
+  }, []);
+
+  const handleCreate = async (e) => {
     e.preventDefault();
     if (!name.trim() || !subject || !grade) return;
 
-    const newClassroom = {
-      id: Date.now(),
-      name: name.trim(),
-      subject,
-      grade,
-      section,
-      description: description.trim(),
-      schedule: schedule.trim(),
-      room: room.trim(),
-      studentCount: 0,
-      status: "Active",
-      createdAt: new Date().toISOString().split("T")[0],
-      code: `${subject.substring(0, 3).toUpperCase()}${grade.replace(
-        "Grade ",
-        ""
-      )}${section}`,
-      teacher: "You",
-    };
+    setErrorMessage("");
+    setCreating(true);
 
-    setClassrooms([newClassroom, ...classrooms]);
-    setCreated(newClassroom);
-    setShowSuccess(true);
+    try {
+      const response = await authenticatedFetch('/api/classrooms', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: name.trim(),
+          subject,
+          description: description.trim(),
+          schedule: schedule.trim()
+        })
+      });
 
-    // Reset form
-    setName("");
-    setSubject("");
-    setGrade("");
-    setSection("");
-    setDescription("");
-    setSchedule("");
-    setRoom("");
-
-    setTimeout(() => setShowSuccess(false), 3000);
+      setCreated(response);
+      setShowSuccess(true);
+      setClassrooms((prev) => [response, ...prev]);
+      setTimeout(() => {
+        router.push('/teacher/dashboard');
+      }, 1500);
+    } catch (error) {
+      console.error('Error creating classroom:', error);
+      setErrorMessage(error.message || 'Failed to create classroom');
+    } finally {
+      setCreating(false);
+    }
   };
 
   const getStatusColor = (status) => {
@@ -221,7 +186,7 @@ export default function CreateClassroomPage() {
                     </p>
                     <p className="text-sm text-green-600 dark:text-green-300 truncate">
                       {created.name} is ready for students. Class code:{" "}
-                      <strong>{created.code}</strong>
+                      <strong>{created.classCode}</strong>
                     </p>
                   </div>
                 </div>
@@ -387,9 +352,13 @@ export default function CreateClassroomPage() {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg">
+                  {errorMessage && (
+                    <div className="text-sm text-destructive">{errorMessage}</div>
+                  )}
+
+                  <Button type="submit" className="w-full" size="lg" disabled={creating}>
                     <Plus className="mr-2 h-4 w-4" />
-                    Create Classroom
+                    {creating ? "Creating..." : "Create Classroom"}
                   </Button>
                 </form>
               </CardContent>
@@ -577,13 +546,13 @@ export default function CreateClassroomPage() {
                           <div className="flex items-center justify-between">
                             <span>Students:</span>
                             <span className="font-medium text-gray-900 dark:text-gray-100">
-                              {classroom.studentCount}
+                              {classroom.studentCount ?? classroom.students?.length ?? classroom.students ?? 0}
                             </span>
                           </div>
                           <div className="flex items-center justify-between">
                             <span>Code:</span>
                             <span className="font-mono font-medium text-gray-900 dark:text-gray-100">
-                              {classroom.code}
+                              {classroom.classCode}
                             </span>
                           </div>
                           <div className="flex items-center justify-between">
@@ -667,7 +636,7 @@ export default function CreateClassroomPage() {
                                     </Label>
                                     <div className="flex items-center space-x-2">
                                       <code className="text-sm font-mono bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-gray-900 dark:text-gray-100">
-                                        {classroom.code}
+                                        {classroom.classCode}
                                       </code>
                                       <Button size="sm" variant="ghost">
                                         <Copy className="h-3 w-3" />
@@ -679,7 +648,7 @@ export default function CreateClassroomPage() {
                                       Students
                                     </Label>
                                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                                      {classroom.studentCount} enrolled
+                                      {classroom.studentCount ?? classroom.students?.length ?? classroom.students ?? 0} enrolled
                                     </p>
                                   </div>
                                 </div>

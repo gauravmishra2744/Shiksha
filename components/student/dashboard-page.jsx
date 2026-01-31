@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -21,60 +21,55 @@ import {
   Flame,
   Crown,
   Medal,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
-
-// Dummy data for student dashboard
-const studentData = {
-  name: "Gaurav",
-  grade: "10th Grade",
-  avatar: "https://github.com/shadcn.png",
-  streak: 15,
-  totalXP: 2450,
-  coins: 325,
-  level: 8,
-  nextLevelXP: 2800,
-  classroom: {
-    name: "Science Champions",
-    teacher: "Mrs. Pooja Kumari",
-    students: 28,
-    nextClass: "Tomorrow, 9:00 AM",
-    subject: "Biology",
-  },
-  badges: [
-    { name: "Math Wizard", icon: "🧮", earned: true, date: "2 days ago" },
-    { name: "Reading Star", icon: "📚", earned: true, date: "1 week ago" },
-    { name: "Science Explorer", icon: "🔬", earned: true, date: "3 days ago" },
-    { name: "Perfect Week", icon: "⭐", earned: false, date: null },
-    { name: "Team Player", icon: "🤝", earned: true, date: "5 days ago" },
-    { name: "Quick Learner", icon: "⚡", earned: false, date: null },
-  ],
-  leaderboard: [
-    { name: "Anshika", xp: 2680, position: 1, avatar: "AC" },
-    {
-      name: "Shruti",
-      xp: 2450,
-      position: 2,
-      avatar: "Sk",
-      isCurrentUser: true,
-    },
-    { name: "You", xp: 2340, position: 3, avatar: "GC" },
-    { name: "Akanksha", xp: 2210, position: 4, avatar: "SD" },
-    { name: "Anmol", xp: 2180, position: 5, avatar: "AB" },
-    { name: "Prakash", xp: 2000, position: 6, avatar: "PK" },
-  ],
-  weeklyProgress: [
-    { day: "Mon", completed: true },
-    { day: "Tue", completed: true },
-    { day: "Wed", completed: true },
-    { day: "Thu", completed: false },
-    { day: "Fri", completed: false },
-    { day: "Sat", completed: false },
-    { day: "Sun", completed: false },
-  ],
-};
+import { authenticatedFetch } from "@/lib/auth-client";
 
 const StudentDashboardPage = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await authenticatedFetch("/api/student/dashboard");
+        setData(response);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-main" />
+          <p className="text-muted-foreground">Loading dashboard...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-destructive mb-4">Error: {error}</p>
+        <Button onClick={() => window.location.reload()}>Retry</Button>
+      </div>
+    );
+  }
+
+  if (!data || !data.student) {
+    return <div className="p-8 text-center">No data available</div>;
+  }
+
+  const student = data.student;
   const currentTime = new Date().getHours();
   const greeting =
     currentTime < 12
@@ -83,7 +78,19 @@ const StudentDashboardPage = () => {
       ? "Good Afternoon"
       : "Good Evening";
 
-  const levelProgress = ((studentData.totalXP % 350) / 350) * 100;
+  const levelProgress = ((student.totalXP % 350) / 350) * 100;
+  const primaryClassroom = data.classrooms?.[0];
+
+  // Default values for data that might not be available yet
+  const weeklyProgress = [
+    { day: "Mon", completed: true },
+    { day: "Tue", completed: true },
+    { day: "Wed", completed: true },
+    { day: "Thu", completed: false },
+    { day: "Fri", completed: false },
+    { day: "Sat", completed: false },
+    { day: "Sun", completed: false },
+  ];
 
   return (
     <div className="space-y-4 sm:space-y-6 lg:space-y-8">
@@ -91,7 +98,7 @@ const StudentDashboardPage = () => {
       <Card className="bg-main/5 dark:bg-main/10 border-main/20 dark:border-main/30 h-32 justify-center">
         <CardContent className="p-4 sm:p-6">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-2">
-            {greeting}, {studentData.name}!
+            {greeting}, {student.name}!
           </h1>
           <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
             Ready to continue your learning journey today?
@@ -102,7 +109,7 @@ const StudentDashboardPage = () => {
       {/* Top Stats Cards */}
       <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-2 lg:grid-cols-4">
         {/* Streak Card */}
-        <Card className="bg-orange-50 dark:bg-orange-950/50 border-orange-200 dark:border-orange-800/50 h-24 ">
+        <Card className="bg-orange-50 dark:bg-orange-950/50 border-orange-200 dark:border-orange-800/50 h-24">
           <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
             <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
               <div className="bg-white dark:bg-orange-900/50 border-2 border-orange-200 dark:border-orange-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
@@ -110,7 +117,7 @@ const StudentDashboardPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-orange-800 dark:text-orange-200 truncate">
-                  {studentData.streak}
+                  {student.streak}
                 </p>
                 <p className="text-xs sm:text-sm text-orange-700 dark:text-orange-300 font-medium">
                   Day Streak
@@ -121,7 +128,7 @@ const StudentDashboardPage = () => {
         </Card>
 
         {/* Coins Card */}
-        <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-24 ">
+        <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-24">
           <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
             <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
               <div className="bg-white dark:bg-yellow-900/50 border-2 border-yellow-200 dark:border-yellow-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
@@ -129,7 +136,7 @@ const StudentDashboardPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-yellow-800 dark:text-yellow-200 truncate">
-                  {studentData.coins}
+                  {student.coins}
                 </p>
                 <p className="text-xs sm:text-sm text-yellow-700 dark:text-yellow-300 font-medium">
                   Coins
@@ -140,7 +147,7 @@ const StudentDashboardPage = () => {
         </Card>
 
         {/* XP Card */}
-        <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-24 ">
+        <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-24">
           <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
             <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
               <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
@@ -148,7 +155,7 @@ const StudentDashboardPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-blue-800 dark:text-blue-200 truncate">
-                  {studentData.totalXP}
+                  {student.totalXP}
                 </p>
                 <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 font-medium">
                   Total XP
@@ -167,10 +174,10 @@ const StudentDashboardPage = () => {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-purple-800 dark:text-purple-200 truncate">
-                  Level {studentData.level}
+                  Level {student.level}
                 </p>
                 <p className="text-xs text-purple-700 dark:text-purple-300">
-                  {studentData.totalXP}/{studentData.nextLevelXP} XP
+                  {student.totalXP % 350}/350 XP
                 </p>
               </div>
             </div>
@@ -180,66 +187,58 @@ const StudentDashboardPage = () => {
 
       {/* Main Content Grid */}
       <div className="grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-3">
-        {/* Left Column - Classroom and Progress */}
+        {/* Left Column */}
         <div className="lg:col-span-2 space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Classroom Card */}
-          <Card className="border-2 border-border dark:border-border">
-            <CardHeader className="">
-              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20  py-2">
-                <Users className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
-                <span>Your Classroom</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 sm:space-y-6">
-              <div className="space-y-3 sm:space-y-4">
-                <h3 className="font-bold text-xl sm:text-2xl  uppercase">
-                  {studentData.classroom.name}
-                </h3>
-                <div className="space-y-2">
-                  <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
-                    Teacher: {studentData.classroom.teacher}
-                  </p>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-6 space-y-2 sm:space-y-0 text-sm sm:text-base lg:text-lg text-muted-foreground">
-                    <span className="flex items-center space-x-2">
-                      <Users className="h-4 w-4 sm:h-5 sm:w-5" />
-                      <span>{studentData.classroom.students} students</span>
-                    </span>
-                    <span className="flex items-center space-x-2">
-                      <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
-                      <span>{studentData.classroom.subject}</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm sm:text-base mt-4 lg:text-lg bg-green-50 dark:bg-green-950/50 p-3 rounded-lg border border-green-200 dark:border-green-800/50">
-                    <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-green-600 dark:text-green-400" />
-                    <span className="text-green-700 dark:text-green-300 font-medium">
-                      Next class: {studentData.classroom.nextClass}
-                    </span>
+          {primaryClassroom && (
+            <Card className="border-2 border-border dark:border-border">
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20 py-2">
+                  <Users className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
+                  <span>Your Classroom</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4 sm:space-y-6">
+                <div className="space-y-3 sm:space-y-4">
+                  <h3 className="font-bold text-xl sm:text-2xl uppercase">
+                    {primaryClassroom.name}
+                  </h3>
+                  <div className="space-y-2">
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
+                      Teacher: {primaryClassroom.teacher?.name || "Not assigned"}
+                    </p>
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
+                      Subject: {primaryClassroom.subject || "Multiple"}
+                    </p>
+                    <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
+                      Code: {primaryClassroom.classCode}
+                    </p>
                   </div>
                 </div>
-              </div>
-              <Link href={"/student/classrooms/class-id"}>
-                <Button
-                  className="w-full text-sm sm:text-base lg:text-lg py-4 sm:py-6 cursor-pointer"
-                  size="lg"
-                >
-                  Enter Classroom
-                  <ChevronRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6" />
-                </Button>
-              </Link>
-            </CardContent>
-          </Card>
+                <Link href="/student/classrooms">
+                  <Button
+                    className="w-full text-sm sm:text-base lg:text-lg py-4 sm:py-6"
+                    size="lg"
+                  >
+                    Enter Classroom
+                    <ChevronRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Weekly Progress */}
           <Card className="border-2 border-border dark:border-border">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20  py-2">
+              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20 py-2">
                 <Calendar className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
                 <span>This Week's Progress</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 sm:space-y-6">
               <div className="grid grid-cols-7 gap-2 sm:gap-3 lg:gap-4">
-                {studentData.weeklyProgress.map((day, index) => (
+                {weeklyProgress.map((day, index) => (
                   <div key={index} className="text-center">
                     <p className="text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3 font-medium">
                       {day.day}
@@ -258,8 +257,7 @@ const StudentDashboardPage = () => {
               </div>
               <div className="text-center p-3 sm:p-4 bg-muted/30 dark:bg-muted/20 rounded-lg border border-muted dark:border-muted/50">
                 <p className="text-sm sm:text-base lg:text-lg text-muted-foreground">
-                  <span className="font-bold text-main">3 out of 7</span> days
-                  completed this week
+                  Current streak: <span className="font-bold text-main">{student.streak} days</span>
                 </p>
               </div>
             </CardContent>
@@ -268,103 +266,73 @@ const StudentDashboardPage = () => {
           {/* Achievement Badges */}
           <Card className="border-2 border-border dark:border-border">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20  py-2">
+              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20 py-2">
                 <Award className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
-                <span>Achievement Badges</span>
+                <span>Recent Achievements</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
-                {studentData.badges.map((badge, index) => (
-                  <div
-                    key={index}
-                    className={`flex items-center space-x-3 sm:space-x-4 p-4 sm:p-6 rounded-xl border-2 ${
-                      badge.earned
-                        ? "bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50"
-                        : "bg-gray-50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-800/50 opacity-60"
-                    }`}
-                  >
-                    <div
-                      className={`w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center text-lg sm:text-xl lg:text-2xl border-2 flex-shrink-0 ${
-                        badge.earned
-                          ? "bg-white dark:bg-green-900/50 border-green-300 dark:border-green-700/50"
-                          : "bg-gray-100 dark:bg-gray-800/50 border-gray-300 dark:border-gray-700/50"
-                      }`}
-                    >
-                      {badge.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-bold text-sm sm:text-base lg:text-lg truncate">
-                        {badge.name}
-                      </p>
-                      {badge.earned ? (
-                        <p className="text-xs sm:text-sm text-green-600 dark:text-green-400 font-medium">
-                          Earned {badge.date}
-                        </p>
-                      ) : (
-                        <p className="text-xs sm:text-sm text-muted-foreground">
-                          Not earned yet
-                        </p>
-                      )}
-                    </div>
-                    {badge.earned && (
-                      <Badge className="bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 text-xs sm:text-sm px-2 sm:px-3 py-1 flex-shrink-0">
-                        ✓ Earned
-                      </Badge>
-                    )}
-                  </div>
-                ))}
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  You have earned {data.badges?.length || 0} badges
+                </p>
+                <Link href="/student/badges">
+                  <Button variant="outline" className="w-full">
+                    View All Badges
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        {/* Right Column - Leaderboard */}
+        {/* Right Column - Quick Stats */}
         <div>
           <Card className="border-2 border-border dark:border-border lg:sticky lg:top-6">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20  py-2">
+              <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20 py-2">
                 <Trophy className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
-                <span>Class Leaderboard</span>
+                <span>Your Stats</span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-3 sm:space-y-4">
-                {studentData.leaderboard.map((student, index) => (
-                  <div
-                    key={index}
-                    className={`flex items-center p-3 sm:p-4 rounded-xl border-2 ${
-                      student.isCurrentUser
-                        ? "bg-main/10 dark:bg-main/20 border-main/30 dark:border-main/40"
-                        : "bg-muted/30 dark:bg-muted/20 border-muted dark:border-muted/50"
-                    }`}
-                  >
-                    <div className="flex items-center space-x-3 sm:space-x-4 w-full">
-                      <div className="flex items-center space-x-2 flex-shrink-0">
-                        
-                        <span className="font-bold text-sm sm:text-base lg:text-lg">
-                          #{student.position}
-                        </span>
-                      </div>
-                      <Avatar className="h-8 w-8 sm:h-10 sm:w-10 lg:h-12 lg:w-12 border-2 flex-shrink-0">
-                        <AvatarFallback className="font-bold text-xs sm:text-sm">
-                          {student.avatar}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-sm sm:text-base lg:text-lg truncate">
-                          {student.name}
-                        </p>
-                        <Badge
-                          variant="secondary"
-                          className="text-xs sm:text-sm mt-1"
-                        >
-                          {student.xp} XP
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            <CardContent className="space-y-4">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+                  <span className="text-sm font-medium">Courses Enrolled</span>
+                  <Badge>{data.courses?.length || 0}</Badge>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+                  <span className="text-sm font-medium">Classrooms</span>
+                  <Badge>{data.classrooms?.length || 0}</Badge>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-muted/30 rounded-lg">
+                  <span className="text-sm font-medium">Badges Earned</span>
+                  <Badge>{data.badges?.length || 0}</Badge>
+                </div>
+              </div>
+
+              <div className="pt-4 border-t">
+                <h4 className="font-semibold mb-3">Quick Actions</h4>
+                <div className="space-y-2">
+                  <Link href="/student/courses">
+                    <Button variant="outline" className="w-full justify-start" size="sm">
+                      <BookOpen className="mr-2 h-4 w-4" />
+                      Browse Courses
+                    </Button>
+                  </Link>
+                  <Link href="/student/doubts">
+                    <Button variant="outline" className="w-full justify-start" size="sm">
+                      <Target className="mr-2 h-4 w-4" />
+                      Ask a Doubt
+                    </Button>
+                  </Link>
+                  <Link href="/student/games">
+                    <Button variant="outline" className="w-full justify-start" size="sm">
+                      <Star className="mr-2 h-4 w-4" />
+                      Play Games
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </CardContent>
           </Card>

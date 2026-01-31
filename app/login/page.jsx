@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,10 +29,61 @@ import {
   BookOpen,
   Trophy,
   Target,
+  Loader2,
 } from "lucide-react";
+import { saveToken } from "@/lib/auth-client";
 
 const LoginPage = () => {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("student");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  
+  // Student form state
+  const [studentEmail, setStudentEmail] = useState("");
+  const [studentPassword, setStudentPassword] = useState("");
+  
+  // Teacher form state
+  const [teacherEmail, setTeacherEmail] = useState("");
+  const [teacherPassword, setTeacherPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const email = activeTab === "student" ? studentEmail : teacherEmail;
+    const password = activeTab === "student" ? studentPassword : teacherPassword;
+    const role = activeTab;
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || data.message || "Login failed");
+      }
+
+      // Save token to localStorage
+      saveToken(data.token);
+
+      // Redirect based on role
+      if (role === "student") {
+        router.push("/student/dashboard");
+      } else {
+        router.push("/teacher/dashboard");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 flex items-center justify-center p-4">
@@ -48,6 +101,13 @@ const LoginPage = () => {
             </div>
           </CardHeader>
           <CardContent className="pt-0">
+            {error && (
+              <div className="mb-4 p-3 bg-destructive/10 border border-destructive/30 rounded-md text-destructive text-sm">
+                {error}
+              </div>
+            )}
+            
+            <form onSubmit={handleLogin}>
             <Tabs
               value={activeTab}
               onValueChange={setActiveTab}
@@ -84,8 +144,11 @@ const LoginPage = () => {
                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           id="student-email"
-                          placeholder="student@school.edu"
+                          placeholder="student@example.com"
                           className="pl-10 h-11"
+                          value={studentEmail}
+                          onChange={(e) => setStudentEmail(e.target.value)}
+                          required
                         />
                       </div>
                     </div>
@@ -104,62 +167,18 @@ const LoginPage = () => {
                           type="password"
                           placeholder="••••••••"
                           className="pl-10 h-11"
+                          value={studentPassword}
+                          onChange={(e) => setStudentPassword(e.target.value)}
+                          required
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label
-                        htmlFor="student-roll"
-                        className="text-sm font-medium"
-                      >
-                        Roll Number
-                      </Label>
-                      <Input
-                        id="student-roll"
-                        placeholder="2024001"
-                        className="h-11"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label
-                        htmlFor="student-class"
-                        className="text-sm font-medium"
-                      >
-                        Class
-                      </Label>
-                      <Select>
-                        <SelectTrigger className="h-11">
-                          <SelectValue placeholder="Select class" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="6">Class 6</SelectItem>
-                          <SelectItem value="7">Class 7</SelectItem>
-                          <SelectItem value="8">Class 8</SelectItem>
-                          <SelectItem value="9">Class 9</SelectItem>
-                          <SelectItem value="10">Class 10</SelectItem>
-                          <SelectItem value="11">Class 11</SelectItem>
-                          <SelectItem value="12">Class 12</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="student-school"
-                      className="text-sm font-medium"
-                    >
-                      School Code
-                    </Label>
-                    <Input
-                      id="student-school"
-                      placeholder="ODI001"
-                      className="h-11"
-                    />
+                  <div className="mt-2 p-3 bg-muted/50 rounded-md text-xs text-muted-foreground">
+                    <p className="font-medium mb-1">Demo Account:</p>
+                    <p>Email: student@example.com</p>
+                    <p>Password: password123</p>
                   </div>
                 </div>
               </TabsContent>
@@ -180,8 +199,11 @@ const LoginPage = () => {
                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input
                           id="teacher-email"
-                          placeholder="teacher@school.edu"
+                          placeholder="teacher@example.com"
                           className="pl-10 h-11"
+                          value={teacherEmail}
+                          onChange={(e) => setTeacherEmail(e.target.value)}
+                          required
                         />
                       </div>
                     </div>
@@ -200,67 +222,18 @@ const LoginPage = () => {
                           type="password"
                           placeholder="••••••••"
                           className="pl-10 h-11"
+                          value={teacherPassword}
+                          onChange={(e) => setTeacherPassword(e.target.value)}
+                          required
                         />
                       </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label
-                        htmlFor="teacher-id"
-                        className="text-sm font-medium"
-                      >
-                        Employee ID
-                      </Label>
-                      <Input
-                        id="teacher-id"
-                        placeholder="EMP2024001"
-                        className="h-11"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label
-                        htmlFor="teacher-subject"
-                        className="text-sm font-medium"
-                      >
-                        Subject
-                      </Label>
-                      <Select>
-                        <SelectTrigger className="h-11">
-                          <SelectValue placeholder="Select subject" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="mathematics">
-                            Mathematics
-                          </SelectItem>
-                          <SelectItem value="physics">Physics</SelectItem>
-                          <SelectItem value="chemistry">Chemistry</SelectItem>
-                          <SelectItem value="biology">Biology</SelectItem>
-                          <SelectItem value="computer-science">
-                            Computer Science
-                          </SelectItem>
-                          <SelectItem value="multiple">
-                            Multiple Subjects
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="teacher-school"
-                      className="text-sm font-medium"
-                    >
-                      School Code
-                    </Label>
-                    <Input
-                      id="teacher-school"
-                      placeholder="ODI001"
-                      className="h-11"
-                    />
+                  <div className="mt-2 p-3 bg-muted/50 rounded-md text-xs text-muted-foreground">
+                    <p className="font-medium mb-1">Demo Account:</p>
+                    <p>Email: teacher@example.com</p>
+                    <p>Password: password123</p>
                   </div>
                 </div>
               </TabsContent>
@@ -269,21 +242,27 @@ const LoginPage = () => {
             <Button
               className="w-full mt-8 h-12 text-base font-medium"
               type="submit"
+              disabled={loading}
             >
-              Start Learning Journey
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Logging in...
+                </>
+              ) : (
+                "Start Learning Journey"
+              )}
             </Button>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
-                Need help accessing your account?{" "}
-                <Button
-                  variant="link"
-                  className="p-0 h-auto font-medium text-main"
-                >
-                  Contact Administrator
-                </Button>
+                Don't have an account?{" "}
+                <Link href="/register" className="font-medium text-main hover:underline">
+                  Register here
+                </Link>
               </p>
             </div>
+          </form>
           </CardContent>
         </Card>
       </div>

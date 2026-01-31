@@ -45,6 +45,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n";
 import { LanguageSwitcher } from "@/components/language-switcher";
+import { logout } from "@/lib/auth-client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -81,169 +82,16 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar";
-<<<<<<< HEAD
-=======
 import { Button } from "@/components/ui/button";
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
 
 export function AppSidebar({ ...props }) {
   const { isMobile } = useSidebar();
   const { t } = useTranslation();
   const pathname = usePathname();
 
-<<<<<<< HEAD
-  // Dynamic data with translations
-  const data = {
-    user: {
-      name: t('user.student'),
-      email: "student@example.com",
-      avatar: "/avatars/shadcn.jpg",
-    },
-    teams: [
-      {
-        name: "Acedimate",
-        logo: User2,
-        plan: t('user.student') + " Portal",
-      },
-    ],
-    navMain: [
-      {
-        title: t('common.dashboard'),
-        icon: Home,
-        items: [
-          {
-            title: t('common.home'),
-            url: "/student/dashboard",
-          },
-          {
-            title: t('classrooms.classrooms'),
-            url: "/student/classrooms",
-          },
-          {
-            title: t('classrooms.badges'),
-            url: "/student/badges",
-          },
-        ],
-      },
-      {
-        title: t('common.courses'),
-        icon: BookOpen,
-        items: [
-          {
-            title: t('courses.myCourses'),
-            url: "/student/courses",
-          },
-        ],
-      },
-      {
-        title: t('common.study'),
-        icon: Book,
-        items: [
-          {
-            title: t('subjects.subjects'),
-            url: "/student/subjects",
-            hasDropdown: true,
-            subjects: [
-              { name: t('subjects.mathematics'), url: "/student/subjects/mathematics" },
-              { name: t('subjects.physics'), url: "/student/subjects/physics" },
-              { name: t('subjects.chemistry'), url: "/student/subjects/chemistry" },
-              { name: t('subjects.biology'), url: "/student/subjects/biology" },
-              {
-                name: t('subjects.computerScience'),
-                url: "/student/subjects/computer-science",
-              },
-              { name: t('subjects.english'), url: "/student/subjects/english" },
-            ],
-          },
-          {
-            title: t('subjects.askYourDoubts'),
-            url: "/student/doubts",
-          },
-        ],
-      },
-      {
-        title: t('common.notebook'),
-        icon: Notebook,
-        items: [
-          {
-            title: t('notebook.makeNotes'),
-            url: "/student/notebook/make-notes",
-          },
-          {
-            title: t('notebook.flashcards'),
-            url: "/student/notebook/flashcard",
-          },
-          {
-            title: t('notebook.viewNotes'),
-            url: "/student/notebook/view-notes",
-          },
-        ],
-      },
-      {
-        title: t('common.productivity'),
-        icon: Target,
-        items: [
-          {
-            title: t('productivity.todoList'),
-            url: "/student/productivity/to-do",
-          },
-          {
-            title: t('productivity.pomodoro'),
-            url: "/student/productivity/pomodoro",
-          },
-        ],
-      },
-      {
-        title: t('common.games'),
-        icon: Gamepad,
-        items: [
-          {
-            title: t('games.playQuizzes'),
-            url: "/student/games/quiz",
-          },
-          {
-            title: t('games.labSimulator'),
-            url: "/student/games/lab-simulator",
-          },
-          {
-            title: t('games.logicPuzzle'),
-            url: "/student/games/logic-puzzle",
-          },
-          {
-            title: t('games.mathPuzzle'),
-            url: "/student/games/math-puzzle",
-          },
-          {
-            title: t('games.memoryMatch'),
-            url: "/student/games/memory-match",
-          },
-          {
-            title: t('games.wordBuilding'),
-            url: "/student/games/word-building",
-          },
-          {
-            title: t('notebook.flashcards'),
-            url: "/student/games/flashcards",
-          },
-          {
-            title: t('games.compete'),
-            url: "/student/games/compete",
-          },
-          {
-            title: t('games.eduBirds'),
-            url: "/student/games/edu-birds",
-          },
-        ],
-      },
-    ],
-  };
-
-  const [activeTeam, setActiveTeam] = React.useState(data.teams[0]);
-
-=======
   // Online/Offline state
   const [isOnline, setIsOnline] = React.useState(true);
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
+
   // State to track which sections are open
   const [openSections, setOpenSections] = React.useState({});
 
@@ -638,14 +486,6 @@ export function AppSidebar({ ...props }) {
             })}
           </SidebarMenu>
         </SidebarGroup>
-<<<<<<< HEAD
-
-
-      </SidebarContent>
-      <SidebarFooter>
-        <div className="p-2">
-          <LanguageSwitcher />
-=======
       </SidebarContent>
       <SidebarFooter>
         <div className="p-2 flex items-center gap-2">
@@ -664,7 +504,6 @@ export function AppSidebar({ ...props }) {
               <WifiOff className="h-4 w-4" />
             )}
           </Button>
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
         </div>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -722,11 +561,7 @@ export function AppSidebar({ ...props }) {
                   >
                     <DropdownMenuItem className={"w-full"}>
                       <UserPen />
-<<<<<<< HEAD
-                      {t('user.manageProfile')}
-=======
                       {t("user.manageProfile")}
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
@@ -735,11 +570,7 @@ export function AppSidebar({ ...props }) {
                   <Link href={"/"} className="inline-flex gap-2 w-full">
                     <DropdownMenuItem className={"w-full"}>
                       <HomeIcon />
-<<<<<<< HEAD
-                      {t('user.homepage')}
-=======
                       {t("user.homepage")}
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                     </DropdownMenuItem>
                   </Link>
                   <Link
@@ -748,22 +579,14 @@ export function AppSidebar({ ...props }) {
                   >
                     <DropdownMenuItem className={"w-full"}>
                       <GpuIcon />
-<<<<<<< HEAD
-                      {t('user.teacher')}
-=======
                       {t("user.teacher")}
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                     </DropdownMenuItem>
                   </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>
                   <LogOut />
-<<<<<<< HEAD
-                  {t('common.logout')}
-=======
                   {t("common.logout")}
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

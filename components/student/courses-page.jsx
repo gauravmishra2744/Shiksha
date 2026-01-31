@@ -1,744 +1,207 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import {
   BookOpen,
   Clock,
-  Star,
-  Users,
+  Award,
   Search,
   Filter,
-  Play,
-  CheckCircle,
-  Award,
-<<<<<<< HEAD
-=======
-  TrendingUp,
-  Target,
-  GraduationCap,
   ChevronRight,
-  Eye,
-  Medal,
-  Trophy,
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
+  Loader2,
+  Star,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
-
-const coursesData = [
-  {
-    id: "math-101",
-    title: "Advanced Mathematics",
-<<<<<<< HEAD
-    instructor: "Dr. Sarah Johnson",
-=======
-    instructor: "Dr. Priya Sharma",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-    thumbnail: "/l1.png",
-    duration: "12 weeks",
-    lessons: 45,
-    students: 1250,
-    rating: 4.8,
-    progress: 65,
-    category: "Mathematics",
-    level: "Intermediate",
-    enrolled: true,
-<<<<<<< HEAD
-    description: "Master advanced mathematical concepts including calculus, algebra, and statistics.",
-=======
-    price: "₹2,999",
-    originalPrice: "₹4,999",
-    discount: 40,
-    description:
-      "Master advanced mathematical concepts including calculus, algebra, and statistics with real-world applications.",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-  },
-  {
-    id: "physics-201",
-    title: "Quantum Physics Fundamentals",
-<<<<<<< HEAD
-    instructor: "Prof. Michael Chen",
-=======
-    instructor: "Prof. Rajesh Kumar",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-    thumbnail: "/l2.png",
-    duration: "10 weeks",
-    lessons: 38,
-    students: 890,
-    rating: 4.9,
-    progress: 0,
-    category: "Physics",
-    level: "Advanced",
-    enrolled: false,
-<<<<<<< HEAD
-    description: "Explore the fascinating world of quantum mechanics and modern physics.",
-=======
-    price: "₹3,499",
-    originalPrice: "₹5,999",
-    discount: 42,
-    description:
-      "Explore the fascinating world of quantum mechanics and modern physics with interactive simulations.",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-  },
-  {
-    id: "chem-101",
-    title: "Organic Chemistry Basics",
-<<<<<<< HEAD
-    instructor: "Dr. Emily Rodriguez",
-=======
-    instructor: "Dr. Anita Desai",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-    thumbnail: "/l3.png",
-    duration: "8 weeks",
-    lessons: 32,
-    students: 675,
-    rating: 4.7,
-    progress: 100,
-    category: "Chemistry",
-    level: "Beginner",
-    enrolled: true,
-<<<<<<< HEAD
-    description: "Learn the fundamentals of organic chemistry with practical examples.",
-=======
-    price: "₹1,999",
-    originalPrice: "₹3,499",
-    discount: 43,
-    description:
-      "Learn the fundamentals of organic chemistry with practical examples and laboratory demonstrations.",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-  },
-  {
-    id: "bio-301",
-    title: "Molecular Biology",
-<<<<<<< HEAD
-    instructor: "Dr. James Wilson",
-=======
-    instructor: "Dr. Vikram Singh",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-    thumbnail: "/l4.png",
-    duration: "14 weeks",
-    lessons: 52,
-    students: 1100,
-    rating: 4.6,
-    progress: 25,
-    category: "Biology",
-    level: "Advanced",
-    enrolled: true,
-<<<<<<< HEAD
-    description: "Deep dive into cellular processes and molecular mechanisms.",
-=======
-    price: "₹4,199",
-    originalPrice: "₹6,999",
-    discount: 40,
-    description:
-      "Deep dive into cellular processes and molecular mechanisms with cutting-edge research insights.",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-  },
-  {
-    id: "cs-101",
-    title: "Introduction to Programming",
-<<<<<<< HEAD
-    instructor: "Prof. Lisa Zhang",
-=======
-    instructor: "Prof. Meera Joshi",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-    thumbnail: "/l5.png",
-    duration: "16 weeks",
-    lessons: 60,
-    students: 2300,
-    rating: 4.9,
-    progress: 0,
-    category: "Computer Science",
-    level: "Beginner",
-    enrolled: false,
-<<<<<<< HEAD
-    description: "Learn programming fundamentals with Python and JavaScript.",
-=======
-    price: "₹2,499",
-    originalPrice: "₹4,199",
-    discount: 40,
-    description:
-      "Learn programming fundamentals with Python and JavaScript through hands-on projects.",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-  },
-  {
-    id: "eng-201",
-    title: "Creative Writing Workshop",
-<<<<<<< HEAD
-    instructor: "Ms. Amanda Foster",
-=======
-    instructor: "Ms. Kavya Patel",
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-    thumbnail: "/l6.png",
-    duration: "6 weeks",
-    lessons: 24,
-    students: 450,
-    rating: 4.5,
-    progress: 80,
-    category: "English",
-    level: "Intermediate",
-    enrolled: true,
-<<<<<<< HEAD
-    description: "Develop your creative writing skills through guided exercises.",
-  },
-];
-
-const categories = ["All", "Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "English"];
-=======
-    price: "₹1,499",
-    originalPrice: "₹2,499",
-    discount: 40,
-    description:
-      "Develop your creative writing skills through guided exercises and peer feedback sessions.",
-  },
-];
-
-const categories = [
-  "All",
-  "Mathematics",
-  "Physics",
-  "Chemistry",
-  "Biology",
-  "Computer Science",
-  "English",
-];
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-const levels = ["All", "Beginner", "Intermediate", "Advanced"];
+import { authenticatedFetch } from "@/lib/auth-client";
 
 const CoursesPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedLevel, setSelectedLevel] = useState("All");
-  const [showEnrolledOnly, setShowEnrolledOnly] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredCourses = coursesData.filter((course) => {
-<<<<<<< HEAD
-    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || course.category === selectedCategory;
-    const matchesLevel = selectedLevel === "All" || course.level === selectedLevel;
-    const matchesEnrollment = !showEnrolledOnly || course.enrolled;
-    
-    return matchesSearch && matchesCategory && matchesLevel && matchesEnrollment;
-  });
+  useEffect(() => {
+    fetchCourses();
+  }, []);
 
-  const enrolledCourses = coursesData.filter(course => course.enrolled);
-  const completedCourses = enrolledCourses.filter(course => course.progress === 100);
+  const fetchCourses = async () => {
+    try {
+      const response = await authenticatedFetch("/api/student/courses");
+      setCourses(response.courses || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4 text-main" />
+          <p className="text-muted-foreground">Loading courses...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-destructive mb-4">Error: {error}</p>
+        <Button onClick={fetchCourses}>Retry</Button>
+      </div>
+    );
+  }
+
+  const filteredCourses = courses.filter((course) =>
+    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    course.subject?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col space-y-4">
-        <h1 className="text-3xl font-bold">My Courses</h1>
-        
-        {/* Stats Cards */}
-        <div className="grid gap-4 md:grid-cols-3">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <BookOpen className="h-8 w-8 text-blue-600" />
-                <div>
-                  <p className="text-2xl font-bold">{enrolledCourses.length}</p>
-                  <p className="text-sm text-muted-foreground">Enrolled Courses</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="h-8 w-8 text-green-600" />
-                <div>
-                  <p className="text-2xl font-bold">{completedCourses.length}</p>
-                  <p className="text-sm text-muted-foreground">Completed</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-3">
-                <Award className="h-8 w-8 text-yellow-600" />
-                <div>
-                  <p className="text-2xl font-bold">{Math.round(enrolledCourses.reduce((acc, course) => acc + course.progress, 0) / enrolledCourses.length) || 0}%</p>
-                  <p className="text-sm text-muted-foreground">Avg Progress</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+      <div>
+        <h1 className="text-3xl font-bold mb-2">My Courses</h1>
+        <p className="text-muted-foreground">
+          Continue learning and track your progress
+        </p>
+      </div>
+
+      {/* Search and Filters */}
+      <div className="flex gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder="Search courses..."
+            className="pl-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
         </div>
+        <Button variant="outline">
+          <Filter className="mr-2 h-4 w-4" />
+          Filters
+        </Button>
       </div>
-
-      {/* Search and Filters */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search courses..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            
-            <div className="flex space-x-2">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 border rounded-md"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
-                ))}
-              </select>
-              
-              <select
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value)}
-                className="px-3 py-2 border rounded-md"
-              >
-                {levels.map(level => (
-                  <option key={level} value={level}>{level}</option>
-                ))}
-              </select>
-              
-=======
-    const matchesSearch =
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All" || course.category === selectedCategory;
-    const matchesLevel =
-      selectedLevel === "All" || course.level === selectedLevel;
-    const matchesEnrollment = !showEnrolledOnly || course.enrolled;
-
-    return (
-      matchesSearch && matchesCategory && matchesLevel && matchesEnrollment
-    );
-  });
-
-  const enrolledCourses = coursesData.filter((course) => course.enrolled);
-  const completedCourses = enrolledCourses.filter(
-    (course) => course.progress === 100
-  );
-
-  const getLevelColor = (level) => {
-    switch (level) {
-      case "Beginner":
-        return "bg-green-50 dark:bg-green-950/50 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800/50";
-      case "Intermediate":
-        return "bg-yellow-50 dark:bg-yellow-950/50 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800/50";
-      case "Advanced":
-        return "bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border-red-200 dark:border-red-800/50";
-      default:
-        return "bg-gray-50 dark:bg-gray-950/50 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800/50";
-    }
-  };
-
-  return (
-    <div className="space-y-3 sm:space-y-4 lg:space-y-6 p-2 sm:p-4 lg:p-6">
-      {/* Header */}
-      <Card className="bg-main/5 dark:bg-main/10 border-main/20 dark:border-main/30 h-28 sm:h-32 justify-center">
-        <CardContent className="p-4 sm:p-6 flex flex-col justify-center h-full">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-1 sm:mb-2">
-            My Learning Journey
-          </h1>
-          <p className="text-xs sm:text-sm lg:text-base text-muted-foreground">
-            Discover, learn, and master new skills with expert-led courses
-          </p>
-        </CardContent>
-      </Card>
-
-      {/* Stats Cards */}
-      <div className="grid gap-3 sm:gap-4 lg:gap-6 grid-cols-1 sm:grid-cols-3">
-        <Card className="bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800/50 h-20 sm:h-24">
-          <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
-            <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-              <div className="bg-white dark:bg-blue-900/50 border-2 border-blue-200 dark:border-blue-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                <BookOpen className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-blue-600 dark:text-blue-400" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-blue-800 dark:text-blue-200 truncate">
-                  {enrolledCourses.length}
-                </p>
-                <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300 font-medium">
-                  Enrolled Courses
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800/50 h-20 sm:h-24">
-          <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
-            <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-              <div className="bg-white dark:bg-green-900/50 border-2 border-green-200 dark:border-green-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                <Trophy className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-green-600 dark:text-green-400" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-green-800 dark:text-green-200 truncate">
-                  {completedCourses.length}
-                </p>
-                <p className="text-xs sm:text-sm text-green-700 dark:text-green-300 font-medium">
-                  Completed
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-yellow-50 dark:bg-yellow-950/50 border-yellow-200 dark:border-yellow-800/50 h-20 sm:h-24">
-          <CardContent className="p-3 sm:p-4 flex items-center w-full h-full">
-            <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4 w-full">
-              <div className="bg-white dark:bg-yellow-900/50 border-2 border-yellow-200 dark:border-yellow-700/50 rounded-lg p-2 sm:p-2.5 lg:p-3 flex-shrink-0">
-                <TrendingUp className="h-5 w-5 sm:h-6 sm:w-6 lg:h-8 lg:w-8 text-yellow-600 dark:text-yellow-400" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-yellow-800 dark:text-yellow-200 truncate">
-                  {Math.round(
-                    enrolledCourses.reduce(
-                      (acc, course) => acc + course.progress,
-                      0
-                    ) / enrolledCourses.length
-                  ) || 0}
-                  %
-                </p>
-                <p className="text-xs sm:text-sm text-yellow-700 dark:text-yellow-300 font-medium">
-                  Avg Progress
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Search and Filters */}
-      <Card className="border-2 border-border dark:border-border">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2 sm:space-x-3 text-lg sm:text-xl lg:text-2xl bg-main/20 rounded-md px-5 border border-border/20 py-2">
-            <Search className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
-            <span>Find Your Perfect Course</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col space-y-3 sm:space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
-                <Input
-                  placeholder="Search courses, instructors..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 sm:pl-12 h-10 sm:h-12 text-sm sm:text-base"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 lg:space-x-3">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-3 py-2 sm:px-4 sm:py-3 border-2 border-border dark:border-border rounded-lg text-sm sm:text-base bg-background dark:bg-background min-w-0 sm:min-w-[120px]"
-              >
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value)}
-                className="px-3 py-2 sm:px-4 sm:py-3 border-2 border-border dark:border-border rounded-lg text-sm sm:text-base bg-background dark:bg-background min-w-0 sm:min-w-[120px]"
-              >
-                {levels.map((level) => (
-                  <option key={level} value={level}>
-                    {level}
-                  </option>
-                ))}
-              </select>
-
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-              <Button
-                variant={showEnrolledOnly ? "default" : "outline"}
-                onClick={() => setShowEnrolledOnly(!showEnrolledOnly)}
-                size="sm"
-<<<<<<< HEAD
-              >
-                <Filter className="h-4 w-4 mr-2" />
-=======
-                className="h-10 sm:h-12 px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap"
-              >
-                <Filter className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-                My Courses
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Courses Grid */}
-<<<<<<< HEAD
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredCourses.map((course) => (
-          <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-=======
-      <div className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        {filteredCourses.map((course) => (
-          <Card
-            key={course.id}
-            className="overflow-hidden hover:shadow-lg transition-all duration-300 border-2 border-border dark:border-border hover:border-main/30 dark:hover:border-main/40 group"
-          >
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-            <div className="relative">
-              <img
-                src={course.thumbnail}
-                alt={course.title}
-<<<<<<< HEAD
-                className="w-full h-48 object-cover"
-              />
-              {course.enrolled && (
-                <Badge className="absolute top-2 right-2 bg-green-600">
-                  Enrolled
-                </Badge>
-              )}
-              {course.progress === 100 && (
-                <Badge className="absolute top-2 left-2 bg-yellow-600">
-                  Completed
-                </Badge>
-              )}
-            </div>
-            
-            <CardContent className="p-4">
-              <div className="space-y-3">
-                <div>
-                  <h3 className="font-bold text-lg line-clamp-2">{course.title}</h3>
-                  <p className="text-sm text-muted-foreground">{course.instructor}</p>
-                </div>
-                
-                <p className="text-sm text-muted-foreground line-clamp-2">
-                  {course.description}
-                </p>
-                
-                <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                  <div className="flex items-center space-x-1">
-                    <Clock className="h-4 w-4" />
-                    <span>{course.duration}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <BookOpen className="h-4 w-4" />
-                    <span>{course.lessons} lessons</span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium">{course.rating}</span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Users className="h-4 w-4" />
-                      <span className="text-sm">{course.students}</span>
-                    </div>
-                  </div>
-                  <Badge variant="outline">{course.level}</Badge>
-                </div>
-                
-                {course.enrolled && (
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span>Progress</span>
-                      <span>{course.progress}%</span>
-                    </div>
-                    <Progress value={course.progress} className="h-2" />
-                  </div>
-                )}
-                
-                {course.enrolled ? (
-                  <Link href={`/student/courses/${course.id}/learn`}>
-                    <Button className="w-full">
-                      <Play className="h-4 w-4 mr-2" />
-                      Continue Learning
-                    </Button>
-                  </Link>
-                ) : (
-                  <Link href={`/student/courses/${course.id}`}>
-                    <Button className="w-full" variant="outline">
-                      View Course
-                    </Button>
-                  </Link>
-                )}
-              </div>
-=======
-                className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute top-2 left-2 right-2 flex justify-between items-start">
-                {course.enrolled && (
-                  <Badge className="bg-green-600 text-white border-green-600 shadow-lg">
-                    Enrolled
-                  </Badge>
-                )}
-                {course.progress === 100 && (
-                  <Badge className="bg-yellow-600 text-white border-yellow-600 shadow-lg">
-                    <Medal className="h-3 w-3 mr-1" />
-                    Completed
-                  </Badge>
-                )}
-                {course.discount && !course.enrolled && (
-                  <Badge className="bg-red-600 text-white border-red-600 shadow-lg ml-auto">
-                    {course.discount}% OFF
-                  </Badge>
-                )}
-              </div>
-            </div>
-
-            <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4">
-              <div>
-                <h3 className="font-bold text-base sm:text-lg lg:text-xl line-clamp-2 mb-1 sm:mb-2">
-                  {course.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-                  {course.instructor}
-                </p>
-              </div>
-
-              <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
-                {course.description}
+      {filteredCourses.length === 0 ? (
+        <Card className="text-center p-12">
+          <div className="space-y-4">
+            <BookOpen className="h-12 w-12 mx-auto text-muted-foreground" />
+            <div>
+              <h3 className="text-lg font-semibold mb-2">No Courses Found</h3>
+              <p className="text-muted-foreground mb-4">
+                {searchQuery
+                  ? "Try adjusting your search query"
+                  : "You haven't enrolled in any courses yet"}
               </p>
-
-              <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground">
-                <div className="flex items-center space-x-1">
-                  <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>{course.duration}</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <BookOpen className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>{course.lessons} lessons</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Users className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>{course.students}</span>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <div className="flex items-center space-x-1">
-                    <Star className="h-3 w-3 sm:h-4 sm:w-4 fill-yellow-400 text-yellow-400" />
-                    <span className="text-xs sm:text-sm font-medium">
-                      {course.rating}
-                    </span>
-                  </div>
-                </div>
-                <Badge
-                  className={`${getLevelColor(course.level)} border text-xs`}
-                >
-                  {course.level}
-                </Badge>
-              </div>
-
-              {!course.enrolled && (
-                <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800/50">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-lg sm:text-xl font-bold text-green-600 dark:text-green-400">
-                      {course.price}
-                    </span>
-                    <span className="text-sm text-muted-foreground line-through">
-                      {course.originalPrice}
-                    </span>
-                  </div>
-                  <Badge className="bg-red-600 text-white text-xs">
-                    Save {course.discount}%
-                  </Badge>
-                </div>
-              )}
-
-              {course.enrolled && (
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs sm:text-sm">
-                    <span>Progress</span>
-                    <span className="font-bold">{course.progress}%</span>
-                  </div>
-                  <Progress value={course.progress} className="h-2 sm:h-3" />
-                </div>
-              )}
-
-              {course.enrolled ? (
-                <Link href={`/student/courses/${course.id}/learn`}>
-                  <Button className="w-full h-10 sm:h-12 text-sm sm:text-base">
-                    <Play className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                    Continue Learning
-                    <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 ml-2" />
-                  </Button>
-                </Link>
-              ) : (
-                <Link href={`/student/courses/${course.id}`}>
-                  <Button
-                    className="w-full h-10 sm:h-12 text-sm sm:text-base"
-                    variant="outline"
-                  >
-                    <Eye className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                    View Course Details
-                    <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 ml-2" />
-                  </Button>
-                </Link>
-              )}
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-<<<<<<< HEAD
-      
-      {filteredCourses.length === 0 && (
-        <Card>
-          <CardContent className="p-8 text-center">
-            <BookOpen className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No courses found</h3>
-            <p className="text-muted-foreground">
-              Try adjusting your search criteria or browse all available courses.
-            </p>
-=======
-
-      {filteredCourses.length === 0 && (
-        <Card className="border-2 border-border dark:border-border">
-          <CardContent className="p-8 sm:p-12 text-center">
-            <div className="bg-muted/30 dark:bg-muted/20 rounded-full p-6 w-fit mx-auto mb-4 sm:mb-6">
-              <BookOpen className="h-12 w-12 sm:h-16 sm:w-16 text-muted-foreground" />
             </div>
-            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3">
-              No courses found
-            </h3>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto">
-              Try adjusting your search criteria or browse all available courses
-              to find the perfect learning path.
-            </p>
-            <Button
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCategory("All");
-                setSelectedLevel("All");
-                setShowEnrolledOnly(false);
-              }}
-              className="mt-4 sm:mt-6"
-              variant="outline"
-            >
-              Clear Filters
-            </Button>
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
+          </div>
+        </Card>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {filteredCourses.map((course) => {
+            const completedLessons = course.lessons?.filter(l => l.completed).length || 0;
+            const totalLessons = course.lessons?.length || 0;
+            const progress = totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0;
+
+            return (
+              <Card
+                key={course._id}
+                className="hover:shadow-lg transition-shadow border-2 flex flex-col"
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between mb-2">
+                    <Badge variant="secondary" className="text-xs">
+                      {course.subject || "General"}
+                    </Badge>
+                    <div className="flex items-center text-xs text-muted-foreground">
+                      <Star className="h-3 w-3 mr-1 fill-yellow-400 text-yellow-400" />
+                      <span>{course.rating || "4.5"}</span>
+                    </div>
+                  </div>
+                  <CardTitle className="text-lg font-bold line-clamp-2">
+                    {course.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4 flex-1 flex flex-col">
+                  {course.description && (
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                      {course.description}
+                    </p>
+                  )}
+
+                  <div className="space-y-3 flex-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">Progress</span>
+                      <span className="font-medium">{Math.round(progress)}%</span>
+                    </div>
+                    <Progress value={progress} className="h-2" />
+
+                    <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                      <div className="flex items-center">
+                        <BookOpen className="mr-1 h-3 w-3" />
+                        <span>{totalLessons} lessons</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock className="mr-1 h-3 w-3" />
+                        <span>{course.duration || "Self-paced"}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Link href={`/student/courses/${course._id}`} className="mt-auto">
+                    <Button className="w-full" variant="default">
+                      {progress > 0 ? "Continue Learning" : "Start Course"}
+                      <ChevronRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Stats Card */}
+      {courses.length > 0 && (
+        <Card className="bg-muted/30">
+          <CardContent className="p-6">
+            <div className="grid grid-cols-3 gap-4 text-center">
+              <div>
+                <p className="text-2xl font-bold">{courses.length}</p>
+                <p className="text-sm text-muted-foreground">Total Courses</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold">
+                  {courses.filter(c => {
+                    const total = c.lessons?.length || 0;
+                    const completed = c.lessons?.filter(l => l.completed).length || 0;
+                    return total > 0 && completed === total;
+                  }).length}
+                </p>
+                <p className="text-sm text-muted-foreground">Completed</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold">
+                  {courses.filter(c => {
+                    const completed = c.lessons?.filter(l => l.completed).length || 0;
+                    return completed > 0;
+                  }).length}
+                </p>
+                <p className="text-sm text-muted-foreground">In Progress</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       )}
@@ -746,8 +209,4 @@ const CoursesPage = () => {
   );
 };
 
-<<<<<<< HEAD
 export default CoursesPage;
-=======
-export default CoursesPage;
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f

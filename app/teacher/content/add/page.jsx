@@ -43,6 +43,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useState, useEffect } from "react";
+import { authenticatedFetch } from "@/lib/auth-client";
 import {
   Upload,
   FileText,
@@ -174,14 +175,31 @@ export default function AddContentPage() {
   const [tags, setTags] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("info");
-  const [classrooms, setClassrooms] = useState(classroomsData);
-  const [contentList, setContentList] = useState(contentData);
+  const [classrooms, setClassrooms] = useState([]);
+  const [contentList, setContentList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
   const [classroomFilter, setClassroomFilter] = useState("all");
   const [viewMode, setViewMode] = useState("grid");
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const classroomRes = await authenticatedFetch("/api/classrooms");
+        setClassrooms(classroomRes.classrooms || []);
+
+        const notesRes = await authenticatedFetch("/api/teacher/notes");
+        setContentList(notesRes.notes || []);
+      } catch (error) {
+        setMessage("Failed to load data. Please refresh.");
+        setMessageType("error");
+      }
+    };
+
+    loadData();
+  }, []);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -193,29 +211,45 @@ export default function AddContentPage() {
 
     setUploading(true);
 
-    // Simulate upload delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const payload = {
+        title,
+        content: description || "No description provided.",
+        tags: tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag),
+        classroom,
+        isShared: true
+      };
 
-    const newContent = {
-      id: Date.now(),
-      title,
-      classroom,
-      description,
-      type: contentType,
-      size: "2.1 MB", // Mock size
-      uploadDate: new Date().toISOString().split("T")[0],
-      tags: tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag),
-      downloads: 0,
-      views: 0,
-      status: "Published",
-    };
+      const response = await authenticatedFetch("/api/teacher/notes", {
+        method: "POST",
+        body: JSON.stringify(payload)
+      });
 
-    setContentList((prev) => [newContent, ...prev]);
-    setMessage("Content uploaded successfully!");
-    setMessageType("success");
+      const classroomObj = classrooms.find((c) => c._id === classroom);
+      const newContent = {
+        id: response.note?._id || Date.now(),
+        title,
+        classroom: classroomObj?.name || "General",
+        description: payload.content,
+        type: contentType,
+        size: "-",
+        uploadDate: new Date().toISOString().split("T")[0],
+        tags: payload.tags,
+        downloads: 0,
+        views: 0,
+        status: "Published",
+      };
+
+      setContentList((prev) => [newContent, ...prev]);
+      setMessage("Content uploaded successfully!");
+      setMessageType("success");
+    } catch (error) {
+      setMessage(error.message || "Upload failed");
+      setMessageType("error");
+    }
 
     // Reset form
     setTitle("");
@@ -484,7 +518,7 @@ export default function AddContentPage() {
                           </SelectTrigger>
                           <SelectContent>
                             {classrooms.map((c) => (
-                              <SelectItem key={c.id} value={c.name}>
+                              <SelectItem key={c._id} value={c._id}>
                                 {c.name}
                               </SelectItem>
                             ))}

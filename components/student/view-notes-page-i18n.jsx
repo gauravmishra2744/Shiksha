@@ -1,43 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Search, Filter, Eye, Edit, Trash2 } from "lucide-react";
+import { FileText, Search, Filter, Eye, Edit, Trash2, Loader2 } from "lucide-react";
 import { useTranslation } from "@/lib/i18n";
+import { authenticatedFetch } from "@/lib/auth-client";
 
 export default function ViewNotesContentI18n() {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
 
-  const notes = [
-    {
-      id: 1,
-      title: "Algebra Basics",
-      subject: "Mathematics",
-      date: "2024-01-15",
-      content: "Linear equations are mathematical statements that show the relationship between variables. They can be written in the form ax + b = c, where a, b, and c are constants and x is the variable we need to solve for.",
-      tags: ["algebra", "equations", "math"]
-    },
-    {
-      id: 2,
-      title: "Cell Structure",
-      subject: "Biology",
-      date: "2024-01-14",
-      content: "Plant and animal cells have several components in common, including the cell membrane, nucleus, and cytoplasm. However, plant cells also have unique structures like cell walls and chloroplasts.",
-      tags: ["biology", "cells", "structure"]
-    },
-    {
-      id: 3,
-      title: "Newton's Laws",
-      subject: "Physics",
-      date: "2024-01-13",
-      content: "Newton's three laws of motion describe the relationship between forces acting on a body and its motion. The first law states that objects at rest stay at rest unless acted upon by an external force.",
-      tags: ["physics", "motion", "newton"]
-    }
-  ];
+  const [notes, setNotes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const data = await authenticatedFetch("/api/student/notes");
+        setNotes(data.notes || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotes();
+  }, []);
 
   const filteredNotes = notes.filter(note =>
     note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -70,7 +63,17 @@ export default function ViewNotesContentI18n() {
         </Button>
       </div>
 
-      {filteredNotes.length > 0 ? (
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : error ? (
+        <Card>
+          <CardContent className="p-12 text-center">
+            <p className="text-destructive">{error}</p>
+          </CardContent>
+        </Card>
+      ) : filteredNotes.length > 0 ? (
         <div className="space-y-4">
           {filteredNotes.map((note) => (
             <Card key={note.id}>
@@ -80,7 +83,9 @@ export default function ViewNotesContentI18n() {
                     <CardTitle className="text-xl">{note.title}</CardTitle>
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary">{note.subject}</Badge>
-                      <span className="text-sm text-muted-foreground">{note.date}</span>
+                      <span className="text-sm text-muted-foreground">
+                        {new Date(note.date).toLocaleDateString()}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

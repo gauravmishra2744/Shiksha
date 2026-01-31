@@ -23,11 +23,7 @@ export const LanguageSwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-<<<<<<< HEAD
-        <Button variant="ghost" size="sm">
-=======
         <Button variant="" className={"w-full"} size="sm">
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
           <Languages className="h-4 w-4 mr-2" />
           {currentLang?.flag} {currentLang?.name}
         </Button>

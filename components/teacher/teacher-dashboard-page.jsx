@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -51,8 +51,10 @@ import {
   UserCheck,
   Megaphone,
   BarChart3,
+  Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import { authenticatedFetch } from "@/lib/auth-client";
 
 // Dummy data for teacher dashboard
 const teacherData = {
@@ -191,6 +193,54 @@ const TeacherDashboardPage = () => {
   const [showDoubtsModal, setShowDoubtsModal] = useState(false);
   const [showActivityModal, setShowActivityModal] = useState(false);
   const [selectedClassroom, setSelectedClassroom] = useState(null);
+  
+  // State for classrooms
+  const [classrooms, setClassrooms] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchClassrooms();
+  }, []);
+
+  const fetchClassrooms = async () => {
+    try {
+      const response = await authenticatedFetch('/api/classrooms');
+      const list = response.classrooms || response || [];
+      setClassrooms(list);
+    } catch (error) {
+      console.error('Failed to fetch classrooms:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteClassroom = async (id) => {
+    if (confirm('Are you sure you want to delete this classroom?')) {
+      try {
+        await authenticatedFetch(`/api/classrooms/${id}`, {
+          method: 'DELETE',
+        });
+        setClassrooms(prev => prev.filter(c => c._id !== id && c.id !== id));
+      } catch (error) {
+        console.error('Error deleting classroom:', error);
+      }
+    }
+  };
+
+  const handleEditClassroom = async (classroom) => {
+    const newName = prompt("Enter new name for classroom:", classroom.name);
+    if (newName && newName !== classroom.name) {
+      try {
+        await authenticatedFetch(`/api/classrooms/${classroom._id || classroom.id}`, {
+          method: 'PUT',
+          body: JSON.stringify({ name: newName }) 
+        });
+        fetchClassrooms();
+      } catch (error) {
+        console.error('Error updating classroom:', error);
+      }
+    }
+  };
 
   const currentTime = new Date().getHours();
   const greeting =
@@ -461,7 +511,7 @@ const TeacherDashboardPage = () => {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {teacherData.classrooms.map((classroom) => (
+                          {classrooms.map((classroom) => (
                             <TableRow key={classroom.id}>
                               <TableCell>
                                 <div>
@@ -485,13 +535,6 @@ const TeacherDashboardPage = () => {
                                 {classroom.nextClass}
                               </TableCell>
                               <TableCell>
-<<<<<<< HEAD
-                                <ClassroomActivation 
-                                  classroom={{...classroom, isActive: classroom.status === 'Active'}}
-                                  onUpdate={(updatedClassroom) => {
-                                    // Update classroom in state
-                                    console.log('Classroom updated:', updatedClassroom);
-=======
                                 <ClassroomActivation
                                   classroom={{
                                     ...classroom,
@@ -503,7 +546,6 @@ const TeacherDashboardPage = () => {
                                       "Classroom updated:",
                                       updatedClassroom
                                     );
->>>>>>> b2b3c29f42ddef3681cb230851fbc71ad5fd5e1f
                                   }}
                                 />
                               </TableCell>
@@ -512,8 +554,20 @@ const TeacherDashboardPage = () => {
                                   <Button size="sm" variant="ghost">
                                     <Eye className="h-4 w-4" />
                                   </Button>
-                                  <Button size="sm" variant="ghost">
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost"
+                                    onClick={() => handleEditClassroom(classroom)}
+                                  >
                                     <Edit className="h-4 w-4" />
+                                  </Button>
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost" 
+                                    className="text-red-500 hover:text-red-700"
+                                    onClick={() => handleDeleteClassroom(classroom.id)}
+                                  >
+                                    <Trash2 className="h-4 w-4" />
                                   </Button>
                                 </div>
                               </TableCell>
@@ -528,7 +582,7 @@ const TeacherDashboardPage = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {teacherData.classrooms.slice(0, 2).map((classroom) => (
+                {classrooms.slice(0, 2).map((classroom) => (
                   <Card
                     key={classroom.id}
                     className="border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow bg-white dark:bg-gray-800/50"
